@@ -144,7 +144,7 @@ nav {
     position: absolute;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle, rgba(183,110,121,0.05) 1px, transparent 1px);
+    background: radial-gradient(circle, rgba(183,110,121,0.12) 2px, transparent 2px);
     background-size: 50px 50px;
     animation: moveBackground 20s linear infinite;
 }
@@ -161,9 +161,10 @@ nav {
 /* Floating decorative elements */
 .hero-decoration {
     position: absolute;
-    font-size: 3rem;
-    opacity: 0.15;
+    font-size: 4rem;
+    opacity: 0.35;
     animation: floatRandom 8s ease-in-out infinite;
+    filter: drop-shadow(0 0 10px rgba(183,110,121,0.5));
 }
 
 .hero-decoration:nth-child(1) {
