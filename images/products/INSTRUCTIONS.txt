@@ -1,0 +1,52 @@
+PRODUCT IMAGES INSTRUCTIONS
+============================
+
+Place all your product/collection images in this folder!
+
+Image Naming Convention:
+- Use descriptive, lowercase names
+- Separate words with hyphens
+- Examples: 
+  * radiant-ruby.jpg
+  * emerald-dreams.jpg
+  * golden-sunset.jpg
+  * pink-paradise-collection.jpg
+
+Recommended Specifications:
+- Format: JPG or PNG
+- Size: 800x800 pixels (square) or 800x600 pixels
+- Resolution: 72 DPI (web standard)
+- File size: Less than 200KB each for fast loading
+
+Image Requirements:
+✓ High quality, well-lit photos
+✓ Clear focus on the bangles
+✓ Plain or complementary background
+✓ Consistent style across all products
+
+How to Add New Products:
+1. Add your product image here
+2. Edit data/products.json
+3. Add new entry with image path like: "images/products/your-image.jpg"
+
+Current Default Images (from Unsplash):
+- These are placeholder images
+- Replace them with your actual product photos
+- Keep the same filenames OR update products.json
+
+Example Product Entry in products.json:
+{
+  "id": 7,
+  "name": "Pink Paradise Set",
+  "description": "Beautiful pink glass bangles perfect for weddings",
+  "price": "1,799",
+  "image": "images/products/pink-paradise.jpg",
+  "badge": "New Arrival",
+  "category": "colorful"
+}
+
+Tips:
+- Take photos in natural light
+- Use a photo editing tool to crop to square
+- Compress images before uploading (use tinypng.com)
+- Test loading speed after adding images

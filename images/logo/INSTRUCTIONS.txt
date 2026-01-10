@@ -1,0 +1,20 @@
+LOGO INSTRUCTIONS
+==================
+
+Place your Glass Hut logo in this folder with the name:
+glass-hut-logo.png
+
+Recommended specifications:
+- Format: PNG (with transparent background preferred)
+- Size: 400x400 pixels minimum
+- Aspect Ratio: Square or horizontal rectangle
+- File size: Less than 500KB for fast loading
+
+Current logo URL in use:
+https://i.ibb.co/ZTScnQC/image.png
+
+You can either:
+1. Download the image from the URL above and save it here as "glass-hut-logo.png"
+2. Replace it with your own logo file named "glass-hut-logo.png"
+
+The website will automatically display the logo from this location!

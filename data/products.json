@@ -1,0 +1,58 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Radiant Ruby Collection",
+      "description": "Elegant red glass bangles with golden accents, perfect for festive occasions",
+      "image": "images/products/radiant-ruby.jpg",
+      "badge": "New Arrival",
+      "category": "traditional",
+      "meeshoLink": "https://www.meesho.com/your-product-link-1"
+    },
+    {
+      "id": 2,
+      "name": "Emerald Dreams Set",
+      "description": "Beautiful green glass bangles with intricate designs and shimmer finish",
+      "image": "images/products/emerald-dreams.jpg",
+      "badge": "Best Seller",
+      "category": "colorful",
+      "meeshoLink": "https://www.meesho.com/your-product-link-2"
+    },
+    {
+      "id": 3,
+      "name": "Golden Sunset Collection",
+      "description": "Warm amber tones with gold leaf patterns, ideal for evening wear",
+      "image": "images/products/golden-sunset.jpg",
+      "badge": "",
+      "category": "traditional",
+      "meeshoLink": "https://www.meesho.com/your-product-link-3"
+    },
+    {
+      "id": 4,
+      "name": "Royal Sapphire Set",
+      "description": "Deep blue glass bangles adorned with silver detailing, truly regal",
+      "image": "images/products/royal-sapphire.jpg",
+      "badge": "Premium",
+      "category": "premium",
+      "meeshoLink": "https://www.meesho.com/your-product-link-4"
+    },
+    {
+      "id": 5,
+      "name": "Crystal Clear Elegance",
+      "description": "Transparent glass bangles with delicate sparkle, versatile and timeless",
+      "image": "images/products/crystal-clear.jpg",
+      "badge": "",
+      "category": "modern",
+      "meeshoLink": "https://www.meesho.com/your-product-link-5"
+    },
+    {
+      "id": 6,
+      "name": "Rainbow Bliss Collection",
+      "description": "Multicolored glass bangles set, vibrant and fun for any celebration",
+      "image": "images/products/rainbow-bliss.jpg",
+      "badge": "Trending",
+      "category": "colorful",
+      "meeshoLink": "https://www.meesho.com/your-product-link-6"
+    }
+  ]
+}
