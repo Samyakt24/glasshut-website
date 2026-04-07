@@ -322,6 +322,7 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
       <h4>Delivery Details</h4>
       <div class="form-row"><input type="text" id="custName" placeholder="Full Name *"><div class="form-error" id="errName">Please enter your name</div></div>
       <div class="form-row"><input type="tel" id="custPhone" placeholder="Phone Number *" maxlength="10"><div class="form-error" id="errPhone">Enter valid 10-digit phone number</div></div>
+      <div class="form-row"><input type="email" id="custEmail" placeholder="Email Address * (for order confirmation)"><div class="form-error" id="errEmail">Enter valid email address</div></div>
       <div class="form-row"><input type="text" id="custAddress" placeholder="Full Address (House No, Street, Area) *"><div class="form-error" id="errAddress">Please enter your address</div></div>
       <div class="form-row-half">
         <div class="form-row"><input type="text" id="custCity" placeholder="City *"><div class="form-error" id="errCity">Enter city</div></div>
@@ -378,7 +379,8 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
     </div>
 
     <p style="font-size:12px;color:var(--text-muted);text-align:center;line-height:1.6;margin-bottom:16px;">
-      &#128247; <strong>Screenshot this page</strong> for your records<br>
+      &#9993; <strong>Order confirmation email sent</strong> to your email address<br>
+      &#128247; You can also <strong>screenshot this page</strong> for your records<br>
       We will confirm your order and share tracking details within 24 hours.
     </p>
     <button class="order-done-btn" id="orderDoneBtn" style="width:100%;">Done — Continue Shopping</button>
@@ -625,6 +627,7 @@ function validateForm(){
   let valid=true;
   const name=document.getElementById('custName').value.trim();
   const phone=document.getElementById('custPhone').value.trim();
+  const email=document.getElementById('custEmail').value.trim();
   const address=document.getElementById('custAddress').value.trim();
   const city=document.getElementById('custCity').value.trim();
   const pincode=document.getElementById('custPincode').value.trim();
@@ -632,6 +635,7 @@ function validateForm(){
   document.querySelectorAll('.form-error').forEach(e=>e.classList.remove('show'));
   if(!name){document.getElementById('errName').classList.add('show');valid=false;}
   if(!phone||phone.length!==10||isNaN(phone)){document.getElementById('errPhone').classList.add('show');valid=false;}
+  if(!email||!email.includes('@')||!email.includes('.')){document.getElementById('errEmail').classList.add('show');valid=false;}
   if(!address){document.getElementById('errAddress').classList.add('show');valid=false;}
   if(!city){document.getElementById('errCity').classList.add('show');valid=false;}
   if(!pincode||pincode.length!==6||isNaN(pincode)){document.getElementById('errPin').classList.add('show');valid=false;}
@@ -644,63 +648,83 @@ function validateForm(){
 const SHEET_API='https://script.google.com/macros/s/AKfycbxpa77SSQ7x0K2iPVirTnzmYSWw863eJ-FgWezbG9F5141SLldWtLbQ4JFKvDarpYx9iQ/exec';
 
 function sendToSheet(data){
-  var form=document.createElement('form');
-  form.method='POST';
-  form.action=SHEET_API;
-  form.target='ghOrderFrame';
-  form.style.display='none';
-  Object.keys(data).forEach(function(key){
-    var input=document.createElement('input');
-    input.type='hidden';
-    input.name=key;
-    input.value=data[key];
-    form.appendChild(input);
-  });
-  document.body.appendChild(form);
-  form.submit();
-  setTimeout(function(){form.remove();},2000);
+  try{
+    // Method 1: Hidden form to iframe
+    var form=document.createElement('form');
+    form.method='POST';
+    form.action=SHEET_API;
+    form.target='ghOrderFrame';
+    form.style.display='none';
+    Object.keys(data).forEach(function(key){
+      var input=document.createElement('input');
+      input.type='hidden';
+      input.name=key;
+      input.value=String(data[key]);
+      form.appendChild(input);
+    });
+    document.body.appendChild(form);
+    form.submit();
+    setTimeout(function(){form.remove();},3000);
+  }catch(err){
+    // Method 2: Fallback - image beacon
+    try{
+      var params=Object.keys(data).map(function(k){return encodeURIComponent(k)+'='+encodeURIComponent(data[k]);}).join('&');
+      var img=new Image();
+      img.src=SHEET_API+'?'+params;
+    }catch(e){}
+  }
 }
 
 function showOrderConfirm(){
-  const ordNum='GH-'+Date.now().toString().slice(-6);
-  document.getElementById('orderId').textContent='Order #'+ordNum;
-  const subtotal=getTotal(),shipping=getShipping(),total=getGrandTotal();
-  document.getElementById('confirmPayAmount').textContent='\u20B9'+total.toLocaleString('en-IN');
-  let html='';
-  cart.forEach(item=>{html+='<div class="os-row"><span>'+item.name+' (Size '+item.size+') x'+item.qty+'</span><span>&#8377;'+(item.price*item.qty)+'</span></div>';});
-  html+='<div class="os-row"><span>Shipping</span><span>'+(shipping===0?'FREE':'&#8377;'+shipping)+'</span></div>';
-  html+='<div class="os-row total"><span>Total</span><span>&#8377;'+total+'</span></div>';
-  const custName=document.getElementById('custName').value.trim();
-  const custPhone=document.getElementById('custPhone').value.trim();
-  const custAddress=document.getElementById('custAddress').value.trim();
-  const custCity=document.getElementById('custCity').value.trim();
-  const custPincode=document.getElementById('custPincode').value.trim();
-  const custState=document.getElementById('custState').value.trim();
-  html+='<div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(42,139,122,0.15)"><div class="os-row"><span>Deliver to</span></div><div style="color:var(--navy);font-weight:600;padding:4px 0">'+custName+'</div><div style="font-size:12px;color:var(--text-muted)">'+custAddress+', '+custCity+', '+custState+' - '+custPincode+'</div><div style="font-size:12px;color:var(--text-muted)">Phone: '+custPhone+'</div></div>';
-  document.getElementById('orderSummaryBox').innerHTML=html;
+  try{
+    var ordNum='GH-'+Date.now().toString().slice(-6);
+    document.getElementById('orderId').textContent='Order #'+ordNum;
+    var subtotal=getTotal(),shipping=getShipping(),total=getGrandTotal();
+    document.getElementById('confirmPayAmount').textContent='\u20B9'+total.toLocaleString('en-IN');
+    var html='';
+    cart.forEach(function(item){html+='<div class="os-row"><span>'+item.name+' (Size '+item.size+') x'+item.qty+'</span><span>&#8377;'+(item.price*item.qty)+'</span></div>';});
+    html+='<div class="os-row"><span>Shipping</span><span>'+(shipping===0?'FREE':'&#8377;'+shipping)+'</span></div>';
+    html+='<div class="os-row total"><span>Total</span><span>&#8377;'+total+'</span></div>';
+    var custName=document.getElementById('custName').value.trim();
+    var custPhone=document.getElementById('custPhone').value.trim();
+    var custEmail=document.getElementById('custEmail').value.trim();
+    var custAddress=document.getElementById('custAddress').value.trim();
+    var custCity=document.getElementById('custCity').value.trim();
+    var custPincode=document.getElementById('custPincode').value.trim();
+    var custState=document.getElementById('custState').value.trim();
+    html+='<div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(42,139,122,0.15)"><div class="os-row"><span>Deliver to</span></div><div style="color:#1E2D50;font-weight:600;padding:4px 0">'+custName+'</div><div style="font-size:12px;color:#6B7A8D">'+custAddress+', '+custCity+', '+custState+' - '+custPincode+'</div><div style="font-size:12px;color:#6B7A8D">Phone: '+custPhone+' | Email: '+custEmail+'</div></div>';
+    document.getElementById('orderSummaryBox').innerHTML=html;
 
-  // Send order to Google Sheet + Email
-  var now=new Date();
-  var itemsList=cart.map(function(i){return i.name+' (Size '+i.size+') x'+i.qty+' = \u20B9'+(i.price*i.qty);}).join('\n');
-  sendToSheet({
-    orderId:ordNum,
-    date:now.toLocaleDateString('en-IN'),
-    time:now.toLocaleTimeString('en-IN'),
-    customerName:custName,
-    phone:custPhone,
-    address:custAddress,
-    city:custCity,
-    state:custState,
-    pincode:custPincode,
-    items:itemsList,
-    subtotal:subtotal,
-    shipping:shipping,
-    total:total
-  });
+    // SHOW confirmation FIRST
+    closeCart();
+    document.getElementById('orderConfirmOverlay').classList.add('open');
+    document.body.style.overflow='hidden';
 
-  closeCart();
-  document.getElementById('orderConfirmOverlay').classList.add('open');
-  document.body.style.overflow='hidden';
+    // THEN send data to Google Sheet (won't block the UI)
+    var now=new Date();
+    var itemsList=cart.map(function(i){return i.name+' (Size '+i.size+') x'+i.qty+' = Rs.'+(i.price*i.qty);}).join(', ');
+    setTimeout(function(){
+      sendToSheet({
+        orderId:ordNum,
+        date:now.toLocaleDateString('en-IN'),
+        time:now.toLocaleTimeString('en-IN'),
+        customerName:custName,
+        phone:custPhone,
+        email:custEmail,
+        address:custAddress,
+        city:custCity,
+        state:custState,
+        pincode:custPincode,
+        items:itemsList,
+        subtotal:String(subtotal),
+        shipping:String(shipping),
+        total:String(total)
+      });
+    },500);
+
+  }catch(err){
+    alert('Order error: '+err.message+'. Please try again.');
+  }
 }
 document.getElementById('orderDoneBtn').onclick=function(){
   document.getElementById('orderConfirmOverlay').classList.remove('open');
