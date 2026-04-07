@@ -67,7 +67,7 @@ nav a:hover { color: var(--copper-light); }
 .cart-item-remove { background: none; border: none; color: var(--text-muted); font-size: 18px; cursor: pointer; padding: 4px; }
 .cart-item-remove:hover { color: var(--danger); }
 
-.cart-footer { padding: 20px 24px; border-top: 1px solid rgba(42,139,122,0.15); background: var(--bg); }
+.cart-footer { padding: 20px 24px; border-top: 1px solid rgba(42,139,122,0.15); background: var(--bg); overflow-y: auto; max-height: 70vh; }
 .cart-total { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
 .cart-total-label { font-size: 14px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); }
 .cart-total-amount { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 700; color: var(--navy); }
@@ -332,18 +332,8 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
     <div class="cart-total" style="margin-bottom:8px"><span class="cart-total-label">Subtotal</span><span class="cart-total-amount" id="cartSubtotal" style="font-size:20px">&#8377;0</span></div>
     <div class="cart-total" style="margin-bottom:8px"><span class="cart-total-label" id="shippingLabel">Shipping</span><span id="cartShipping" style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--teal)">&#8377;20</span></div>
     <div style="border-top:1px solid rgba(42,139,122,0.15);padding-top:12px;margin-bottom:16px" class="cart-total"><span class="cart-total-label" style="font-weight:700;color:var(--navy)">Total</span><span class="cart-total-amount" id="cartTotal">&#8377;0</span></div>
-    <div class="pay-divider">Pay With</div>
-    <div class="pay-buttons">
-      <a class="pay-btn pay-btn-phonepe" id="payPhonePe" href="#">&#9742; Pay with PhonePe</a>
-      <a class="pay-btn pay-btn-gpay" id="payGPay" href="#">G Pay with Google Pay</a>
-      <button class="pay-btn pay-btn-upi" id="payUpiToggle">&#8377; Pay via Any UPI App</button>
-    </div>
-    <div class="upi-copy-section" id="upiCopySection">
-      <div style="font-size:11px;color:var(--text-muted);letter-spacing:1px;margin-bottom:6px;">COPY UPI ID &amp; PAY MANUALLY</div>
-      <div class="upi-id-display">samyaktjain1999-2@okicici</div>
-      <button class="copy-btn" id="copyUpiBtn">Copy UPI ID</button>
-    </div>
-    <p class="pay-note">&#128274; Secure UPI Payment &#8226; Zero Extra Charges</p>
+    <button class="pay-btn" id="placeOrderBtn" style="background:var(--teal);width:100%;font-size:15px;padding:16px;letter-spacing:3px;">Place Order</button>
+    <p class="pay-note">&#128274; You'll pay on the next step</p>
   </div>
 </div>
 
@@ -358,13 +348,34 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
 
 <!-- ORDER CONFIRMATION -->
 <div class="order-confirm-overlay" id="orderConfirmOverlay">
-  <div class="order-confirm">
-    <div class="order-tick">&#10003;</div>
-    <h3>Order Confirmed!</h3>
-    <div class="order-id" id="orderId">Order #GH-000000</div>
+  <div class="order-confirm" style="max-width:460px;text-align:left;padding:28px;max-height:90vh;overflow-y:auto;">
+    <div style="text-align:center;">
+      <div class="order-tick">&#10003;</div>
+      <h3>Order Placed!</h3>
+      <div class="order-id" id="orderId">Order #GH-000000</div>
+    </div>
     <div class="order-summary" id="orderSummaryBox"></div>
-    <p class="msg">Thank you for shopping with GlassHut! We will pack your bangles with care and ship them within 1-2 days. You will receive a tracking update on WhatsApp/SMS.</p>
-    <button class="order-done-btn" id="orderDoneBtn">Continue Shopping</button>
+
+    <div style="background:var(--bg);padding:16px;border-radius:4px;margin-bottom:16px;">
+      <div style="font-size:13px;font-weight:600;color:var(--navy);margin-bottom:12px;text-align:center;letter-spacing:1px;">COMPLETE YOUR PAYMENT</div>
+      <div style="font-size:12px;color:var(--text-muted);text-align:center;margin-bottom:12px;">Pay <strong id="confirmPayAmount">₹0</strong> to the UPI ID below</div>
+      <div style="background:var(--white);padding:14px;border:1.5px dashed var(--teal);border-radius:4px;text-align:center;margin-bottom:12px;">
+        <div style="font-size:11px;color:var(--text-muted);letter-spacing:1px;margin-bottom:4px;">UPI ID</div>
+        <div style="font-size:18px;font-weight:700;color:var(--navy);word-break:break-all;">samyaktjain1999-2@okicici</div>
+        <button class="copy-btn" id="copyUpiBtn2" style="margin-top:8px;">Copy UPI ID</button>
+      </div>
+      <div style="font-size:12px;color:var(--text-muted);text-align:center;line-height:1.6;">
+        Open <strong style="color:var(--phonepe)">PhonePe</strong> or <strong style="color:var(--gpay)">Google Pay</strong> on your phone<br>
+        Go to "Pay to UPI ID" and paste the ID above<br>
+        Enter amount and complete payment
+      </div>
+    </div>
+
+    <p style="font-size:12px;color:var(--text-muted);text-align:center;line-height:1.6;margin-bottom:16px;">
+      &#128247; <strong>Screenshot this page</strong> for your records<br>
+      We will confirm your order and share tracking details within 24 hours.
+    </p>
+    <button class="order-done-btn" id="orderDoneBtn" style="width:100%;">Done — Continue Shopping</button>
   </div>
 </div>
 
@@ -532,8 +543,7 @@ const cartBtn=$('cartBtn'),cartOverlay=$('cartOverlay'),cartDrawer=$('cartDrawer
 const cartItems=$('cartItems'),cartEmpty=$('cartEmpty'),cartFooter=$('cartFooter');
 const cartCount=$('cartCount'),cartTotal=$('cartTotal');
 const sizeModal=$('sizeModal'),sizeConfirm=$('sizeConfirm'),sizeCancel=$('sizeCancel'),sizeModalTitle=$('sizeModalTitle');
-const payPhonePe=$('payPhonePe'),payGPay=$('payGPay'),payUpiToggle=$('payUpiToggle');
-const upiCopySection=$('upiCopySection'),copyUpiBtn=$('copyUpiBtn');
+const placeOrderBtn=$('placeOrderBtn');
 
 function openCart(){cartOverlay.classList.add('open');cartDrawer.classList.add('open');document.body.style.overflow='hidden';}
 function closeCart(){cartOverlay.classList.remove('open');cartDrawer.classList.remove('open');document.body.style.overflow='';}
@@ -562,7 +572,6 @@ function buildUPILink(){
 function updateCartUI(){
   const subtotal=getTotal(),shipping=getShipping(),total=getGrandTotal(),count=cart.reduce((s,i)=>s+i.qty,0);
   cartCount.textContent=count;cartCount.style.display=count>0?'flex':'none';
-  upiCopySection.classList.remove('show');
   const cartSubtotal=document.getElementById('cartSubtotal');
   const cartShipping=document.getElementById('cartShipping');
   const shippingLabel=document.getElementById('shippingLabel');
@@ -583,13 +592,15 @@ function updateCartUI(){
     cartItems.querySelectorAll('.qp').forEach(b=>b.onclick=function(){cart[this.dataset.i].qty++;updateCartUI();});
     cartItems.querySelectorAll('.qm').forEach(b=>b.onclick=function(){const i=this.dataset.i;cart[i].qty--;if(cart[i].qty<=0)cart.splice(i,1);updateCartUI();});
     cartItems.querySelectorAll('.cart-item-remove').forEach(b=>b.onclick=function(){cart.splice(this.dataset.i,1);updateCartUI();});
-    const upiLink=buildUPILink();payPhonePe.href=upiLink;payGPay.href=upiLink;
   }
 }
-payPhonePe.onclick=function(e){if(cart.length===0||!validateForm()){e.preventDefault();return;}showOrderConfirm();};
-payGPay.onclick=function(e){if(cart.length===0||!validateForm()){e.preventDefault();return;}showOrderConfirm();};
-payUpiToggle.onclick=function(){if(!validateForm())return;upiCopySection.classList.toggle('show');};
-copyUpiBtn.onclick=function(){navigator.clipboard.writeText(UPI_ID).then(()=>{copyUpiBtn.textContent='Copied!';copyUpiBtn.classList.add('copied');setTimeout(()=>{copyUpiBtn.textContent='Copy UPI ID';copyUpiBtn.classList.remove('copied');},2000);});};
+placeOrderBtn.onclick=function(){if(cart.length===0||!validateForm())return;showOrderConfirm();};
+document.getElementById('copyUpiBtn2').onclick=function(){
+  navigator.clipboard.writeText(UPI_ID).then(()=>{
+    this.textContent='Copied!';this.classList.add('copied');
+    setTimeout(()=>{this.textContent='Copy UPI ID';this.classList.remove('copied');},2000);
+  });
+};
 updateCartUI();
 
 // MOBILE MENU
@@ -617,15 +628,18 @@ function validateForm(){
   if(!city){document.getElementById('errCity').classList.add('show');valid=false;}
   if(!pincode||pincode.length!==6||isNaN(pincode)){document.getElementById('errPin').classList.add('show');valid=false;}
   if(!state){document.getElementById('errState').classList.add('show');valid=false;}
-  if(!valid){document.getElementById('checkoutForm').scrollIntoView({behavior:'smooth'});}
+  if(!valid){document.getElementById('cartFooter').scrollTop=0;}
   return valid;
 }
 
-// ORDER CONFIRMATION
+// ORDER CONFIRMATION + SEND TO GOOGLE SHEET & EMAIL
+const SHEET_API='https://script.google.com/macros/s/AKfycbxpa77SSQ7x0K2iPVirTnzmYSWw863eJ-FgWezbG9F5141SLldWtLbQ4JFKvDarpYx9iQ/exec';
+
 function showOrderConfirm(){
   const ordNum='GH-'+Date.now().toString().slice(-6);
   document.getElementById('orderId').textContent='Order #'+ordNum;
   const subtotal=getTotal(),shipping=getShipping(),total=getGrandTotal();
+  document.getElementById('confirmPayAmount').textContent='\u20B9'+total.toLocaleString('en-IN');
   let html='';
   cart.forEach(item=>{html+='<div class="os-row"><span>'+item.name+' (Size '+item.size+') x'+item.qty+'</span><span>&#8377;'+(item.price*item.qty)+'</span></div>';});
   html+='<div class="os-row"><span>Shipping</span><span>'+(shipping===0?'FREE':'&#8377;'+shipping)+'</span></div>';
@@ -635,8 +649,30 @@ function showOrderConfirm(){
   const custAddress=document.getElementById('custAddress').value.trim();
   const custCity=document.getElementById('custCity').value.trim();
   const custPincode=document.getElementById('custPincode').value.trim();
-  html+='<div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(42,139,122,0.15)"><div class="os-row"><span>Deliver to</span></div><div style="color:var(--navy);font-weight:600;padding:4px 0">'+custName+'</div><div style="font-size:12px;color:var(--text-muted)">'+custAddress+', '+custCity+' - '+custPincode+'</div><div style="font-size:12px;color:var(--text-muted)">Phone: '+custPhone+'</div></div>';
+  const custState=document.getElementById('custState').value.trim();
+  html+='<div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(42,139,122,0.15)"><div class="os-row"><span>Deliver to</span></div><div style="color:var(--navy);font-weight:600;padding:4px 0">'+custName+'</div><div style="font-size:12px;color:var(--text-muted)">'+custAddress+', '+custCity+', '+custState+' - '+custPincode+'</div><div style="font-size:12px;color:var(--text-muted)">Phone: '+custPhone+'</div></div>';
   document.getElementById('orderSummaryBox').innerHTML=html;
+
+  // Send order to Google Sheet + Email
+  var now=new Date();
+  var itemsList=cart.map(function(i){return i.name+' (Size '+i.size+') x'+i.qty+' = \u20B9'+(i.price*i.qty);}).join('\n');
+  var orderData={
+    orderId:ordNum,
+    date:now.toLocaleDateString('en-IN'),
+    time:now.toLocaleTimeString('en-IN'),
+    customerName:custName,
+    phone:custPhone,
+    address:custAddress,
+    city:custCity,
+    state:custState,
+    pincode:custPincode,
+    items:itemsList,
+    subtotal:subtotal,
+    shipping:shipping,
+    total:total
+  };
+  fetch(SHEET_API,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(orderData)}).catch(function(){});
+
   closeCart();
   document.getElementById('orderConfirmOverlay').classList.add('open');
   document.body.style.overflow='hidden';
@@ -665,7 +701,7 @@ const obs=new IntersectionObserver((entries)=>{entries.forEach((e,i)=>{if(e.isIn
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
 // SMOOTH SCROLL
-document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',function(e){if(this.id==='payPhonePe'||this.id==='payGPay')return;e.preventDefault();const t=document.querySelector(this.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'});});});
+document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',function(e){e.preventDefault();const t=document.querySelector(this.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'});});});
 </script>
 </body>
 </html>
