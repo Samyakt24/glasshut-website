@@ -11,7 +11,7 @@
 :root {
   --navy: #1E2D50; --navy-deep: #141E38; --navy-light: #2A3D68;
   --teal: #2A8B7A; --teal-dark: #1E6B5E; --teal-light: #A8D8D0; --teal-pale: #D4EEEA;
-  --copper: #C9944A; --copper-light: #E0BC82; --copper-dark: #A07030;
+  --copper: #B8860B; --copper-light: #DAA520; --copper-dark: #8B6914;
   --bg: #F5F3EE; --bg-warm: #EDE9E0; --white: #FAFAF7;
   --text-dark: #1E2D50; --text-muted: #6B7A8D; --danger: #D32F2F;
   --phonepe: #5F259F; --gpay: #4285F4;
@@ -114,15 +114,12 @@ nav a:hover { color: var(--copper-light); }
 .hero-bg-pattern { position: absolute; inset: 0; opacity: 0.02; background-image: repeating-linear-gradient(0deg, transparent, transparent 60px, var(--teal) 60px, var(--teal) 61px), repeating-linear-gradient(90deg, transparent, transparent 60px, var(--teal) 60px, var(--teal) 61px); }
 .hero-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 60px; padding: 40px; width: 100%; z-index: 2; }
 .hero-visual { flex: 1; display: flex; align-items: center; justify-content: center; position: relative; min-height: 500px; animation: heroEntry 1s ease-out; }
-.hero-bangle { border-radius: 50%; position: absolute; }
-.hb-1 { width: 280px; height: 280px; border: 14px solid #C0392B; top: 50%; left: 50%; transform: translate(-60%, -55%); box-shadow: inset 0 0 30px rgba(192,57,43,0.15); animation: hFloat1 4s ease-in-out infinite; }
-.hb-1::after { content: ''; position: absolute; top: 6px; left: 20%; width: 30%; height: 15%; background: rgba(255,255,255,0.25); border-radius: 50%; filter: blur(3px); }
-.hb-2 { width: 220px; height: 220px; border: 12px solid #2A8B7A; top: 50%; left: 50%; transform: translate(-20%, -35%); box-shadow: inset 0 0 25px rgba(42,139,122,0.15); animation: hFloat2 4.5s ease-in-out infinite; }
-.hb-2::after { content: ''; position: absolute; top: 6px; left: 22%; width: 28%; height: 14%; background: rgba(255,255,255,0.2); border-radius: 50%; filter: blur(3px); }
-.hb-3 { width: 180px; height: 180px; border: 10px solid #C9944A; top: 50%; left: 50%; transform: translate(-70%, -10%); box-shadow: inset 0 0 20px rgba(201,148,74,0.2); animation: hFloat3 5s ease-in-out infinite; }
-.hb-3::after { content: ''; position: absolute; top: 5px; left: 20%; width: 30%; height: 15%; background: rgba(255,255,255,0.2); border-radius: 50%; filter: blur(2px); }
-.hb-4 { width: 140px; height: 140px; border: 8px solid #6A1B9A; top: 50%; left: 50%; transform: translate(-10%, -80%); opacity: 0.6; animation: hFloat4 3.5s ease-in-out infinite; }
-.hb-5 { width: 110px; height: 110px; border: 7px solid #1A4C8B; top: 50%; left: 50%; transform: translate(-90%, -75%); opacity: 0.5; animation: hFloat5 4.2s ease-in-out infinite; }
+.hero-bangle { border-radius: 50%; position: absolute; background: transparent; }
+.hb-1 { width: 280px; height: 280px; border: 16px solid rgba(192,57,43,0.7); top: 50%; left: 50%; transform: translate(-60%, -55%); box-shadow: inset 0 0 20px rgba(192,57,43,0.25), 0 0 20px rgba(192,57,43,0.2), 0 0 40px rgba(192,57,43,0.08); animation: hFloat1 4s ease-in-out infinite; }
+.hb-2 { width: 220px; height: 220px; border: 14px solid rgba(42,139,122,0.7); top: 50%; left: 50%; transform: translate(-20%, -35%); box-shadow: inset 0 0 18px rgba(42,139,122,0.25), 0 0 18px rgba(42,139,122,0.2), 0 0 35px rgba(42,139,122,0.08); animation: hFloat2 4.5s ease-in-out infinite; }
+.hb-3 { width: 180px; height: 180px; border: 12px solid rgba(184,134,11,0.7); top: 50%; left: 50%; transform: translate(-70%, -10%); box-shadow: inset 0 0 16px rgba(184,134,11,0.25), 0 0 16px rgba(184,134,11,0.2), 0 0 30px rgba(184,134,11,0.08); animation: hFloat3 5s ease-in-out infinite; }
+.hb-4 { width: 140px; height: 140px; border: 9px solid rgba(106,27,154,0.55); top: 50%; left: 50%; transform: translate(-10%, -80%); box-shadow: inset 0 0 12px rgba(106,27,154,0.2), 0 0 14px rgba(106,27,154,0.15); animation: hFloat4 3.5s ease-in-out infinite; }
+.hb-5 { width: 110px; height: 110px; border: 8px solid rgba(26,76,139,0.5); top: 50%; left: 50%; transform: translate(-90%, -75%); box-shadow: inset 0 0 10px rgba(26,76,139,0.2), 0 0 12px rgba(26,76,139,0.12); animation: hFloat5 4.2s ease-in-out infinite; }
 @keyframes hFloat1 { 0%,100%{transform:translate(-60%,-55%) rotate(0deg)} 50%{transform:translate(-58%,-62%) rotate(4deg)} }
 @keyframes hFloat2 { 0%,100%{transform:translate(-20%,-35%) rotate(0deg)} 50%{transform:translate(-22%,-42%) rotate(-3deg)} }
 @keyframes hFloat3 { 0%,100%{transform:translate(-70%,-10%) rotate(0deg)} 50%{transform:translate(-68%,-18%) rotate(3deg)} }
@@ -674,7 +671,7 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
       <div class="pol-section">
         <h4>How to Track Your Order</h4>
         <p>Once your order is shipped, we will share the <strong>tracking number</strong> with you via phone call or SMS.</p>
-        <p>You can also email us at <strong>glasshut83@gmail.com</strong> with your order number and we will share the latest status.</p>
+        <p>You can also email us at <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="56313a3725253e23226e6516313b373f3a7835393b">[email&#160;protected]</a></strong> with your order number and we will share the latest status.</p>
       </div>
       <div class="pol-section">
         <h4>Order Status Timeline</h4>
@@ -686,7 +683,7 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
       </div>
       <div class="pol-section">
         <h4>Didn't Receive Your Order?</h4>
-        <p>If your order hasn't arrived within <strong>7 business days</strong>, please email us at <strong>glasshut83@gmail.com</strong> with your order number.</p>
+        <p>If your order hasn't arrived within <strong>7 business days</strong>, please email us at <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3e59525f4d4d564b4a060d7e59535f5752105d5153">[email&#160;protected]</a></strong> with your order number.</p>
         <p>We will investigate with our shipping partner and resolve it within 48 hours.</p>
       </div>
     </div>
@@ -724,7 +721,7 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
       </div>
       <div class="pol-section">
         <h4>How do I contact GlassHut?</h4>
-        <p>Email us at <strong>glasshut83@gmail.com</strong> — we respond within 24 hours. You can also DM us on <strong>Instagram @glasshut.83</strong>.</p>
+        <p>Email us at <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7512191406061d00014d46351218141c195b161a18">[email&#160;protected]</a></strong> — we respond within 24 hours. You can also DM us on <strong>Instagram @glasshut.83</strong>.</p>
       </div>
     </div>
   </div>
@@ -732,7 +729,7 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
 
 <iframe name="ghOrderFrame" id="ghOrderFrame" style="display:none;"></iframe>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 const UPI_ID = 'samyaktjain1999-2@okicici';
 let cart = [];
 let pendingProduct = null;
@@ -1001,11 +998,4 @@ function openPolicy(){openModal('policyOverlay');}
 document.getElementById('policyClose').onclick=function(){closeModal('policyOverlay');};
 document.getElementById('policyOverlay').onclick=function(e){if(e.target===this)closeModal('policyOverlay');};
 document.getElementById('shippingOverlay').onclick=function(e){if(e.target===this)closeModal('shippingOverlay');};
-document.getElementById('trackOverlay').onclick=function(e){if(e.target===this)closeModal('trackOverlay');};
-document.getElementById('faqOverlay').onclick=function(e){if(e.target===this)closeModal('faqOverlay');};
-
-// SMOOTH SCROLL
-document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',function(e){var href=this.getAttribute('href');if(!href||href==='#'||href.length<2)return;e.preventDefault();var t=document.querySelector(href);if(t)t.scrollIntoView({behavior:'smooth',block:'start'});});});
-</script>
-</body>
-</html>
+document.getElementById('trackOverlay').onclick=function(e){if(e.targ
