@@ -183,6 +183,8 @@ nav a:hover { color: var(--copper-light); }
 .product-image { width: 100%; height: 260px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
 .product-image-inner { display: flex; align-items: center; justify-content: center; gap: 4px; transition: transform 0.5s; }
 .product-card:hover .product-image-inner { transform: scale(1.06); }
+.product-photo { width: 100%; height: 100%; object-fit: cover; border-radius: 4px 4px 0 0; transition: transform 0.5s; }
+.product-card:hover .product-photo { transform: scale(1.06); }
 .glass-ring { border-radius: 50%; position: relative; }
 .glass-ring::after { content: ''; position: absolute; top: 4px; left: 20%; width: 30%; height: 18%; background: rgba(255,255,255,0.3); border-radius: 50%; filter: blur(2px); }
 .product-info { padding: 22px; text-align: center; }
@@ -366,8 +368,8 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
     <div class="cart-total" style="margin-bottom:8px"><span class="cart-total-label">Subtotal</span><span class="cart-total-amount" id="cartSubtotal" style="font-size:20px">&#8377;0</span></div>
     <div class="cart-total" style="margin-bottom:8px"><span class="cart-total-label" id="shippingLabel">Shipping</span><span id="cartShipping" style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--teal)">&#8377;20</span></div>
     <div style="border-top:1px solid rgba(42,139,122,0.15);padding-top:12px;margin-bottom:16px" class="cart-total"><span class="cart-total-label" style="font-weight:700;color:var(--navy)">Total</span><span class="cart-total-amount" id="cartTotal">&#8377;0</span></div>
-    <button class="pay-btn" id="placeOrderBtn" style="background:var(--teal);width:100%;font-size:15px;padding:16px;letter-spacing:3px;">Place Order</button>
-    <p class="pay-note">&#128274; You'll pay on the next step</p>
+    <button class="pay-btn" id="placeOrderBtn" style="background:var(--teal);width:100%;font-size:15px;padding:16px;letter-spacing:3px;">Proceed to Pay</button>
+    <p class="pay-note">&#128274; Scan QR &amp; pay on the next step</p>
   </div>
 </div>
 
@@ -380,43 +382,62 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
   </div>
 </div>
 
-<!-- ORDER CONFIRMATION -->
+<!-- PAYMENT & ORDER CONFIRMATION (2-step) -->
 <div class="order-confirm-overlay" id="orderConfirmOverlay">
   <div class="order-confirm" style="max-width:460px;text-align:left;padding:28px;max-height:90vh;overflow-y:auto;">
-    <div style="text-align:center;">
-      <div class="order-tick">&#10003;</div>
-      <h3>Order Placed!</h3>
-      <div class="order-id" id="orderId">Order #GH-000000</div>
-    </div>
-    <div class="order-summary" id="orderSummaryBox"></div>
 
-    <div style="background:var(--bg);padding:16px;border-radius:4px;margin-bottom:16px;">
-      <div style="font-size:13px;font-weight:600;color:var(--navy);margin-bottom:12px;text-align:center;letter-spacing:1px;">COMPLETE YOUR PAYMENT</div>
-      <div style="font-size:12px;color:var(--text-muted);text-align:center;margin-bottom:12px;">Pay <strong id="confirmPayAmount">₹0</strong> to the UPI ID below</div>
-      <div style="background:var(--white);padding:14px;border:1.5px dashed var(--teal);border-radius:4px;text-align:center;margin-bottom:12px;">
+    <!-- STEP 1: PAY -->
+    <div id="payStep">
+      <div style="text-align:center;margin-bottom:16px;">
+        <div style="font-size:13px;font-weight:600;color:var(--navy);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;">Step 1 of 2</div>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--navy);margin-bottom:4px;">Complete Payment</h3>
+        <div style="font-size:14px;color:var(--teal);font-weight:700;" id="payAmountDisplay">Pay &#8377;0</div>
+      </div>
+
+      <div style="background:var(--white);padding:20px;border:1.5px solid rgba(42,139,122,0.2);border-radius:6px;text-align:center;margin-bottom:16px;">
+        <div style="font-size:12px;color:var(--text-muted);letter-spacing:1px;margin-bottom:10px;">SCAN QR CODE TO PAY</div>
+        <div id="qrCodeBox" style="display:inline-block;padding:10px;background:white;border-radius:4px;"></div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:10px;">Works with PhonePe, GPay, Paytm &amp; all UPI apps</div>
+      </div>
+
+      <div style="text-align:center;font-size:12px;color:var(--text-muted);margin-bottom:12px;">&#8212; OR pay manually &#8212;</div>
+
+      <div style="background:var(--bg);padding:12px;border-radius:4px;text-align:center;margin-bottom:16px;">
         <div style="font-size:11px;color:var(--text-muted);letter-spacing:1px;margin-bottom:4px;">UPI ID</div>
-        <div style="font-size:18px;font-weight:700;color:var(--navy);word-break:break-all;">samyaktjain1999-2@okicici</div>
-        <button class="copy-btn" id="copyUpiBtn2" style="margin-top:8px;">Copy UPI ID</button>
+        <div style="font-size:16px;font-weight:700;color:var(--navy);word-break:break-all;">samyaktjain1999-2@okicici</div>
+        <button class="copy-btn" id="copyUpiBtn2" style="margin-top:6px;font-size:11px;">Copy UPI ID</button>
       </div>
-      <div style="font-size:12px;color:var(--text-muted);text-align:center;line-height:1.6;">
-        Open <strong style="color:var(--phonepe)">PhonePe</strong> or <strong style="color:var(--gpay)">Google Pay</strong> on your phone<br>
-        Go to "Pay to UPI ID" and paste the ID above<br>
-        Enter amount and complete payment
-      </div>
-      <div style="margin-top:14px;padding-top:14px;border-top:1px dashed rgba(42,139,122,0.2);">
-        <div style="font-size:11px;color:var(--text-muted);letter-spacing:1px;margin-bottom:6px;text-align:center;">AFTER PAYMENT — SHARE PROOF</div>
-        <input type="text" id="txnIdInput" placeholder="Paste UPI Transaction ID here" style="width:100%;padding:10px 12px;border:1.5px solid rgba(42,139,122,0.25);background:var(--white);font-family:'Rajdhani',sans-serif;font-size:14px;color:var(--text-dark);outline:none;border-radius:3px;margin-bottom:8px;text-align:center;">
-        <button id="sendTxnBtn" style="width:100%;padding:10px;background:var(--teal);color:white;border:none;font-family:'Rajdhani',sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;font-weight:600;cursor:pointer;border-radius:3px;">Confirm Payment</button>
-        <div id="txnMsg" style="display:none;text-align:center;font-size:12px;color:var(--teal);margin-top:8px;font-weight:600;"></div>
+
+      <div class="order-summary" id="orderSummaryBox" style="margin-bottom:16px;"></div>
+
+      <button id="iHavePaidBtn" style="width:100%;padding:16px;background:var(--teal);color:white;border:none;font-family:'Rajdhani',sans-serif;font-size:15px;letter-spacing:3px;text-transform:uppercase;font-weight:600;cursor:pointer;border-radius:3px;">I Have Paid &#10003;</button>
+      <div style="text-align:center;margin-top:8px;">
+        <button id="cancelPayBtn" style="background:none;border:none;color:var(--text-muted);font-family:'Rajdhani',sans-serif;font-size:13px;cursor:pointer;text-decoration:underline;">Cancel &amp; go back</button>
       </div>
     </div>
 
-    <p style="font-size:12px;color:var(--text-muted);text-align:center;line-height:1.6;margin-bottom:16px;">
-      &#9993; <strong>Order confirmation email sent</strong> to your email address<br>
-      &#128247; You can also <strong>screenshot this page</strong> for your records<br>
-      We will confirm your order and share tracking details within 24 hours.
-    </p>
-    <button class="order-done-btn" id="orderDoneBtn" style="width:100%;">Done — Continue Shopping</button>
+    <!-- STEP 2: ORDER CONFIRMED -->
+    <div id="confirmStep" style="display:none;">
+      <div style="text-align:center;">
+        <div class="order-tick">&#10003;</div>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--navy);margin-bottom:4px;">Order Placed!</h3>
+        <div class="order-id" id="orderId">Order #GH-000000</div>
+      </div>
+      <div class="order-summary" id="orderConfirmSummary" style="margin:16px 0;"></div>
+      <p style="font-size:12px;color:var(--text-muted);text-align:center;line-height:1.6;margin-bottom:16px;">
+        &#9993; <strong>Order confirmation email sent</strong> to your email<br>
+        We will verify your payment and ship within 1-2 days.<br>
+        Tracking details will be shared via call/SMS.
+      </p>
+      <div style="background:var(--bg);padding:12px;border-radius:4px;margin-bottom:16px;text-align:center;">
+        <div style="font-size:12px;color:var(--text-muted);line-height:1.6;">
+          <strong style="color:var(--navy);">Need to cancel?</strong><br>
+          Email <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c0a7aca1b3b3a8b5b4f8f380a7ada1a9aceea3afad">[email&#160;protected]</a></strong> with your order number<br>before we ship. Full refund via UPI within 3-5 days.
+        </div>
+      </div>
+      <button class="order-done-btn" id="orderDoneBtn" style="width:100%;">Continue Shopping</button>
+    </div>
+
   </div>
 </div>
 
@@ -466,22 +487,22 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
 
       <!-- DAILY WEAR -->
       <div class="product-card reveal" data-cat="daily trending"><div class="product-badge">Daily Wear</div>
-        <div class="product-image" style="background:linear-gradient(135deg,#F0F4F8,#DCE6F0)"><div class="product-image-inner"><div class="glass-ring" style="width:70px;height:70px;border:7px solid #5DADE2;box-shadow:inset 0 0 10px rgba(93,173,226,0.3)"></div><div class="glass-ring" style="width:60px;height:60px;border:6px solid #F5B041"></div><div class="glass-ring" style="width:50px;height:50px;border:5px solid #58D68D"></div><div class="glass-ring" style="width:45px;height:45px;border:5px solid #EC7063"></div></div></div>
+        <div class="product-image" style="background:#F0F4F8;overflow:hidden;"><img class="product-photo" src="images/products/light-multi1-12.jpeg" alt="Light Multi Glass Bangles 12pc Set"></div>
         <div class="product-info"><h3 class="product-name">Light Multi</h3><p class="product-desc">Pastel multi-color glass bangles</p><div class="product-set-tag">12-Piece Set</div><div class="product-price">&#8377;120</div><button class="add-to-cart" data-name="Light Multi (12pc)" data-price="120" data-color="linear-gradient(135deg,#5DADE2,#F5B041,#58D68D)">Select Size &amp; Add</button></div>
       </div>
 
       <div class="product-card reveal" data-cat="daily trending"><div class="product-badge">Daily Wear</div>
-        <div class="product-image" style="background:linear-gradient(135deg,#F0F4F8,#DCE6F0)"><div class="product-image-inner"><div class="glass-ring" style="width:80px;height:80px;border:7px solid #5DADE2;box-shadow:inset 0 0 10px rgba(93,173,226,0.3)"></div><div class="glass-ring" style="width:70px;height:70px;border:6px solid #F5B041"></div><div class="glass-ring" style="width:60px;height:60px;border:6px solid #58D68D"></div><div class="glass-ring" style="width:50px;height:50px;border:5px solid #EC7063"></div><div class="glass-ring" style="width:45px;height:45px;border:5px solid #AF7AC5"></div></div></div>
+        <div class="product-image" style="background:#F0F4F8;overflow:hidden;"><img class="product-photo" src="images/products/light-multi2-12.jpeg" alt="Light Multi Glass Bangles 24pc Set"></div>
         <div class="product-info"><h3 class="product-name">Light Multi</h3><p class="product-desc">Pastel multi-color glass bangles</p><div class="product-set-tag">24-Piece Set</div><div class="product-price">&#8377;190</div><button class="add-to-cart" data-name="Light Multi (24pc)" data-price="190" data-color="linear-gradient(135deg,#5DADE2,#F5B041)">Select Size &amp; Add</button></div>
       </div>
 
       <div class="product-card reveal" data-cat="daily trending"><div class="product-badge">Daily Wear</div>
-        <div class="product-image" style="background:linear-gradient(135deg,#E8E0F0,#D5C8E8)"><div class="product-image-inner"><div class="glass-ring" style="width:70px;height:70px;border:7px solid #1A5276;box-shadow:inset 0 0 10px rgba(26,82,118,0.3)"></div><div class="glass-ring" style="width:60px;height:60px;border:6px solid #6C3483"></div><div class="glass-ring" style="width:50px;height:50px;border:5px solid #1E8449"></div><div class="glass-ring" style="width:45px;height:45px;border:5px solid #922B21"></div></div></div>
+        <div class="product-image" style="background:#E8E0F0;overflow:hidden;"><img class="product-photo" src="images/products/Dark-multi1-12.jpeg" alt="Dark Multi Glass Bangles 12pc Set"></div>
         <div class="product-info"><h3 class="product-name">Dark Multi</h3><p class="product-desc">Rich dark multi-color glass bangles</p><div class="product-set-tag">12-Piece Set</div><div class="product-price">&#8377;120</div><button class="add-to-cart" data-name="Dark Multi (12pc)" data-price="120" data-color="linear-gradient(135deg,#1A5276,#6C3483)">Select Size &amp; Add</button></div>
       </div>
 
       <div class="product-card reveal" data-cat="daily trending"><div class="product-badge">Trending</div>
-        <div class="product-image" style="background:linear-gradient(135deg,#E8E0F0,#D5C8E8)"><div class="product-image-inner"><div class="glass-ring" style="width:80px;height:80px;border:7px solid #1A5276;box-shadow:inset 0 0 10px rgba(26,82,118,0.3)"></div><div class="glass-ring" style="width:70px;height:70px;border:6px solid #6C3483"></div><div class="glass-ring" style="width:60px;height:60px;border:6px solid #1E8449"></div><div class="glass-ring" style="width:50px;height:50px;border:5px solid #922B21"></div><div class="glass-ring" style="width:45px;height:45px;border:5px solid #B7950B"></div></div></div>
+        <div class="product-image" style="background:#E8E0F0;overflow:hidden;"><img class="product-photo" src="images/products/Dark-multi2-12.jpeg" alt="Dark Multi Glass Bangles 24pc Set"></div>
         <div class="product-info"><h3 class="product-name">Dark Multi</h3><p class="product-desc">Rich dark multi-color glass bangles</p><div class="product-set-tag">24-Piece Set</div><div class="product-price">&#8377;190</div><button class="add-to-cart" data-name="Dark Multi (24pc)" data-price="190" data-color="linear-gradient(135deg,#1A5276,#6C3483)">Select Size &amp; Add</button></div>
       </div>
 
@@ -606,15 +627,23 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
         <p>If the size doesn't fit, we also offer a <strong>one-time size exchange</strong> for &#8377;20 shipping only.</p>
       </div>
 
+      <div class="pol-section">
+        <h4>4. Order Cancellation</h4>
+        <p>You can cancel your order <strong>before we ship it</strong> (usually within 1-2 days of placing the order).</p>
+        <p>Email <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c8afa4a9bbbba0bdbcf0fb88afa5a9a1a4e6aba7a5">[email&#160;protected]</a></strong> with your order number and we will cancel it.</p>
+        <p>Full refund will be processed to your <strong>original UPI account within 3-5 business days</strong>.</p>
+        <p>Once the order is shipped, it <strong>cannot be cancelled</strong> &#8212; please follow the return policy instead.</p>
+      </div>
+
       <div class="pol-section strict">
-        <h4>4. Refund Policy</h4>
+        <h4>5. Refund Policy</h4>
         <p><strong>Full refund</strong> if more than 50% of bangles in a set arrive broken (with unboxing video proof).</p>
         <p>Refund processed to your <strong>original UPI account within 3&#8211;5 business days</strong>.</p>
         <p><strong>No claims after 4 days from delivery date.</strong></p>
       </div>
 
       <div class="pol-section">
-        <h4>5. How to Make a Claim</h4>
+        <h4>6. How to Make a Claim</h4>
         <p><strong>Step 1:</strong> Email <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a2c5cec3d1d1cad7d69a91e2c5cfc3cbce8cc1cdcf">[email&#160;protected]</a></strong> with your order number.</p>
         <p><strong>Step 2:</strong> Attach your <strong>unboxing video</strong> clearly showing the issue.</p>
         <p><strong>Step 3:</strong> We will respond within <strong>24 hours</strong> with a solution.</p>
@@ -716,6 +745,10 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
         <p><strong>3-7 business days</strong> depending on your location. Metro cities: 3-4 days. Other areas: 5-7 days.</p>
       </div>
       <div class="pol-section">
+        <h4>Can I cancel my order?</h4>
+        <p>Yes! Email <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="ddbab1bcaeaeb5a8a9e5ee9dbab0bcb4b1f3beb2b0">[email&#160;protected]</a></strong> with your order number before we ship. Full refund via UPI in 3-5 days. Once shipped, cancellation is not possible.</p>
+      </div>
+      <div class="pol-section">
         <h4>Can I return or exchange?</h4>
         <p>Yes! We accept returns if bangles are in <strong>same condition</strong> as delivered (unbroken, unworn, original packaging). Customer pays return shipping. We also offer <strong>free replacement</strong> for damaged items and <strong>size exchange</strong> for &#8377;20 shipping. See our Return Policy for full details.</p>
       </div>
@@ -729,7 +762,8 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
 
 <iframe name="ghOrderFrame" id="ghOrderFrame" style="display:none;"></iframe>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
 const UPI_ID = 'samyaktjain1999-2@okicici';
 let cart = [];
 let pendingProduct = null;
@@ -791,7 +825,7 @@ function updateCartUI(){
     cartItems.querySelectorAll('.cart-item-remove').forEach(b=>b.onclick=function(){cart.splice(this.dataset.i,1);updateCartUI();});
   }
 }
-placeOrderBtn.onclick=function(){if(cart.length===0||!validateForm())return;showOrderConfirm();};
+placeOrderBtn.onclick=function(){if(cart.length===0||!validateForm())return;showPaymentStep();};
 document.getElementById('copyUpiBtn2').onclick=function(){
   navigator.clipboard.writeText(UPI_ID).then(()=>{
     this.textContent='Copied!';this.classList.add('copied');
@@ -858,12 +892,11 @@ function autoPincode(val){
     });
 }
 
-// ORDER CONFIRMATION + SEND TO GOOGLE SHEET & EMAIL
+// GOOGLE SHEET API
 const SHEET_API='https://script.google.com/macros/s/AKfycbyy7e_4y40TL7aQLHWcMcB3dLERMchG5nMXcRWP0M1neEXTpor4k6LywDwWBm_gADQFbQ/exec';
 
 function sendToSheet(data){
   try{
-    // Method 1: Hidden form to iframe
     var form=document.createElement('form');
     form.method='POST';
     form.action=SHEET_API;
@@ -880,7 +913,6 @@ function sendToSheet(data){
     form.submit();
     setTimeout(function(){form.remove();},3000);
   }catch(err){
-    // Method 2: Fallback - image beacon
     try{
       var params=Object.keys(data).map(function(k){return encodeURIComponent(k)+'='+encodeURIComponent(data[k]);}).join('&');
       var img=new Image();
@@ -889,16 +921,15 @@ function sendToSheet(data){
   }
 }
 
-function showOrderConfirm(){
+// Store order data temporarily
+var pendingOrder=null;
+var pendingQR=null;
+
+// STEP 1: Show payment screen with QR code
+function showPaymentStep(){
   try{
     var ordNum='GH-'+Date.now().toString().slice(-6);
-    document.getElementById('orderId').textContent='Order #'+ordNum;
     var subtotal=getTotal(),shipping=getShipping(),total=getGrandTotal();
-    document.getElementById('confirmPayAmount').textContent='\u20B9'+total.toLocaleString('en-IN');
-    var html='';
-    cart.forEach(function(item){html+='<div class="os-row"><span>'+item.name+' (Size '+item.size+') x'+item.qty+'</span><span>&#8377;'+(item.price*item.qty)+'</span></div>';});
-    html+='<div class="os-row"><span>Shipping</span><span>'+(shipping===0?'FREE':'&#8377;'+shipping)+'</span></div>';
-    html+='<div class="os-row total"><span>Total</span><span>&#8377;'+total+'</span></div>';
     var custName=document.getElementById('custName').value.trim();
     var custPhone=document.getElementById('custPhone').value.trim();
     var custEmail=document.getElementById('custEmail').value.trim();
@@ -906,73 +937,78 @@ function showOrderConfirm(){
     var custCity=document.getElementById('custCity').value.trim();
     var custPincode=document.getElementById('custPincode').value.trim();
     var custState=document.getElementById('custState').value.trim();
-    html+='<div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(42,139,122,0.15)"><div class="os-row"><span>Deliver to</span></div><div style="color:#1E2D50;font-weight:600;padding:4px 0">'+custName+'</div><div style="font-size:12px;color:#6B7A8D">'+custAddress+', '+custCity+', '+custState+' - '+custPincode+'</div><div style="font-size:12px;color:#6B7A8D">Phone: '+custPhone+' | Email: '+custEmail+'</div></div>';
+    var itemsList=cart.map(function(i){return i.name+' (Size '+i.size+') x'+i.qty+' = Rs.'+(i.price*i.qty);}).join(', ');
+
+    // Save order data for later
+    pendingOrder={
+      orderId:ordNum,
+      date:new Date().toLocaleDateString('en-IN'),
+      time:new Date().toLocaleTimeString('en-IN'),
+      customerName:custName,phone:custPhone,email:custEmail,
+      address:custAddress,city:custCity,state:custState,pincode:custPincode,
+      items:itemsList,subtotal:String(subtotal),shipping:String(shipping),total:String(total)
+    };
+
+    // Show pay amount
+    document.getElementById('payAmountDisplay').innerHTML='Pay &#8377;'+total.toLocaleString('en-IN');
+
+    // Build order summary
+    var html='';
+    cart.forEach(function(item){html+='<div class="os-row"><span>'+item.name+' (Size '+item.size+') x'+item.qty+'</span><span>&#8377;'+(item.price*item.qty)+'</span></div>';});
+    html+='<div class="os-row"><span>Shipping</span><span>'+(shipping===0?'FREE':'&#8377;'+shipping)+'</span></div>';
+    html+='<div class="os-row total"><span>Total</span><span>&#8377;'+total+'</span></div>';
+    html+='<div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(42,139,122,0.15)"><div class="os-row"><span>Deliver to</span></div><div style="color:#1E2D50;font-weight:600;padding:4px 0">'+custName+'</div><div style="font-size:12px;color:#6B7A8D">'+custAddress+', '+custCity+', '+custState+' - '+custPincode+'</div></div>';
     document.getElementById('orderSummaryBox').innerHTML=html;
 
-    // SHOW confirmation FIRST
+    // Generate UPI QR Code
+    var upiUrl='upi://pay?pa='+encodeURIComponent(UPI_ID)+'&pn=GlassHut&am='+total+'&cu=INR&tn='+encodeURIComponent('GlassHut Order '+ordNum);
+    var qrBox=document.getElementById('qrCodeBox');
+    qrBox.innerHTML='';
+    if(pendingQR)pendingQR=null;
+    pendingQR=new QRCode(qrBox,{text:upiUrl,width:180,height:180,colorDark:'#1E2D50',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});
+
+    // Show step 1, hide step 2
+    document.getElementById('payStep').style.display='block';
+    document.getElementById('confirmStep').style.display='none';
+
     closeCart();
     document.getElementById('orderConfirmOverlay').classList.add('open');
     document.body.style.overflow='hidden';
-
-    // THEN send data to Google Sheet (won't block the UI)
-    var now=new Date();
-    var itemsList=cart.map(function(i){return i.name+' (Size '+i.size+') x'+i.qty+' = Rs.'+(i.price*i.qty);}).join(', ');
-    setTimeout(function(){
-      sendToSheet({
-        orderId:ordNum,
-        date:now.toLocaleDateString('en-IN'),
-        time:now.toLocaleTimeString('en-IN'),
-        customerName:custName,
-        phone:custPhone,
-        email:custEmail,
-        address:custAddress,
-        city:custCity,
-        state:custState,
-        pincode:custPincode,
-        items:itemsList,
-        subtotal:String(subtotal),
-        shipping:String(shipping),
-        total:String(total)
-      });
-    },500);
-
   }catch(err){
-    alert('Order error: '+err.message+'. Please try again.');
+    alert('Error: '+err.message+'. Please try again.');
   }
 }
+
+// STEP 2: Customer clicks "I Have Paid" → NOW place order + send notifications
+document.getElementById('iHavePaidBtn').onclick=function(){
+  if(!pendingOrder)return;
+  document.getElementById('orderId').textContent='Order #'+pendingOrder.orderId;
+  document.getElementById('orderConfirmSummary').innerHTML=document.getElementById('orderSummaryBox').innerHTML;
+
+  // NOW send to Google Sheet + Email
+  sendToSheet(pendingOrder);
+
+  // Switch to confirmation step
+  document.getElementById('payStep').style.display='none';
+  document.getElementById('confirmStep').style.display='block';
+};
+
+// Cancel payment → go back to cart
+document.getElementById('cancelPayBtn').onclick=function(){
+  document.getElementById('orderConfirmOverlay').classList.remove('open');
+  document.body.style.overflow='';
+  pendingOrder=null;
+  openCart();
+};
+
+// Done → reset everything
 document.getElementById('orderDoneBtn').onclick=function(){
   document.getElementById('orderConfirmOverlay').classList.remove('open');
   document.body.style.overflow='';
   cart=[];updateCartUI();
   document.querySelectorAll('#checkoutForm input').forEach(i=>i.value='');
   document.getElementById('custState').selectedIndex=0;
-  document.getElementById('txnIdInput').value='';
-  document.getElementById('txnMsg').style.display='none';
-  document.getElementById('sendTxnBtn').textContent='Confirm Payment';
-  document.getElementById('sendTxnBtn').disabled=false;
-  document.getElementById('sendTxnBtn').style.background='var(--teal)';
-};
-document.getElementById('sendTxnBtn').onclick=function(){
-  var txnId=document.getElementById('txnIdInput').value.trim();
-  var ordId=document.getElementById('orderId').textContent;
-  if(!txnId){document.getElementById('txnIdInput').style.borderColor='var(--danger)';return;}
-  sendToSheet({
-    orderId:ordId+' - PAYMENT',
-    date:new Date().toLocaleDateString('en-IN'),
-    time:new Date().toLocaleTimeString('en-IN'),
-    customerName:'Payment Confirmation',
-    phone:document.getElementById('custPhone').value.trim(),
-    address:'UPI Txn ID: '+txnId,
-    city:'-',state:'-',pincode:'-',
-    items:'Transaction ID: '+txnId,
-    subtotal:'0',shipping:'0',
-    total:document.getElementById('confirmPayAmount').textContent
-  });
-  document.getElementById('txnMsg').textContent='Payment info sent! We will verify and confirm shortly.';
-  document.getElementById('txnMsg').style.display='block';
-  document.getElementById('sendTxnBtn').textContent='Sent!';
-  document.getElementById('sendTxnBtn').disabled=true;
-  document.getElementById('sendTxnBtn').style.background='var(--text-muted)';
+  pendingOrder=null;
 };
 
 // FILTER
