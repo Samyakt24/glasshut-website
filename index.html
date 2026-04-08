@@ -998,4 +998,11 @@ function openPolicy(){openModal('policyOverlay');}
 document.getElementById('policyClose').onclick=function(){closeModal('policyOverlay');};
 document.getElementById('policyOverlay').onclick=function(e){if(e.target===this)closeModal('policyOverlay');};
 document.getElementById('shippingOverlay').onclick=function(e){if(e.target===this)closeModal('shippingOverlay');};
-document.getElementById('trackOverlay').onclick=function(e){if(e.targ
+document.getElementById('trackOverlay').onclick=function(e){if(e.target===this)closeModal('trackOverlay');};
+document.getElementById('faqOverlay').onclick=function(e){if(e.target===this)closeModal('faqOverlay');};
+
+// SMOOTH SCROLL
+document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',function(e){var href=this.getAttribute('href');if(!href||href==='#'||href.length<2)return;e.preventDefault();var t=document.querySelector(href);if(t)t.scrollIntoView({behavior:'smooth',block:'start'});});});
+</script>
+</body>
+</html>
