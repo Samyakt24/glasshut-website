@@ -180,7 +180,7 @@ nav a:hover { color: var(--copper-light); }
 .product-card:hover { transform: translateY(-8px); box-shadow: 0 20px 60px rgba(30,45,80,0.1); border-color: var(--teal); }
 .product-card.hidden { display: none; }
 .product-badge { position: absolute; top: 16px; left: 16px; background: var(--navy); color: var(--copper-light); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 6px 14px; font-weight: 600; z-index: 2; border-radius: 2px; }
-.product-image { width: 100%; height: 260px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.product-image { width: 100%; height: 260px; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
 .product-image-inner { display: flex; align-items: center; justify-content: center; gap: 4px; transition: transform 0.5s; }
 .product-card:hover .product-image-inner { transform: scale(1.06); }
 .product-photo { width: 100%; height: 100%; object-fit: cover; border-radius: 4px 4px 0 0; transition: transform 0.5s; }
@@ -191,6 +191,11 @@ nav a:hover { color: var(--copper-light); }
 .product-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; color: var(--navy); margin-bottom: 4px; }
 .product-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 4px; }
 .product-set-tag { display: inline-block; font-size: 11px; background: var(--teal-pale); color: var(--teal-dark); padding: 3px 10px; border-radius: 2px; letter-spacing: 1px; font-weight: 600; margin-bottom: 12px; }
+.variant-selector { display: flex; gap: 8px; margin-bottom: 12px; }
+.variant-btn { flex: 1; padding: 8px 6px; border: 1.5px solid rgba(42,139,122,0.25); background: var(--white); font-family: 'Rajdhani', sans-serif; font-size: 12px; color: var(--text-muted); cursor: pointer; border-radius: 3px; text-align: center; transition: all 0.3s; font-weight: 600; }
+.variant-btn.active { border-color: var(--teal); background: var(--teal-pale); color: var(--teal-dark); }
+.variant-btn:hover { border-color: var(--teal); }
+.variant-btn .vp { display: block; font-size: 14px; font-weight: 700; color: var(--navy); margin-top: 2px; }
 .product-price { font-family: 'Cormorant Garamond', serif; font-size: 24px; color: var(--copper-dark); font-weight: 700; margin-bottom: 14px; }
 .add-to-cart { width: 100%; padding: 12px; background: transparent; border: 1.5px solid var(--teal); color: var(--navy); font-family: 'Rajdhani', sans-serif; font-size: 12px; letter-spacing: 3px; text-transform: uppercase; font-weight: 600; cursor: pointer; transition: all 0.3s; border-radius: 2px; }
 .add-to-cart:hover { background: var(--teal); border-color: var(--teal); color: white; }
@@ -485,25 +490,41 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
     </div>
     <div class="products-grid" id="productsGrid">
 
-      <!-- DAILY WEAR -->
+      <!-- LIGHT MULTI (12pc / 24pc variant) -->
       <div class="product-card reveal" data-cat="daily trending"><div class="product-badge">Daily Wear</div>
-        <div class="product-image" style="background:#F0F4F8;overflow:hidden;"><img class="product-photo" src="images/products/light-multi1-12.jpeg" alt="Light Multi Glass Bangles 12pc Set"></div>
-        <div class="product-info"><h3 class="product-name">Light Multi</h3><p class="product-desc">Pastel multi-color glass bangles</p><div class="product-set-tag">12-Piece Set</div><div class="product-price">&#8377;120</div><button class="add-to-cart" data-name="Light Multi (12pc)" data-price="120" data-color="linear-gradient(135deg,#5DADE2,#F5B041,#58D68D)">Select Size &amp; Add</button></div>
+        <div class="product-image" style="background:#F0F4F8;overflow:hidden;"><img class="product-photo" id="lightMultiImg" src="images/products/light-multi1-12.jpeg" alt="Light Multi Glass Bangles">
+          <div style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:6px;">
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--teal);cursor:pointer;border:1px solid white;" onclick="document.getElementById('lightMultiImg').src='images/products/light-multi1-12.jpeg'"></div>
+            <div style="width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.7);cursor:pointer;border:1px solid var(--teal);" onclick="document.getElementById('lightMultiImg').src='images/products/light-multi2-12.jpeg'"></div>
+            <div style="width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.7);cursor:pointer;border:1px solid var(--teal);" onclick="document.getElementById('lightMultiImg').src='images/products/light-multi3-12.jpeg'"></div>
+          </div>
+        </div>
+        <div class="product-info"><h3 class="product-name">Light Multi</h3><p class="product-desc">Pastel multi-color glass bangles</p>
+          <div class="variant-selector">
+            <button class="variant-btn active" onclick="selectVariant(this,'light-multi','Light Multi (12pc)',120)">12-Piece<span class="vp">&#8377;120</span></button>
+            <button class="variant-btn" onclick="selectVariant(this,'light-multi','Light Multi (24pc)',190)">24-Piece<span class="vp">&#8377;190</span></button>
+          </div>
+          <div class="product-price" id="price-light-multi">&#8377;120</div>
+          <button class="add-to-cart" id="atc-light-multi" data-name="Light Multi (12pc)" data-price="120" data-color="linear-gradient(135deg,#5DADE2,#F5B041,#58D68D)">Select Size &amp; Add</button>
+        </div>
       </div>
 
-      <div class="product-card reveal" data-cat="daily trending"><div class="product-badge">Daily Wear</div>
-        <div class="product-image" style="background:#F0F4F8;overflow:hidden;"><img class="product-photo" src="images/products/light-multi2-12.jpeg" alt="Light Multi Glass Bangles 24pc Set"></div>
-        <div class="product-info"><h3 class="product-name">Light Multi</h3><p class="product-desc">Pastel multi-color glass bangles</p><div class="product-set-tag">24-Piece Set</div><div class="product-price">&#8377;190</div><button class="add-to-cart" data-name="Light Multi (24pc)" data-price="190" data-color="linear-gradient(135deg,#5DADE2,#F5B041)">Select Size &amp; Add</button></div>
-      </div>
-
-      <div class="product-card reveal" data-cat="daily trending"><div class="product-badge">Daily Wear</div>
-        <div class="product-image" style="background:#E8E0F0;overflow:hidden;"><img class="product-photo" src="images/products/Dark-multi1-12.jpeg" alt="Dark Multi Glass Bangles 12pc Set"></div>
-        <div class="product-info"><h3 class="product-name">Dark Multi</h3><p class="product-desc">Rich dark multi-color glass bangles</p><div class="product-set-tag">12-Piece Set</div><div class="product-price">&#8377;120</div><button class="add-to-cart" data-name="Dark Multi (12pc)" data-price="120" data-color="linear-gradient(135deg,#1A5276,#6C3483)">Select Size &amp; Add</button></div>
-      </div>
-
+      <!-- DARK MULTI (12pc / 24pc variant) -->
       <div class="product-card reveal" data-cat="daily trending"><div class="product-badge">Trending</div>
-        <div class="product-image" style="background:#E8E0F0;overflow:hidden;"><img class="product-photo" src="images/products/Dark-multi2-12.jpeg" alt="Dark Multi Glass Bangles 24pc Set"></div>
-        <div class="product-info"><h3 class="product-name">Dark Multi</h3><p class="product-desc">Rich dark multi-color glass bangles</p><div class="product-set-tag">24-Piece Set</div><div class="product-price">&#8377;190</div><button class="add-to-cart" data-name="Dark Multi (24pc)" data-price="190" data-color="linear-gradient(135deg,#1A5276,#6C3483)">Select Size &amp; Add</button></div>
+        <div class="product-image" style="background:#E8E0F0;overflow:hidden;"><img class="product-photo" id="darkMultiImg" src="images/products/Dark-multi1-12.jpeg" alt="Dark Multi Glass Bangles">
+          <div style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:6px;">
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--teal);cursor:pointer;border:1px solid white;" onclick="document.getElementById('darkMultiImg').src='images/products/Dark-multi1-12.jpeg'"></div>
+            <div style="width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.7);cursor:pointer;border:1px solid var(--teal);" onclick="document.getElementById('darkMultiImg').src='images/products/Dark-multi2-12.jpeg'"></div>
+          </div>
+        </div>
+        <div class="product-info"><h3 class="product-name">Dark Multi</h3><p class="product-desc">Rich dark multi-color glass bangles</p>
+          <div class="variant-selector">
+            <button class="variant-btn active" onclick="selectVariant(this,'dark-multi','Dark Multi (12pc)',120)">12-Piece<span class="vp">&#8377;120</span></button>
+            <button class="variant-btn" onclick="selectVariant(this,'dark-multi','Dark Multi (24pc)',190)">24-Piece<span class="vp">&#8377;190</span></button>
+          </div>
+          <div class="product-price" id="price-dark-multi">&#8377;120</div>
+          <button class="add-to-cart" id="atc-dark-multi" data-name="Dark Multi (12pc)" data-price="120" data-color="linear-gradient(135deg,#1A5276,#6C3483)">Select Size &amp; Add</button>
+        </div>
       </div>
 
       <!-- BRIDAL -->
@@ -787,6 +808,16 @@ sizeCancel.onclick=closeSizeModal;
 sizeModal.onclick=function(e){if(e.target===sizeModal)closeSizeModal();};
 sizeConfirm.onclick=function(){if(!pendingProduct||!selectedSize)return;addToCart(pendingProduct.name,pendingProduct.price,pendingProduct.color,selectedSize);closeSizeModal();openCart();};
 document.querySelectorAll('.add-to-cart').forEach(btn=>{btn.onclick=function(){openSizeModal({name:this.dataset.name,price:parseInt(this.dataset.price),color:this.dataset.color});}});
+
+// VARIANT SELECTOR
+function selectVariant(btn,productId,name,price){
+  btn.parentElement.querySelectorAll('.variant-btn').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  document.getElementById('price-'+productId).innerHTML='&#8377;'+price;
+  var atcBtn=document.getElementById('atc-'+productId);
+  atcBtn.dataset.name=name;
+  atcBtn.dataset.price=price;
+}
 
 function addToCart(name,price,color,size){
   const key=name+'-'+size;const ex=cart.find(i=>i.key===key);
