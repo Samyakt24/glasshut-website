@@ -128,15 +128,8 @@ nav a:hover { color: var(--copper-light); }
 .hero { position: relative; overflow: hidden; background: linear-gradient(135deg, var(--bg) 0%, #EDE9E0 50%, #E8E3D9 100%); }
 .hero-bg-pattern { position: absolute; inset: 0; opacity: 0.02; background-image: repeating-linear-gradient(0deg, transparent, transparent 60px, var(--teal) 60px, var(--teal) 61px), repeating-linear-gradient(90deg, transparent, transparent 60px, var(--teal) 60px, var(--teal) 61px); }
 .hero-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; min-height: 560px; padding: 40px; gap: 40px; z-index: 2; position: relative; }
-.hero-visual { flex: 1; display: flex; justify-content: center; position: relative; animation: heroEntry 1s ease-out; }
-.hero-slide-wrap { position: relative; width: 100%; max-width: 460px; }
-.hero-slide-wrap img.hero-slide { width: 100%; height: auto; display: block; opacity: 0; position: absolute; top: 0; left: 0; transition: opacity 1s ease; cursor: pointer; border-radius: 0; }
-.hero-slide-wrap img.hero-slide:first-of-type { position: relative; }
-.hero-slide-wrap img.hero-slide.active { opacity: 1; z-index: 1; }
-.hero-slide-label { position: absolute; top: 16px; left: 16px; background: rgba(30,45,80,0.75); color: white; padding: 6px 14px; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; border-radius: 3px; z-index: 3; pointer-events: none; }
-.hero-dots { position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 3; }
-.hero-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.4); border: 1.5px solid rgba(255,255,255,0.7); cursor: pointer; transition: all 0.3s; }
-.hero-dot.active { background: white; }
+.hero-visual { flex: 1; display: flex; justify-content: center; animation: heroEntry 1s ease-out; }
+.hero-photo { width: 100%; max-width: 400px; display: block; object-fit: contain; }
 .hero-text { flex: 1; animation: heroEntryR 1s ease-out 0.2s both; }
 .hero-eyebrow { font-size: 12px; letter-spacing: 5px; text-transform: uppercase; color: var(--copper); margin-bottom: 24px; font-weight: 500; }
 .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(42px, 5vw, 72px); font-weight: 700; color: var(--navy); line-height: 1.1; margin-bottom: 8px; }
@@ -476,15 +469,7 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
   <div class="hero-bg-pattern"></div>
   <div class="hero-inner">
     <div class="hero-visual">
-      <div class="hero-slide-wrap">
-        <a href="#products"><img class="hero-slide active" src="images/products/light-multi1-12.jpeg" alt="Light Multi Glass Bangles - Top Seller" data-hslide="hero"></a>
-        <a href="#products"><img class="hero-slide" src="images/products/Dark-multi1-12.jpeg" alt="Dark Multi Glass Bangles - Top Seller" data-hslide="hero"></a>
-        <a href="#products"><img class="hero-slide" src="images/products/light-multi3-12.jpeg" alt="Light Multi Glass Bangles on Silk" data-hslide="hero"></a>
-        <a href="#products"><img class="hero-slide" src="images/products/Dark-multi2-12.jpeg" alt="Dark Multi Glass Bangles" data-hslide="hero"></a>
-        <a href="#products"><img class="hero-slide" src="images/products/light-multi2-12.jpeg" alt="Light Multi Glass Bangles Set" data-hslide="hero"></a>
-        <div class="hero-slide-label" id="heroLabel">Top Seller</div>
-        <div class="hero-dots"><span class="hero-dot active" data-hi="0"></span><span class="hero-dot" data-hi="1"></span><span class="hero-dot" data-hi="2"></span><span class="hero-dot" data-hi="3"></span><span class="hero-dot" data-hi="4"></span></div>
-      </div>
+      <a href="#products"><img class="hero-photo" src="images/products/hero-main.jpeg" alt="GlassHut Pure Glass Bangles - Handcrafted in Firozabad"></a>
     </div>
     <div class="hero-text">
       <p class="hero-eyebrow">&#10022; Crafted to Shine</p>
@@ -1104,22 +1089,6 @@ document.getElementById('orderDoneBtn').onclick=function(){
   document.getElementById('custState').selectedIndex=0;
   pendingOrder=null;
 };
-
-// HERO SLIDESHOW
-var heroSlides=document.querySelectorAll('.hero-slide');
-var heroDots=document.querySelectorAll('.hero-dot');
-var heroLabels=['Top Seller','Top Seller','Bestseller','Trending','Popular'];
-var heroCurrent=0;
-function showHeroSlide(idx){
-  heroSlides.forEach(function(s){s.classList.remove('active');});
-  heroDots.forEach(function(d){d.classList.remove('active');});
-  heroSlides[idx].classList.add('active');
-  heroDots[idx].classList.add('active');
-  document.getElementById('heroLabel').textContent=heroLabels[idx]||'Top Seller';
-  heroCurrent=idx;
-}
-heroDots.forEach(function(d){d.onclick=function(){showHeroSlide(parseInt(this.dataset.hi));};});
-setInterval(function(){showHeroSlide((heroCurrent+1)%heroSlides.length);},3500);
 
 // PRODUCT IMAGE SLIDESHOW
 function slideProduct(groupId,idx){
