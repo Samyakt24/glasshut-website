@@ -125,17 +125,19 @@ nav a:hover { color: var(--copper-light); }
 .size-cancel { background: none; border: none; color: var(--text-muted); font-size: 13px; cursor: pointer; margin-top: 12px; }
 
 /* HERO */
-.hero { position: relative; display: flex; align-items: stretch; overflow: hidden; background: var(--bg); min-height: 100vh; }
+.hero { position: relative; overflow: hidden; background: linear-gradient(135deg, var(--bg) 0%, #EDE9E0 50%, #E8E3D9 100%); }
 .hero-bg-pattern { position: absolute; inset: 0; opacity: 0.02; background-image: repeating-linear-gradient(0deg, transparent, transparent 60px, var(--teal) 60px, var(--teal) 61px), repeating-linear-gradient(90deg, transparent, transparent 60px, var(--teal) 60px, var(--teal) 61px); }
-.hero-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; width: 100%; z-index: 2; position: relative; }
-.hero-visual { flex: 0 0 45%; position: relative; min-height: 100vh; overflow: hidden; animation: heroEntry 1s ease-out; }
-.hero-slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease; cursor: pointer; }
-.hero-slide.active { opacity: 1; }
-.hero-slide-label { position: absolute; top: 20px; left: 20px; background: rgba(30,45,80,0.75); color: white; padding: 6px 14px; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; border-radius: 3px; z-index: 3; pointer-events: none; }
-.hero-dots { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 3; }
+.hero-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; min-height: 560px; padding: 40px; gap: 40px; z-index: 2; position: relative; }
+.hero-visual { flex: 1; display: flex; justify-content: center; position: relative; animation: heroEntry 1s ease-out; }
+.hero-slide-wrap { position: relative; width: 100%; max-width: 460px; }
+.hero-slide-wrap img.hero-slide { width: 100%; height: auto; display: block; opacity: 0; position: absolute; top: 0; left: 0; transition: opacity 1s ease; cursor: pointer; border-radius: 0; }
+.hero-slide-wrap img.hero-slide:first-of-type { position: relative; }
+.hero-slide-wrap img.hero-slide.active { opacity: 1; z-index: 1; }
+.hero-slide-label { position: absolute; top: 16px; left: 16px; background: rgba(30,45,80,0.75); color: white; padding: 6px 14px; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; border-radius: 3px; z-index: 3; pointer-events: none; }
+.hero-dots { position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 3; }
 .hero-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.4); border: 1.5px solid rgba(255,255,255,0.7); cursor: pointer; transition: all 0.3s; }
 .hero-dot.active { background: white; }
-.hero-text { flex: 1; padding: 60px 40px; animation: heroEntryR 1s ease-out 0.2s both; }
+.hero-text { flex: 1; animation: heroEntryR 1s ease-out 0.2s both; }
 .hero-eyebrow { font-size: 12px; letter-spacing: 5px; text-transform: uppercase; color: var(--copper); margin-bottom: 24px; font-weight: 500; }
 .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(42px, 5vw, 72px); font-weight: 700; color: var(--navy); line-height: 1.1; margin-bottom: 8px; }
 .hero-title em { font-style: italic; color: var(--teal); display: block; font-size: 0.75em; font-weight: 400; margin-top: 4px; }
@@ -314,7 +316,7 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
 .order-confirm .msg { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; }
 .order-done-btn { padding: 14px 40px; background: var(--teal); color: white; border: none; font-family: 'Rajdhani', sans-serif; font-size: 14px; letter-spacing: 3px; text-transform: uppercase; font-weight: 600; cursor: pointer; border-radius: 3px; }
 .order-done-btn:hover { background: var(--navy); }
-@media (max-width: 768px) { .nav-inner { padding: 10px 16px; } .logo-brand { font-size: 20px; } nav { display: none; } .cat-grid { grid-template-columns: 1fr 1fr; } .cat-card { height: 260px; } .products-grid { grid-template-columns: 1fr; } .test-grid { grid-template-columns: 1fr; } .process-steps { grid-template-columns: 1fr 1fr; } .heritage-stats { flex-direction: column; gap: 30px; } .footer-grid { grid-template-columns: 1fr; gap: 30px; } .newsletter-form { flex-direction: column; } .newsletter-form input { border-right: 1.5px solid var(--teal); border-radius: 2px; } .newsletter-form button { border-radius: 2px; } .hero-inner { flex-direction: row; padding: 0; } .hero-visual { flex: 0 0 40%; min-height: 75vh; } .hero-text { padding: 40px 16px 40px 20px; } .hero-title { font-size: 28px; } .hero-title em { font-size: 0.7em; } .hero-subtitle { font-size: 13px; line-height: 1.6; margin-bottom: 20px; max-width: 100%; } .hero-eyebrow { font-size: 10px; letter-spacing: 3px; margin-bottom: 14px; } .hero-cta { padding: 12px 28px; font-size: 11px; letter-spacing: 3px; } .hero-divider { margin: 16px 0; } .hero-badge { font-size: 9px; padding: 4px 10px; margin-bottom: 12px; } .hero-stats { gap: 16px; margin-top: 24px; flex-wrap: wrap; } .hero-stat-num { font-size: 18px; } .hero-stat-label { font-size: 9px; letter-spacing: 1px; } .hero-text { text-align: left; } .hero-subtitle { margin: 0 auto 36px; } .hero-stats { justify-content: center; } .hero-divider { margin: 28px auto; } .filter-tabs { gap: 8px; } .filter-tab { padding: 8px 16px; font-size: 11px; } }
+@media (max-width: 768px) { .nav-inner { padding: 10px 16px; } .logo-brand { font-size: 20px; } nav { display: none; } .cat-grid { grid-template-columns: 1fr 1fr; } .cat-card { height: 260px; } .products-grid { grid-template-columns: 1fr; } .test-grid { grid-template-columns: 1fr; } .process-steps { grid-template-columns: 1fr 1fr; } .heritage-stats { flex-direction: column; gap: 30px; } .footer-grid { grid-template-columns: 1fr; gap: 30px; } .newsletter-form { flex-direction: column; } .newsletter-form input { border-right: 1.5px solid var(--teal); border-radius: 2px; } .newsletter-form button { border-radius: 2px; } .hero-inner { padding: 20px 12px; gap: 16px; min-height: auto; } .hero-visual { flex: 0 0 42%; } .hero-slide-wrap { max-width: 100%; } .hero-text { padding: 0; } .hero-title { font-size: 26px; } .hero-title em { font-size: 0.7em; } .hero-subtitle { font-size: 12px; line-height: 1.6; margin-bottom: 18px; max-width: 100%; } .hero-eyebrow { font-size: 10px; letter-spacing: 3px; margin-bottom: 10px; } .hero-cta { padding: 11px 22px; font-size: 11px; letter-spacing: 2px; } .hero-divider { margin: 12px 0; width: 50px; } .hero-badge { font-size: 8px; padding: 4px 8px; margin-bottom: 8px; letter-spacing: 1px; } .hero-stats { gap: 12px; margin-top: 16px; flex-wrap: wrap; } .hero-stat-num { font-size: 15px; } .hero-stat-label { font-size: 8px; letter-spacing: 1px; } .hero-text { text-align: left; } .hero-subtitle { margin: 0 auto 36px; } .hero-stats { justify-content: center; } .hero-divider { margin: 28px auto; } .filter-tabs { gap: 8px; } .filter-tab { padding: 8px 16px; font-size: 11px; } }
 /* POLICY MODAL */
 .policy-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 400; opacity: 0; visibility: hidden; transition: all 0.3s; display: flex; align-items: center; justify-content: center; }
 .policy-overlay.open { opacity: 1; visibility: visible; }
@@ -474,13 +476,15 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
   <div class="hero-bg-pattern"></div>
   <div class="hero-inner">
     <div class="hero-visual">
-      <a href="#products"><img class="hero-slide active" src="images/products/light-multi1-12.jpeg" alt="Light Multi Glass Bangles - Top Seller" data-hslide="hero"></a>
-      <a href="#products"><img class="hero-slide" src="images/products/Dark-multi1-12.jpeg" alt="Dark Multi Glass Bangles - Top Seller" data-hslide="hero"></a>
-      <a href="#products"><img class="hero-slide" src="images/products/light-multi3-12.jpeg" alt="Light Multi Glass Bangles on Silk" data-hslide="hero"></a>
-      <a href="#products"><img class="hero-slide" src="images/products/Dark-multi2-12.jpeg" alt="Dark Multi Glass Bangles" data-hslide="hero"></a>
-      <a href="#products"><img class="hero-slide" src="images/products/light-multi2-12.jpeg" alt="Light Multi Glass Bangles Set" data-hslide="hero"></a>
-      <div class="hero-slide-label" id="heroLabel">Top Seller</div>
-      <div class="hero-dots"><span class="hero-dot active" data-hi="0"></span><span class="hero-dot" data-hi="1"></span><span class="hero-dot" data-hi="2"></span><span class="hero-dot" data-hi="3"></span><span class="hero-dot" data-hi="4"></span></div>
+      <div class="hero-slide-wrap">
+        <a href="#products"><img class="hero-slide active" src="images/products/light-multi1-12.jpeg" alt="Light Multi Glass Bangles - Top Seller" data-hslide="hero"></a>
+        <a href="#products"><img class="hero-slide" src="images/products/Dark-multi1-12.jpeg" alt="Dark Multi Glass Bangles - Top Seller" data-hslide="hero"></a>
+        <a href="#products"><img class="hero-slide" src="images/products/light-multi3-12.jpeg" alt="Light Multi Glass Bangles on Silk" data-hslide="hero"></a>
+        <a href="#products"><img class="hero-slide" src="images/products/Dark-multi2-12.jpeg" alt="Dark Multi Glass Bangles" data-hslide="hero"></a>
+        <a href="#products"><img class="hero-slide" src="images/products/light-multi2-12.jpeg" alt="Light Multi Glass Bangles Set" data-hslide="hero"></a>
+        <div class="hero-slide-label" id="heroLabel">Top Seller</div>
+        <div class="hero-dots"><span class="hero-dot active" data-hi="0"></span><span class="hero-dot" data-hi="1"></span><span class="hero-dot" data-hi="2"></span><span class="hero-dot" data-hi="3"></span><span class="hero-dot" data-hi="4"></span></div>
+      </div>
     </div>
     <div class="hero-text">
       <p class="hero-eyebrow">&#10022; Crafted to Shine</p>
