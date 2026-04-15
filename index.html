@@ -162,7 +162,7 @@ nav a:hover { color: var(--copper-light); }
 .cat-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(30,45,80,0.15); }
 .cat-card-bg { width: 100%; height: 100%; position: relative; transition: transform 0.6s; }
 .cat-card:hover .cat-card-bg { transform: scale(1.05); }
-.cat-bridal .cat-card-bg { background: linear-gradient(160deg, #FFF0E8, #F8D4C0 40%, #E8A888 100%); }
+.cat-bridal .cat-card-bg { background: url('images/products/cat-bridal.jpg') center/cover no-repeat; }
 .cat-aesthetic .cat-card-bg { background: linear-gradient(160deg, #EDE7F6, #D1C4E9 40%, #B39DDB 100%); }
 .cat-trending .cat-card-bg { background: linear-gradient(160deg, #E0F5F0, #B0E0D4 40%, #80C8B8 100%); }
 .cat-daily .cat-card-bg { background: linear-gradient(160deg, #E3F2FD, #BBDEFB 40%, #90CAF9 100%); }
@@ -492,11 +492,7 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
 <section class="categories-section" id="categories">
   <div class="section-header reveal"><p class="section-label">Shop by Collection</p><h2 class="section-title">Our Collections</h2><div class="section-ornament">&#9670; &#9670; &#9670;</div></div>
   <div class="cat-grid">
-    <div class="cat-card cat-bridal reveal" onclick="filterProducts('bridal')"><div class="cat-card-bg"><div class="cat-shimmer"></div><div class="cat-bangles">
-      <div class="cb" style="width:130px;height:130px;border:10px solid rgba(184,134,11,0.5);top:45%;left:48%;transform:translate(-50%,-50%) rotate(-5deg);box-shadow:inset 0 0 20px rgba(184,134,11,0.15),0 0 15px rgba(184,134,11,0.1);"></div>
-      <div class="cb" style="width:110px;height:110px;border:8px solid rgba(218,165,32,0.45);top:48%;left:52%;transform:translate(-50%,-50%) rotate(8deg);"></div>
-      <div class="cb" style="width:90px;height:90px;border:6px solid rgba(184,134,11,0.35);top:52%;left:46%;transform:translate(-50%,-50%) rotate(-3deg);"></div>
-    </div></div><div class="cat-card-content"><h3>Bridal</h3><p>Wedding Collection</p></div></div>
+    <div class="cat-card cat-bridal reveal" onclick="filterProducts('bridal')"><div class="cat-card-bg"><div class="cat-shimmer"></div></div><div class="cat-card-content"><h3>Bridal</h3><p>Wedding Collection</p></div></div>
 
     <div class="cat-card cat-aesthetic reveal" onclick="filterProducts('aesthetic')"><div class="cat-card-bg"><div class="cat-shimmer"></div><div class="cat-bangles">
       <div class="cb" style="width:130px;height:130px;border:10px solid rgba(126,87,194,0.45);top:45%;left:48%;transform:translate(-50%,-50%) rotate(5deg);box-shadow:inset 0 0 20px rgba(126,87,194,0.12),0 0 15px rgba(126,87,194,0.08);"></div>
