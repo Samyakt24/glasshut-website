@@ -129,7 +129,7 @@ nav a:hover { color: var(--copper-light); }
 .hero-bg-pattern { display: none; }
 .hero-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; padding: 40px 20px; z-index: 2; position: relative; overflow: hidden; }
 .hero-visual { flex: 0 0 55%; z-index: 1; animation: heroEntry 1s ease-out; margin-right: -80px; position: relative; }
-.hero-visual::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, transparent 40%, var(--bg) 90%); pointer-events: none; z-index: 2; }
+.hero-visual::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, transparent 40%, var(--bg) 90%), linear-gradient(to left, transparent 95%, var(--bg) 100%), linear-gradient(to bottom, var(--bg) 0%, transparent 5%, transparent 95%, var(--bg) 100%); pointer-events: none; z-index: 2; }
 .hero-photo { width: 100%; display: block; }
 .hero-text { flex: 1; position: relative; z-index: 2; padding: 40px 16px 40px 0; animation: heroEntryR 1s ease-out 0.2s both; max-width: 100%; overflow: hidden; }
 .hero-eyebrow { font-size: 13px; letter-spacing: 5px; text-transform: uppercase; color: #8B6914; margin-bottom: 24px; font-weight: 700; }
