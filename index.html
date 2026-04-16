@@ -159,35 +159,24 @@ nav a:hover { color: var(--copper-light); }
 /* CATEGORIES — OCCASION CARDS */
 .categories-section { padding: 80px 40px; max-width: 1100px; margin: 0 auto; }
 @keyframes ocFadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes ocSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-@keyframes ocPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
 @keyframes ocShimmer { 0% { left: -100%; } 100% { left: 100%; } }
-.cat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
-.oc-card { position: relative; padding: 44px 24px 36px; cursor: pointer; overflow: hidden; text-align: center; transition: all 0.5s ease; border: none; }
-.oc-card:hover { transform: translateY(-10px); box-shadow: 0 24px 50px rgba(30,45,80,0.12); }
-.oc-card::before { content: ''; position: absolute; top: -50%; left: -100%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.4) 50%, transparent 70%); transform: rotate(25deg); transition: left 0.6s; pointer-events: none; }
+.cat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.oc-card { display: flex; background: var(--white); overflow: hidden; cursor: pointer; transition: all 0.5s ease; position: relative; }
+.oc-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(30,45,80,0.1); }
+.oc-card::before { content: ''; position: absolute; top: -50%; left: -100%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.5) 50%, transparent 70%); transform: rotate(25deg); pointer-events: none; }
 .oc-card:hover::before { animation: ocShimmer 0.8s ease forwards; }
-.oc-topline { position: absolute; top: 0; left: 50%; transform: translateX(-50%); height: 4px; width: 60px; transition: all 0.5s ease; }
-.oc-card:hover .oc-topline { width: 100%; left: 0; transform: none; }
-.oc-bottomline { position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; opacity: 0.3; }
-.oc-rings { width: 120px; height: 120px; margin: 0 auto 24px; position: relative; display: flex; align-items: center; justify-content: center; transition: all 0.4s; }
-.oc-card:hover .oc-rings { animation: ocPulse 2s ease infinite; }
-.oc-r1 { width: 120px; height: 120px; border-radius: 50%; position: absolute; transition: all 0.4s; }
-.oc-card:hover .oc-r1 { animation: ocSpin 10s linear infinite; }
-.oc-r2 { width: 88px; height: 88px; border-radius: 50%; position: absolute; transition: all 0.4s; }
-.oc-card:hover .oc-r2 { animation: ocSpin 7s linear infinite reverse; }
-.oc-r3 { width: 58px; height: 58px; border-radius: 50%; position: absolute; transition: all 0.4s; }
-.oc-icon { font-size: 22px; position: absolute; z-index: 2; }
+.oc-left { width: 5px; flex-shrink: 0; transition: width 0.4s ease; }
+.oc-card:hover .oc-left { width: 10px; }
+.oc-content { padding: 28px 24px; flex: 1; }
 .oc-title { font-family: 'Cormorant Garamond', serif; font-size: 28px; color: var(--navy); margin: 0; font-style: italic; font-weight: 600; }
-.oc-desc { font-size: 14px; color: var(--text-muted); margin: 10px 0 0; line-height: 1.6; }
-.oc-explore { font-size: 12px; margin: 18px 0 0; letter-spacing: 3px; text-transform: uppercase; opacity: 0; transform: translateY(10px); transition: all 0.4s ease; font-weight: 700; }
-.oc-card:hover .oc-explore { opacity: 1; transform: translateY(0); }
+.oc-desc { font-size: 14px; color: var(--text-muted); margin: 8px 0 0; line-height: 1.6; }
+.oc-explore { font-size: 11px; margin: 14px 0 0; letter-spacing: 3px; text-transform: uppercase; opacity: 0; transform: translateX(-10px); transition: all 0.4s ease; font-weight: 700; }
+.oc-card:hover .oc-explore { opacity: 1; transform: translateX(0); }
+.oc-arrow { display: flex; align-items: center; padding-right: 24px; font-size: 22px; opacity: 0.3; transition: all 0.4s; }
+.oc-card:hover .oc-arrow { opacity: 1; transform: translateX(4px); }
 .oc-card.reveal { animation: ocFadeUp 0.7s ease-out both; }
 .oc-card.reveal:nth-child(2) { animation-delay: 0.15s; }
 .oc-card.reveal:nth-child(3) { animation-delay: 0.3s; }
-.oc-corner { position: absolute; width: 24px; height: 24px; opacity: 0.4; }
-.oc-corner-tl { top: 12px; left: 12px; border-top: 1.5px solid; border-left: 1.5px solid; }
-.oc-corner-br { bottom: 12px; right: 12px; border-bottom: 1.5px solid; border-right: 1.5px solid; }
 .cat-card-content h3 { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 600; margin-bottom: 4px; }
 .cat-card-content p { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.7; }
 
@@ -258,7 +247,7 @@ nav a:hover { color: var(--copper-light); }
 .trust-badges { display: flex; justify-content: center; align-items: center; gap: 0; margin-top: 50px; padding-top: 40px; border-top: 1px solid rgba(218,165,32,0.15); flex-wrap: wrap; }
 .trust-badge { display: flex; align-items: center; gap: 10px; padding: 0 28px; }
 .trust-icon { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.trust-text { font-size: 13px; color: rgba(255,255,255,0.7); letter-spacing: 1px; font-weight: 500; }
+.trust-text { font-size: 13px; color: rgba(255,255,255,0.85); letter-spacing: 1px; font-weight: 500; }
 .trust-divider { width: 1px; height: 28px; background: rgba(218,165,32,0.2); }
 .testimonials { padding: 100px 40px; background: var(--bg-warm); }
 .testimonials-inner { max-width: 1300px; margin: 0 auto; }
@@ -497,7 +486,7 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
       <a href="#products" class="hero-cta">Shop Now</a>
       <div class="hero-stats">
         <div><span class="hero-stat-num">Since 1984</span><span class="hero-stat-label">New Milan Trader</span></div>
-        <div><span class="hero-stat-num">100%</span><span class="hero-stat-label">Pure Glass</span></div>
+        <div><span class="hero-stat-num">Firozabad</span><span class="hero-stat-label">Glass City</span></div>
         <div><span class="hero-stat-num">Free</span><span class="hero-stat-label">Shipping &#8377;250+</span></div>
       </div>
     </div>
@@ -517,50 +506,32 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
     </div>
   </div>
   <div class="cat-grid">
-    <div class="oc-card reveal" onclick="filterProducts('bridal')" style="background:linear-gradient(160deg, #FFF8EC, #F5E6C8 50%, #EDD8AD)">
-      <div class="oc-topline" style="background:linear-gradient(90deg,transparent,#B8860B,transparent)"></div>
-      <div class="oc-bottomline" style="background:#B8860B"></div>
-      <div class="oc-corner oc-corner-tl" style="border-color:#B8860B"></div>
-      <div class="oc-corner oc-corner-br" style="border-color:#B8860B"></div>
-      <div class="oc-rings">
-        <div class="oc-r1" style="border:4px solid rgba(184,134,11,0.55)"></div>
-        <div class="oc-r2" style="border:3px solid rgba(184,134,11,0.35)"></div>
-        <div class="oc-r3" style="border:2.5px solid rgba(184,134,11,0.18)"></div>
-        
+    <div class="oc-card reveal" onclick="filterProducts('bridal')">
+      <div class="oc-left" style="background:#B8860B"></div>
+      <div class="oc-content">
+        <p class="oc-title">Wedding</p>
+        <p class="oc-desc">Golden chuda sets for your special day</p>
+        <p class="oc-explore" style="color:#B8860B">Explore Collection →</p>
       </div>
-      <p class="oc-title">Wedding</p>
-      <p class="oc-desc">Golden chuda sets for your special day</p>
-      <p class="oc-explore" style="color:#B8860B">Explore Collection →</p>
+      <div class="oc-arrow" style="color:#B8860B">→</div>
     </div>
-    <div class="oc-card reveal" onclick="filterProducts('trending')" style="background:linear-gradient(160deg, #E6F8F3, #C8ECDF 50%, #AADDC8)">
-      <div class="oc-topline" style="background:linear-gradient(90deg,transparent,#2A8B7A,transparent)"></div>
-      <div class="oc-bottomline" style="background:#2A8B7A"></div>
-      <div class="oc-corner oc-corner-tl" style="border-color:#2A8B7A"></div>
-      <div class="oc-corner oc-corner-br" style="border-color:#2A8B7A"></div>
-      <div class="oc-rings">
-        <div class="oc-r1" style="border:4px solid rgba(42,139,122,0.55)"></div>
-        <div class="oc-r2" style="border:3px solid rgba(42,139,122,0.35)"></div>
-        <div class="oc-r3" style="border:2.5px solid rgba(42,139,122,0.18)"></div>
-        
+    <div class="oc-card reveal" onclick="filterProducts('trending')">
+      <div class="oc-left" style="background:#2A8B7A"></div>
+      <div class="oc-content">
+        <p class="oc-title">Festival</p>
+        <p class="oc-desc">Vibrant multi-color glass bangles</p>
+        <p class="oc-explore" style="color:#2A8B7A">Explore Collection →</p>
       </div>
-      <p class="oc-title">Festival</p>
-      <p class="oc-desc">Vibrant multi-color glass bangles</p>
-      <p class="oc-explore" style="color:#2A8B7A">Explore Collection →</p>
+      <div class="oc-arrow" style="color:#2A8B7A">→</div>
     </div>
-    <div class="oc-card reveal" onclick="filterProducts('aesthetic')" style="background:linear-gradient(160deg, #F0E8F8, #DFD0EE 50%, #CCB8E0)">
-      <div class="oc-topline" style="background:linear-gradient(90deg,transparent,#7B5EA7,transparent)"></div>
-      <div class="oc-bottomline" style="background:#7B5EA7"></div>
-      <div class="oc-corner oc-corner-tl" style="border-color:#7B5EA7"></div>
-      <div class="oc-corner oc-corner-br" style="border-color:#7B5EA7"></div>
-      <div class="oc-rings">
-        <div class="oc-r1" style="border:4px solid rgba(123,94,167,0.55)"></div>
-        <div class="oc-r2" style="border:3px solid rgba(123,94,167,0.35)"></div>
-        <div class="oc-r3" style="border:2.5px solid rgba(123,94,167,0.18)"></div>
-        
+    <div class="oc-card reveal" onclick="filterProducts('aesthetic')">
+      <div class="oc-left" style="background:#7B5EA7"></div>
+      <div class="oc-content">
+        <p class="oc-title">Aesthetic</p>
+        <p class="oc-desc">Unique rainbow designs</p>
+        <p class="oc-explore" style="color:#7B5EA7">Explore Collection →</p>
       </div>
-      <p class="oc-title">Aesthetic</p>
-      <p class="oc-desc">Unique rainbow designs</p>
-      <p class="oc-explore" style="color:#7B5EA7">Explore Collection →</p>
+      <div class="oc-arrow" style="color:#7B5EA7">→</div>
     </div>
   </div>
 </section>
@@ -676,8 +647,8 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
   </div>
   <div class="trust-badges reveal">
     <div class="trust-badge">
-      <div class="trust-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#DAA520" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div>
-      <span class="trust-text">100% Pure Glass</span>
+      <div class="trust-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#DAA520" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+      <span class="trust-text">Made in Firozabad</span>
     </div>
     <div class="trust-divider"></div>
     <div class="trust-badge">
