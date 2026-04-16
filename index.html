@@ -26,7 +26,7 @@
 :root {
   --navy: #1E2D50; --navy-deep: #141E38; --navy-light: #2A3D68;
   --teal: #2A8B7A; --teal-dark: #1E6B5E; --teal-light: #A8D8D0; --teal-pale: #D4EEEA;
-  --copper: #9E7C0C; --copper-light: #B8920E; --copper-dark: #7A6108;
+  --copper: #856A06; --copper-light: #A07E0A; --copper-dark: #6B5504;
   --bg: #F5F3EE; --bg-warm: #EDE9E0; --white: #FAFAF7;
   --text-dark: #1E2D50; --text-muted: #6B7A8D; --danger: #D32F2F;
   --phonepe: #5F259F; --gpay: #4285F4;
@@ -141,7 +141,7 @@ nav a:hover { color: var(--copper-light); }
 .hero-subtitle strong { color: var(--teal); font-weight: 700; font-style: normal; }
 .hero-cta { display: inline-block; padding: 16px 44px; background: var(--teal); color: white; text-decoration: none; font-size: 13px; letter-spacing: 4px; text-transform: uppercase; font-weight: 700; border: none; transition: all 0.4s; }
 .hero-cta:hover { background: var(--navy); box-shadow: 0 8px 30px rgba(30,45,80,0.2); transform: translateY(-2px); }
-.hero-badge { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; background: rgba(184,134,11,0.15); border: 1.5px solid rgba(184,134,11,0.4); border-radius: 20px; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #7A6108; font-weight: 700; margin-bottom: 20px; }
+.hero-badge { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; background: rgba(184,134,11,0.15); border: 1.5px solid rgba(184,134,11,0.4); border-radius: 20px; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #6B5504; font-weight: 700; margin-bottom: 20px; }
 .hero-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--copper); }
 .hero-stats { display: flex; gap: 20px; margin-top: 28px; flex-wrap: wrap; }
 .hero-stat-num { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; color: var(--navy); display: block; line-height: 1; }
@@ -253,8 +253,13 @@ nav a:hover { color: var(--copper-light); }
 .heritage p { font-size: 16px; color: var(--teal-light); max-width: 620px; margin: 0 auto 40px; line-height: 1.8; opacity: 0.8; position: relative; }
 .heritage-stats { display: flex; justify-content: center; gap: 80px; position: relative; }
 .stat { text-align: center; }
-.stat-number { font-family: 'Cormorant Garamond', serif; font-size: 48px; color: var(--copper); font-weight: 700; display: block; }
-.stat-label { font-size: 11px; color: var(--teal-light); letter-spacing: 4px; text-transform: uppercase; opacity: 0.4; }
+.stat-number { font-family: 'Cormorant Garamond', serif; font-size: 48px; color: var(--copper-light); font-weight: 700; display: block; }
+.stat-label { font-size: 11px; color: var(--teal-light); letter-spacing: 4px; text-transform: uppercase; opacity: 0.5; }
+.trust-badges { display: flex; justify-content: center; align-items: center; gap: 0; margin-top: 50px; padding-top: 40px; border-top: 1px solid rgba(218,165,32,0.15); flex-wrap: wrap; }
+.trust-badge { display: flex; align-items: center; gap: 10px; padding: 0 28px; }
+.trust-icon { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.trust-text { font-size: 13px; color: rgba(255,255,255,0.7); letter-spacing: 1px; font-weight: 500; }
+.trust-divider { width: 1px; height: 28px; background: rgba(218,165,32,0.2); }
 .testimonials { padding: 100px 40px; background: var(--bg-warm); }
 .testimonials-inner { max-width: 1300px; margin: 0 auto; }
 .test-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
@@ -668,6 +673,27 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
     <div class="stat"><span class="stat-number">100%</span><span class="stat-label">Pure Glass</span></div>
     <div class="stat"><span class="stat-number">200+</span><span class="stat-label">Color Shades</span></div>
     <div class="stat"><span class="stat-number">Since 1984</span><span class="stat-label">New Milan Trader</span></div>
+  </div>
+  <div class="trust-badges reveal">
+    <div class="trust-badge">
+      <div class="trust-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#DAA520" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div>
+      <span class="trust-text">100% Pure Glass</span>
+    </div>
+    <div class="trust-divider"></div>
+    <div class="trust-badge">
+      <div class="trust-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#DAA520" stroke-width="1.5"><rect x="1" y="3" width="15" height="13" rx="1"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+      <span class="trust-text">Free Shipping &#8377;250+</span>
+    </div>
+    <div class="trust-divider"></div>
+    <div class="trust-badge">
+      <div class="trust-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#DAA520" stroke-width="1.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 002 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+      <span class="trust-text">Safe Thermocol Packing</span>
+    </div>
+    <div class="trust-divider"></div>
+    <div class="trust-badge">
+      <div class="trust-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#DAA520" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
+      <span class="trust-text">Handcrafted with Care</span>
+    </div>
   </div>
 </section>
 
