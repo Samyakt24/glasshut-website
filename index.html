@@ -1145,7 +1145,7 @@ function slideProduct(groupId,idx){
 document.querySelectorAll('.slide-dot').forEach(function(dot){
   dot.onclick=function(){slideProduct(this.dataset.slide,parseInt(this.dataset.idx));};
 });
-var slideGroups=['lm','dm','lc','dmc'];
+var slideGroups=['lm','dm','lgc','dmc'];
 slideGroups.forEach(function(gid){
   var imgs=document.querySelectorAll('img[data-slide="'+gid+'"]');
   if(imgs.length<2)return;
