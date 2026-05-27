@@ -1,0 +1,210 @@
+====================================================
+GLASSHUT — HOW TO ADD A NEW PRODUCT
+====================================================
+
+STEP 1: UPLOAD YOUR IMAGES
+----------------------------
+Upload your product images to this folder on your server:
+images/products/
+
+Example:
+images/products/red-bangles1.jpg
+images/products/red-bangles2.jpg
+
+Tip: Compress images before uploading at squoosh.app
+
+
+====================================================
+STEP 2: ADD PRODUCT CARD IN index.html
+====================================================
+
+Find this line in index.html:
+<div class="products-grid" id="productsGrid">
+
+Add the following code block INSIDE that section,
+just before the closing </div> of products-grid.
+
+---- COPY FROM HERE ----
+
+<div class="product-card reveal" data-cat="CATEGORY">
+  <div class="product-badge">BADGE TEXT</div>
+  <div class="product-image" style="background:#F0F4F8;overflow:hidden;">
+    <div class="img-skeleton" id="skel-XX"></div>
+    <img class="product-photo active"
+         src="images/products/YOUR-IMAGE-1.jpg"
+         alt="Product Name"
+         data-slide="XX"
+         loading="lazy"
+         width="400" height="260"
+         onload="this.classList.add('loaded');var s=document.getElementById('skel-XX');if(s)s.remove();">
+    <img class="product-photo"
+         src="images/products/YOUR-IMAGE-2.jpg"
+         alt="Product Name"
+         data-slide="XX"
+         loading="lazy"
+         width="400" height="260">
+    <div class="slide-dots">
+      <span class="slide-dot active" data-slide="XX" data-idx="0"></span>
+      <span class="slide-dot" data-slide="XX" data-idx="1"></span>
+    </div>
+  </div>
+  <div class="product-info">
+    <h3 class="product-name">PRODUCT NAME</h3>
+    <p class="product-desc">Short description here</p>
+    <div class="product-price">&#8377;PRICE</div>
+    <button class="add-to-cart"
+            data-name="PRODUCT NAME"
+            data-price="PRICE"
+            data-color="#COLOR">Select Size &amp; Add</button>
+  </div>
+</div>
+
+---- COPY UNTIL HERE ----
+
+
+====================================================
+WHAT TO REPLACE — FILL IN THESE VALUES
+====================================================
+
+CATEGORY     = Which tab it appears under
+               Options: bridal
+                        aesthetic
+                        trending
+                        daily
+                        daily trending   (appears in both)
+
+BADGE TEXT   = Small label shown on top left of card
+               Examples: New, Bridal, Trending, Everyday
+
+XX           = A short unique ID for this product
+               Use 2-3 letters, no spaces
+               Examples: rb, gm, pk, bl
+               IMPORTANT: Must be different for every product
+               Current IDs already used: lm, dm, lgc, dmc, rnc
+
+YOUR-IMAGE-1 = First product image filename
+YOUR-IMAGE-2 = Second product image filename
+               (If only 1 image, use same image for both)
+
+PRODUCT NAME = Full product name shown on card
+               Example: Red Multi Bangles
+
+PRICE        = Price in numbers only, no rupee symbol
+               Example: 150
+
+#COLOR       = Color of the circle shown in cart
+               Use a hex color matching your product
+               Examples:
+               Red bangles    = #C0392B
+               Blue bangles   = #2E86C1
+               Green bangles  = #27AE60
+               Pink bangles   = #E91E8C
+               Gold/Yellow    = #F39C12
+               Purple         = #8E44AD
+               Multi color    = linear-gradient(135deg,#5DADE2,#F5B041,#58D68D)
+
+
+====================================================
+STEP 3: UPDATE app.js — ADD TO SLIDESHOW
+====================================================
+
+Open app.js and find this line:
+
+var slideGroups = ['lm', 'dm', 'lgc', 'dmc', 'rnc'];
+
+Add your new product ID at the end:
+
+var slideGroups = ['lm', 'dm', 'lgc', 'dmc', 'rnc', 'XX'];
+
+Replace XX with your actual product ID.
+
+Example if you added Red Bangles with ID "rb":
+var slideGroups = ['lm', 'dm', 'lgc', 'dmc', 'rnc', 'rb'];
+
+
+====================================================
+STEP 4: UPDATE VERSION NUMBER
+====================================================
+
+After saving changes, open index.html and find:
+
+<link rel="stylesheet" href="styles.css?v=1">
+<script src="app.js?v=1"></script>
+
+Change v=1 to v=2 (or next number):
+
+<link rel="stylesheet" href="styles.css?v=1">
+<script src="app.js?v=2"></script>
+
+This forces all browsers to load the new app.js.
+Only update the number for the file you changed.
+
+
+====================================================
+REAL EXAMPLE — RED MULTI BANGLES
+====================================================
+
+<div class="product-card reveal" data-cat="daily trending">
+  <div class="product-badge">New</div>
+  <div class="product-image" style="background:#FFE8E8;overflow:hidden;">
+    <div class="img-skeleton" id="skel-rb"></div>
+    <img class="product-photo active"
+         src="images/products/red-bangles1.jpg"
+         alt="Red Multi Bangles"
+         data-slide="rb"
+         loading="lazy"
+         width="400" height="260"
+         onload="this.classList.add('loaded');var s=document.getElementById('skel-rb');if(s)s.remove();">
+    <img class="product-photo"
+         src="images/products/red-bangles2.jpg"
+         alt="Red Multi Bangles"
+         data-slide="rb"
+         loading="lazy"
+         width="400" height="260">
+    <div class="slide-dots">
+      <span class="slide-dot active" data-slide="rb" data-idx="0"></span>
+      <span class="slide-dot" data-slide="rb" data-idx="1"></span>
+    </div>
+  </div>
+  <div class="product-info">
+    <h3 class="product-name">Red Multi Bangles</h3>
+    <p class="product-desc">Vibrant red multi-color glass bangles</p>
+    <div class="product-price">&#8377;150</div>
+    <button class="add-to-cart"
+            data-name="Red Multi Bangles"
+            data-price="150"
+            data-color="#C0392B">Select Size &amp; Add</button>
+  </div>
+</div>
+
+And in app.js update to:
+var slideGroups = ['lm', 'dm', 'lgc', 'dmc', 'rnc', 'rb'];
+
+
+====================================================
+QUICK CHECKLIST FOR EVERY NEW PRODUCT
+====================================================
+
+[ ] 1. Compress images at squoosh.app
+[ ] 2. Upload images to images/products/ folder
+[ ] 3. Copy template into index.html inside products-grid
+[ ] 4. Replace all placeholders (CATEGORY, XX, NAME, PRICE, COLOR)
+[ ] 5. Add new ID to slideGroups in app.js
+[ ] 6. Update version number ?v=X in index.html
+[ ] 7. Upload updated index.html and app.js to server
+[ ] 8. Test in browser (Incognito mode)
+
+
+====================================================
+NEED HELP?
+====================================================
+
+If something doesn't work, check:
+- Is the product ID (XX) unique? Not used by another product?
+- Is the image filename spelled exactly right?
+- Is the image uploaded to the correct folder?
+- Did you update the version number in index.html?
+
+====================================================
+END OF GUIDE
+====================================================
