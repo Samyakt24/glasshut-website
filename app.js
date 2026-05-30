@@ -375,7 +375,7 @@ document.querySelectorAll('.slide-dot').forEach(function(dot) {
 });
 
 // CHANGE 6: Delay slideshow until products section is visible
-var slideGroups = ['lm', 'dm', 'lgc', 'dmc', 'rnc'];
+var slideGroups = ['lm', 'dm', 'lgc', 'dmc', 'rnc', 'sb', 'cr'];
 var slideshowStarted = false;
 var productsSection = document.getElementById('products');
 var slideObs = new IntersectionObserver(function(entries) {

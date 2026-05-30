@@ -196,7 +196,7 @@ nav a:hover { color: var(--copper-light); }
 .product-card:hover { transform: translateY(-8px); box-shadow: 0 20px 60px rgba(30,45,80,0.1); border-color: var(--teal); }
 .product-card.hidden { display: none; }
 .product-badge { position: absolute; top: 16px; left: 16px; background: var(--navy); color: var(--copper-light); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 6px 14px; font-weight: 600; z-index: 2; border-radius: 2px; }
-.product-image { width: 100%; height: 260px; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+.product-image { position: relative; aspect-ratio: 1 / 1; overflow: hidden; background: #f8f9fa; }
 .product-image-inner { display: flex; align-items: center; justify-content: center; gap: 4px; transition: transform 0.5s; }
 .product-card:hover .product-image-inner { transform: scale(1.06); }
 .product-photo { width: 100%; height: 100%; object-fit: cover; border-radius: 4px 4px 0 0; transition: opacity 0.6s ease, transform 0.6s ease; position: absolute; top: 0; left: 0; opacity: 0; }
@@ -619,73 +619,95 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
   </div>
 </div>
 
-<div class="product-card reveal" data-cat="bridal"><div class="product-badge">Bridal</div>
-  <div class="product-image" style="background:linear-gradient(135deg,#F0E0E8,#E0C8D8);overflow:hidden;">
-    
-    <div class="img-skeleton" id="skel-dmc"></div>
-    
-    <img class="product-photo active" 
-         src="images/products/CrimsonRed1.webp" 
-         alt="Crimson Red" 
-         data-slide="dmc" 
-         loading="lazy" 
+<!-- =============================================================
+     Crimson Red – product card
+     ============================================================= -->
+<div class="product-card reveal" data-cat="bridal">
+  <div class="product-badge">Bridal</div>
+
+  <div class="product-image"
+       style="background:linear-gradient(135deg,#F0E0E8,#E0C8D8);overflow:hidden;">
+
+    <div class="img-skeleton" id="skel-cr"></div>
+
+    <img class="product-photo active"
+         src="images/products/CrimsonRed1.webp"
+         alt="Crimson Red"
+         data-slide="cr"
+         loading="lazy"
          decoding="async"
-         onload="this.classList.add('loaded');var s=document.getElementById('skel-dmc');if(s)s.remove();">
-         
-    <img class="product-photo" 
-         src="images/products/CrimsonRed2.webp" 
-         alt="Crimson Red" 
-         data-slide="dmc" 
+         style="object-fit: contain; transition:opacity .35s ease;"
+         onload="this.classList.add('loaded');var s=document.getElementById('skel-cr');if(s)s.remove();">
+
+    <img class="product-photo"
+         src="images/products/CrimsonRed2.webp"
+         alt="Crimson Red"
+         data-slide="cr"
          fetchpriority="low"
-         decoding="async">
-         
+         decoding="async"
+         style="object-fit: contain; transition:opacity .35s ease;">
+    
     <div class="slide-dots">
-      <span class="slide-dot active" data-slide="dmc" data-idx="0"></span>
-      <span class="slide-dot" data-slide="dmc" data-idx="1"></span>
+      <span class="slide-dot active"
+            data-slide="cr"
+            data-idx="0"
+            style="transition:background-color .2s ease, transform .2s ease;"></span>
+      <span class="slide-dot"
+            data-slide="cr"
+            data-idx="1"
+            style="transition:background-color .2s ease, transform .2s ease;"></span>
     </div>
   </div>
-  
+
   <div class="product-info">
     <h3 class="product-name">Crimson Red</h3>
     <p class="product-desc">Crimson Red description</p>
-    <div class="product-set-tag">24-Piece Chuda Set</div>
+    <div class="product-set-tag">24‑Piece Chuda Set</div>
     <div class="product-price">&#8377;240</div>
-    <button class="add-to-cart" data-name="Crimson Red (24pc)" data-price="240" data-color="linear-gradient(135deg,#922B21,#1A5276)">Select Size &amp; Add</button>
+    <button class="add-to-cart"
+            data-name="Crimson Red (24pc)"
+            data-price="240"
+            data-color="linear-gradient(135deg,#922B21,#1A5276)">
+      Select Size &amp; Add
+    </button>
   </div>
 </div>
 
-<div class="product-card reveal" data-cat="bridal"><div class="product-badge">Bridal</div>
-  <div class="product-image" style="background:linear-gradient(135deg,#F0E0E8,#E0C8D8);overflow:hidden;">
-    
-    <div class="img-skeleton" id="skel-dmc"></div>
-    
-    <img class="product-photo active" 
-         src="images/products/SapphireBlue1.webp" 
-         alt="Sapphire Blue" 
-         data-slide="dmc" 
-         loading="lazy" 
-         decoding="async"
-         onload="this.classList.add('loaded');var s=document.getElementById('skel-dmc');if(s)s.remove();">
-         
-    <img class="product-photo" 
-         src="images/products/SapphireBlue2.webp" 
-         alt="Sapphire Blue" 
-         data-slide="dmc" 
-         fetchpriority="low"
-         decoding="async">
-         
-    <div class="slide-dots">
-      <span class="slide-dot active" data-slide="dmc" data-idx="0"></span>
-      <span class="slide-dot" data-slide="dmc" data-idx="1"></span>
-    </div>
+
+
+<div class="product-card reveal" data-cat="bridal">
+  <div class="product-badge">Bridal</div>
+  <div class="product-image" style="background:#F0F4F8;overflow:hidden;">
+  
+  <div class="img-skeleton" id="skel-sb"></div>
+  
+  <img class="product-photo active" 
+       src="images/products/SapphireBlue1.webp" 
+       alt="Sapphire Blue"
+       data-slide="sb"
+       style="object-fit: contain;"
+       onload="this.classList.add('loaded');var s=document.getElementById('skel-sb');if(s)s.remove();">
+       
+  <img class="product-photo" 
+       src="images/products/SapphireBlue2.webp" 
+       alt="Sapphire Blue" 
+       data-slide="sb" 
+       fetchpriority="low"
+       decoding="async"
+       style="object-fit: contain;">
+       
+  <div class="slide-dots">
+    <span class="slide-dot active" data-slide="sb" data-idx="0"></span>
+    <span class="slide-dot" data-slide="sb" data-idx="1"></span>
   </div>
+</div>
   
   <div class="product-info">
     <h3 class="product-name">Sapphire Blue</h3>
     <p class="product-desc">Sapphire Blue description</p>
     <div class="product-set-tag">24-Piece Chuda Set</div>
     <div class="product-price">&#8377;240</div>
-    <button class="add-to-cart" data-name="Sapphire Blue (24pc)" data-price="240" data-color="linear-gradient(135deg,#922B21,#1A5276)">Select Size &amp; Add</button>
+    <button class="add-to-cart" data-name="Sapphire Blue (24pc)" data-price="240" data-color="#1A2740">Select Size &amp; Add</button>
   </div>
 </div>
 
