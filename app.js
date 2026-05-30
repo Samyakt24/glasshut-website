@@ -2,6 +2,7 @@
 
 var UPI_ID = 'samyaktjain1999-2@okicici';
 var cart = [];
+var isChampionApplied = false; // Just a simple ON/OFF switch! 
 var pendingProduct = null;
 var selectedSize = null;
 
@@ -87,8 +88,13 @@ function addToCart(name, price, color, size) {
 
 function getTotal() { return cart.reduce(function(s, i) { return s + i.price * i.qty; }, 0); }
 function getShipping() { return getTotal() >= 250 ? 0 : 20; }
-function getGrandTotal() { return getTotal() + getShipping(); }
 
+// --- NEW DYNAMIC DISCOUNT MATH ---
+function getDiscountAmount() { 
+    if (!isChampionApplied) return 0; // If switch is OFF, no discount
+    return getTotal() > 240 ? 40 : 20; // If switch is ON, automatically pick 40 or 20!
+}
+function getGrandTotal() { return Math.max(0, getTotal() + getShipping() - getDiscountAmount()); }
 function updateCartUI() {
   var subtotal = getTotal(), shipping = getShipping(), total = getGrandTotal();
   var count = cart.reduce(function(s, i) { return s + i.qty; }, 0);
@@ -443,3 +449,122 @@ document.querySelectorAll('a[href^="#"]').forEach(function(a) {
     if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 });
+
+// ==========================================
+//        COUPON CODE SYSTEM
+// ==========================================
+
+// Memory variable to remember how much we discounted
+
+function applyDiscount() {
+    let couponInput = document.getElementById("couponCode");
+    let enteredCode = couponInput.value.trim().toUpperCase(); 
+    let finalTotalDisplay = document.getElementById("cartTotal");
+    
+    // Safety check to ensure the ID exists
+    if (!finalTotalDisplay) {
+        alert("Developer Error: Could not find id='cartTotal' in your HTML.");
+        return; 
+    }
+    
+    // Get the current total number and ignore the ₹ symbol
+    let currentTotal = parseInt(finalTotalDisplay.innerText.replace(/\D/g, ''));
+
+    // --- ACTIVE CODE: CHAMPION26 ---
+    // (Q0hBTVBJT04yNg== is the scrambled Base64 version of CHAMPION26)
+    if (btoa(enteredCode) === "Q0hBTVBJT04yNg==") { 
+        
+        // Tiered Discount Logic
+        if (currentTotal > 240) {
+            appliedDiscountAmount = 40; // Higher discount for orders over ₹240
+            alert("Success! You unlocked the VIP tier: ₹40 off!");
+        } else {
+            appliedDiscountAmount = 20; // Standard discount for orders ₹240 and under
+            alert("Success! Champion discount applied: ₹20 off.");
+        }
+        
+        // Calculate the new total
+        let newTotal = currentTotal - appliedDiscountAmount;
+        
+        // Update the screen with the ₹ symbol
+        finalTotalDisplay.innerHTML = "&#8377;" + newTotal;
+        
+        // Change the button into a "Remove" button
+        let btn = document.querySelector("button[onclick='applyDiscount()']");
+        if (btn) {
+            btn.innerText = "Remove";
+            btn.style.backgroundColor = "#d9534f"; // Red color
+            btn.setAttribute("onclick", "removeDiscount()"); // Change the click action
+        }
+        
+        // Lock the input box
+        couponInput.disabled = true;
+
+    } else {
+        alert("Sorry, that code is invalid or expired.");
+    }
+}
+
+// --- FUNCTION TO REMOVE THE DISCOUNT ---
+// ==========================================
+//        COUPON CODE SYSTEM
+// ==========================================
+
+// Note: appliedDiscountAmount is now declared at the top of the file!
+
+// ==========================================
+//        COUPON CODE SYSTEM
+// ==========================================
+
+function applyDiscount() {
+    let couponInput = document.getElementById("couponCode");
+    let enteredCode = couponInput.value.trim().toUpperCase(); 
+
+    if (btoa(enteredCode) === "Q0hBTVBJT04yNg==") { 
+        
+        // 1. Flip the coupon switch to ON
+        isChampionApplied = true; 
+        
+        // 2. Trigger your main cart system to recalculate everything dynamically!
+        updateCartUI(); 
+
+        // 3. Give the customer the right alert based on the current math
+        if (getTotal() > 240) {
+            alert("Success! You unlocked the VIP tier: ₹40 off!");
+        } else {
+            alert("Success! Champion discount applied: ₹20 off.");
+        }
+        
+        // 4. Change button to "Remove"
+        let btn = document.querySelector("button[onclick='applyDiscount()']");
+        if (btn) {
+            btn.innerText = "Remove";
+            btn.style.backgroundColor = "#d9534f"; 
+            btn.setAttribute("onclick", "removeDiscount()"); 
+        }
+        couponInput.disabled = true;
+
+    } else {
+        alert("Sorry, that code is invalid or expired.");
+    }
+}
+
+function removeDiscount() {
+    // 1. Flip the switch back to OFF
+    isChampionApplied = false;
+
+    // 2. Trigger the cart to recalculate everything without the discount
+    updateCartUI(); 
+
+    // 3. Reset the input box and button
+    let couponInput = document.getElementById("couponCode");
+    couponInput.value = "";
+    couponInput.disabled = false;
+
+    let btn = document.querySelector("button[onclick='removeDiscount()']");
+    if (btn) {
+        btn.innerText = "Apply";
+        btn.style.backgroundColor = "#2e8b74"; 
+        btn.setAttribute("onclick", "applyDiscount()"); 
+    }
+}

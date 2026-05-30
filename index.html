@@ -396,6 +396,13 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
       </div>
       <div id="pinLoading" style="font-size:11px;color:var(--teal);margin-top:-6px;margin-bottom:6px;display:none;"></div>
     </div>
+    
+<div style="display: flex; gap: 10px; margin-bottom: 20px;">
+    <input type="text" id="couponCode" placeholder="Enter Promo Code" style="flex: 1; padding: 10px; border: 1px solid #d1d5db; border-radius: 4px; font-size: 14px; outline: none;">
+    <button onclick="applyDiscount()" style="background-color: #2e8b74; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; transition: 0.3s;">Apply</button>
+</div>
+
+
     <div class="cart-total" style="margin-bottom:8px"><span class="cart-total-label">Subtotal</span><span class="cart-total-amount" id="cartSubtotal" style="font-size:20px">&#8377;0</span></div>
     <div class="cart-total" style="margin-bottom:8px"><span class="cart-total-label" id="shippingLabel">Shipping</span><span id="cartShipping" style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--teal)">&#8377;20</span></div>
     <div style="border-top:1px solid rgba(42,139,122,0.15);padding-top:12px;margin-bottom:16px" class="cart-total"><span class="cart-total-label" style="font-weight:700;color:var(--navy)">Total</span><span class="cart-total-amount" id="cartTotal">&#8377;0</span></div>
