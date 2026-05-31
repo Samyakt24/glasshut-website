@@ -237,7 +237,12 @@ function autoPincode(val) {
     })
     .catch(function() { loader.style.display = 'none'; });
 }
-
+let pincodeInput = document.getElementById('custPincode');
+if (pincodeInput) {
+    pincodeInput.addEventListener('input', function() {
+        autoPincode(this.value);
+    });
+}
 /* ===== GOOGLE SHEET API ===== */
 var SHEET_API = 'https://script.google.com/macros/s/AKfycbwQbmL-6ORgm_t96KRwDpd4S4MluzY9Tq6hO2THwPrsDIaBbIx8l6U3XVFoBjAAV9s78w/exec';
 
