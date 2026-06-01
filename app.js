@@ -22,7 +22,13 @@ var sizeModalTitle = document.getElementById('sizeModalTitle');
 var placeOrderBtn = document.getElementById('placeOrderBtn');
 
 /* ===== CART DRAWER ===== */
-function openCart() { cartOverlay.classList.add('open'); cartDrawer.classList.add('open'); document.body.style.overflow = 'hidden'; }
+/* ===== CART DRAWER ===== */
+function openCart() { 
+    cartOverlay.classList.add('open'); 
+    cartDrawer.classList.add('open'); 
+    document.body.style.overflow = 'hidden'; 
+    loadSavedCustomer(); // <--- This forces the boxes to refill the exact second the cart slides open!
+}
 function closeCart() { cartOverlay.classList.remove('open'); cartDrawer.classList.remove('open'); document.body.style.overflow = ''; }
 cartBtn.onclick = openCart;
 cartOverlay.onclick = closeCart;
@@ -348,6 +354,7 @@ document.getElementById('iHavePaidBtn').onclick = function() {
   document.getElementById('orderId').textContent = 'Order #' + pendingOrder.orderId;
   document.getElementById('orderConfirmSummary').innerHTML = document.getElementById('orderSummaryBox').innerHTML;
   sendToSheet(pendingOrder);
+  saveCustomerDetails();
   document.getElementById('payStep').style.display = 'none';
   document.getElementById('confirmStep').style.display = 'block';
 };
@@ -573,3 +580,44 @@ function removeDiscount() {
         btn.setAttribute("onclick", "applyDiscount()"); 
     }
 }
+// ==========================================
+//        SAVE CUSTOMER DETAILS
+// ==========================================
+
+// 1. This function runs when the page loads to check for saved info
+// ==========================================
+//        SAVE CUSTOMER DETAILS
+// ==========================================
+
+function loadSavedCustomer() {
+    let savedData = localStorage.getItem("glasshut_customer");
+    if (savedData) {
+        let customer = JSON.parse(savedData);
+        document.getElementById('custName').value = customer.name || '';
+        document.getElementById('custPhone').value = customer.phone || '';
+        document.getElementById('custEmail').value = customer.email || '';
+        document.getElementById('custAddress').value = customer.address || '';
+        document.getElementById('custPincode').value = customer.pincode || '';
+        
+        // If there's a pincode, automatically fetch the city!
+        if (customer.pincode && customer.pincode.length === 6) {
+            autoPincode(customer.pincode);
+        }
+    }
+}
+
+function saveCustomerDetails() {
+    let customer = {
+        name: document.getElementById('custName').value.trim(),
+        phone: document.getElementById('custPhone').value.trim(),
+        email: document.getElementById('custEmail').value.trim(),
+        address: document.getElementById('custAddress').value.trim(),
+        pincode: document.getElementById('custPincode').value.trim()
+    };
+    localStorage.setItem("glasshut_customer", JSON.stringify(customer));
+}
+
+// This forces the script to wait until the HTML form is completely visible!
+document.addEventListener("DOMContentLoaded", function() {
+    loadSavedCustomer();
+});
