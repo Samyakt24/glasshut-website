@@ -22,14 +22,17 @@ var sizeModalTitle = document.getElementById('sizeModalTitle');
 var placeOrderBtn = document.getElementById('placeOrderBtn');
 
 /* ===== CART DRAWER ===== */
-/* ===== CART DRAWER ===== */
 function openCart() { 
     cartOverlay.classList.add('open'); 
     cartDrawer.classList.add('open'); 
     document.body.style.overflow = 'hidden'; 
-    loadSavedCustomer(); // <--- This forces the boxes to refill the exact second the cart slides open!
+    loadSavedCustomer(); 
 }
-function closeCart() { cartOverlay.classList.remove('open'); cartDrawer.classList.remove('open'); document.body.style.overflow = ''; }
+function closeCart() { 
+    cartOverlay.classList.remove('open'); 
+    cartDrawer.classList.remove('open'); 
+    document.body.style.overflow = ''; 
+}
 cartBtn.onclick = openCart;
 cartOverlay.onclick = closeCart;
 cartClose.onclick = closeCart;
@@ -93,19 +96,25 @@ function addToCart(name, price, color, size) {
 }
 
 function getTotal() { return cart.reduce(function(s, i) { return s + i.price * i.qty; }, 0); }
-function getShipping() { return getTotal() >= 250 ? 0 : 20; }
+function getShipping() { return getTotal() >= 250 ? 0 : 50; }
 
-// --- NEW DYNAMIC DISCOUNT MATH ---
+// --- DYNAMIC DISCOUNT MATH ---
 function getDiscountAmount() { 
-    if (!isChampionApplied) return 0; // If switch is OFF, no discount
-    return getTotal() > 240 ? 40 : 20; // If switch is ON, automatically pick 40 or 20!
+    if (!isChampionApplied) return 0; 
+    return getTotal() > 240 ? 40 : 20; 
 }
-function getGrandTotal() { return Math.max(0, getTotal() + getShipping() - getDiscountAmount()); }
+
+function getGrandTotal() { 
+    return Math.max(0, getTotal() + getShipping() - getDiscountAmount()); 
+}
+
 function updateCartUI() {
   var subtotal = getTotal(), shipping = getShipping(), total = getGrandTotal();
   var count = cart.reduce(function(s, i) { return s + i.qty; }, 0);
+  
   cartCount.textContent = count;
   cartCount.style.display = count > 0 ? 'flex' : 'none';
+  
   var cartSubtotal = document.getElementById('cartSubtotal');
   var cartShipping = document.getElementById('cartShipping');
   var shippingLabel = document.getElementById('shippingLabel');
@@ -117,7 +126,9 @@ function updateCartUI() {
   } else {
     cartEmpty.style.display = 'none';
     cartFooter.style.display = 'block';
+    
     cartSubtotal.innerHTML = '&#8377;' + subtotal.toLocaleString('en-IN');
+    
     if (shipping === 0) {
       cartShipping.innerHTML = 'FREE';
       cartShipping.style.color = 'var(--teal)';
@@ -127,7 +138,11 @@ function updateCartUI() {
       cartShipping.style.color = 'var(--copper-dark)';
       shippingLabel.innerHTML = 'Shipping <span style="font-size:10px;opacity:0.6">(Free above &#8377;250)</span>';
     }
-    cartTotal.innerHTML = '&#8377;' + total.toLocaleString('en-IN');
+    
+    if (cartTotal) {
+        cartTotal.innerHTML = '&#8377;' + total.toLocaleString('en-IN');
+    }
+    
     cartItems.querySelectorAll('.cart-item').forEach(function(i) { i.remove(); });
 
     cart.forEach(function(item, idx) {
@@ -249,6 +264,7 @@ if (pincodeInput) {
         autoPincode(this.value);
     });
 }
+
 /* ===== GOOGLE SHEET API ===== */
 var SHEET_API = 'https://script.google.com/macros/s/AKfycbwQbmL-6ORgm_t96KRwDpd4S4MluzY9Tq6hO2THwPrsDIaBbIx8l6U3XVFoBjAAV9s78w/exec';
 
@@ -282,7 +298,6 @@ function sendToSheet(data) {
 var pendingOrder = null;
 var pendingQR = null;
 
-// CHANGE 5: Load QR library on demand
 function loadQRLibrary() {
   return new Promise(function(resolve) {
     if (window.QRCode) return resolve();
@@ -326,6 +341,12 @@ function _showPaymentStep() {
     cart.forEach(function(item) {
       html += '<div class="os-row"><span>' + item.name + ' (Size ' + item.size + ') x' + item.qty + '</span><span>&#8377;' + (item.price * item.qty) + '</span></div>';
     });
+    
+    // Add discount line to summary if applied
+    if (isChampionApplied) {
+       html += '<div class="os-row" style="color:#d9534f"><span>Discount</span><span>- &#8377;' + getDiscountAmount() + '</span></div>';
+    }
+    
     html += '<div class="os-row"><span>Shipping</span><span>' + (shipping === 0 ? 'FREE' : '&#8377;' + shipping) + '</span></div>';
     html += '<div class="os-row total"><span>Total</span><span>&#8377;' + total + '</span></div>';
     html += '<div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(42,139,122,0.15)"><div class="os-row"><span>Deliver to</span></div><div style="color:#1E2D50;font-weight:600;padding:4px 0">' + custName + '</div><div style="font-size:12px;color:#6B7A8D">' + custAddress + ', ' + custCity + ', ' + custState + ' - ' + custPincode + '</div></div>';
@@ -348,7 +369,6 @@ function _showPaymentStep() {
   }
 }
 
-// "I Have Paid" button
 document.getElementById('iHavePaidBtn').onclick = function() {
   if (!pendingOrder) return;
   document.getElementById('orderId').textContent = 'Order #' + pendingOrder.orderId;
@@ -359,7 +379,6 @@ document.getElementById('iHavePaidBtn').onclick = function() {
   document.getElementById('confirmStep').style.display = 'block';
 };
 
-// Cancel payment
 document.getElementById('cancelPayBtn').onclick = function() {
   document.getElementById('orderConfirmOverlay').classList.remove('open');
   document.body.style.overflow = '';
@@ -367,7 +386,6 @@ document.getElementById('cancelPayBtn').onclick = function() {
   openCart();
 };
 
-// Done — reset
 document.getElementById('orderDoneBtn').onclick = function() {
   document.getElementById('orderConfirmOverlay').classList.remove('open');
   document.body.style.overflow = '';
@@ -384,15 +402,14 @@ function slideProduct(groupId, idx) {
   var dots = document.querySelectorAll('.slide-dot[data-slide="' + groupId + '"]');
   imgs.forEach(function(img) { img.classList.remove('active'); });
   dots.forEach(function(dot) { dot.classList.remove('active'); });
-  imgs[idx].classList.add('active');
-  dots[idx].classList.add('active');
+  if(imgs[idx]) imgs[idx].classList.add('active');
+  if(dots[idx]) dots[idx].classList.add('active');
 }
 
 document.querySelectorAll('.slide-dot').forEach(function(dot) {
   dot.onclick = function() { slideProduct(this.dataset.slide, parseInt(this.dataset.idx)); };
 });
 
-// CHANGE 6: Delay slideshow until products section is visible
 var slideGroups = ['lm', 'dm', 'lgc', 'dmc', 'rnc', 'sb', 'cr'];
 var slideshowStarted = false;
 var productsSection = document.getElementById('products');
@@ -466,88 +483,22 @@ document.querySelectorAll('a[href^="#"]').forEach(function(a) {
 //        COUPON CODE SYSTEM
 // ==========================================
 
-// Memory variable to remember how much we discounted
-
 function applyDiscount() {
     let couponInput = document.getElementById("couponCode");
-    let enteredCode = couponInput.value.trim().toUpperCase(); 
-    let finalTotalDisplay = document.getElementById("cartTotal");
+    if(!couponInput) return; // safety check
     
-    // Safety check to ensure the ID exists
-    if (!finalTotalDisplay) {
-        alert("Developer Error: Could not find id='cartTotal' in your HTML.");
-        return; 
-    }
-    
-    // Get the current total number and ignore the ₹ symbol
-    let currentTotal = parseInt(finalTotalDisplay.innerText.replace(/\D/g, ''));
-
-    // --- ACTIVE CODE: CHAMPION26 ---
-    // (Q0hBTVBJT04yNg== is the scrambled Base64 version of CHAMPION26)
-    if (btoa(enteredCode) === "Q0hBTVBJT04yNg==") { 
-        
-        // Tiered Discount Logic
-        if (currentTotal > 240) {
-            appliedDiscountAmount = 40; // Higher discount for orders over ₹240
-            alert("Success! You unlocked the VIP tier: ₹40 off!");
-        } else {
-            appliedDiscountAmount = 20; // Standard discount for orders ₹240 and under
-            alert("Success! Champion discount applied: ₹20 off.");
-        }
-        
-        // Calculate the new total
-        let newTotal = currentTotal - appliedDiscountAmount;
-        
-        // Update the screen with the ₹ symbol
-        finalTotalDisplay.innerHTML = "&#8377;" + newTotal;
-        
-        // Change the button into a "Remove" button
-        let btn = document.querySelector("button[onclick='applyDiscount()']");
-        if (btn) {
-            btn.innerText = "Remove";
-            btn.style.backgroundColor = "#d9534f"; // Red color
-            btn.setAttribute("onclick", "removeDiscount()"); // Change the click action
-        }
-        
-        // Lock the input box
-        couponInput.disabled = true;
-
-    } else {
-        alert("Sorry, that code is invalid or expired.");
-    }
-}
-
-// --- FUNCTION TO REMOVE THE DISCOUNT ---
-// ==========================================
-//        COUPON CODE SYSTEM
-// ==========================================
-
-// Note: appliedDiscountAmount is now declared at the top of the file!
-
-// ==========================================
-//        COUPON CODE SYSTEM
-// ==========================================
-
-function applyDiscount() {
-    let couponInput = document.getElementById("couponCode");
     let enteredCode = couponInput.value.trim().toUpperCase(); 
 
     if (btoa(enteredCode) === "Q0hBTVBJT04yNg==") { 
-        
-        // 1. Flip the coupon switch to ON
         isChampionApplied = true; 
-        
-        // 2. Trigger your main cart system to recalculate everything dynamically!
         updateCartUI(); 
 
-        // 3. Give the customer the right alert based on the current math
         if (getTotal() > 240) {
             alert("Success! You unlocked the VIP tier: ₹40 off!");
         } else {
             alert("Success! Champion discount applied: ₹20 off.");
         }
         
-        // 4. Change button to "Remove"
         let btn = document.querySelector("button[onclick='applyDiscount()']");
         if (btn) {
             btn.innerText = "Remove";
@@ -562,16 +513,14 @@ function applyDiscount() {
 }
 
 function removeDiscount() {
-    // 1. Flip the switch back to OFF
     isChampionApplied = false;
-
-    // 2. Trigger the cart to recalculate everything without the discount
     updateCartUI(); 
 
-    // 3. Reset the input box and button
     let couponInput = document.getElementById("couponCode");
-    couponInput.value = "";
-    couponInput.disabled = false;
+    if(couponInput) {
+        couponInput.value = "";
+        couponInput.disabled = false;
+    }
 
     let btn = document.querySelector("button[onclick='removeDiscount()']");
     if (btn) {
@@ -580,11 +529,7 @@ function removeDiscount() {
         btn.setAttribute("onclick", "applyDiscount()"); 
     }
 }
-// ==========================================
-//        SAVE CUSTOMER DETAILS
-// ==========================================
 
-// 1. This function runs when the page loads to check for saved info
 // ==========================================
 //        SAVE CUSTOMER DETAILS
 // ==========================================
@@ -593,13 +538,12 @@ function loadSavedCustomer() {
     let savedData = localStorage.getItem("glasshut_customer");
     if (savedData) {
         let customer = JSON.parse(savedData);
-        document.getElementById('custName').value = customer.name || '';
-        document.getElementById('custPhone').value = customer.phone || '';
-        document.getElementById('custEmail').value = customer.email || '';
-        document.getElementById('custAddress').value = customer.address || '';
-        document.getElementById('custPincode').value = customer.pincode || '';
+        if(document.getElementById('custName')) document.getElementById('custName').value = customer.name || '';
+        if(document.getElementById('custPhone')) document.getElementById('custPhone').value = customer.phone || '';
+        if(document.getElementById('custEmail')) document.getElementById('custEmail').value = customer.email || '';
+        if(document.getElementById('custAddress')) document.getElementById('custAddress').value = customer.address || '';
+        if(document.getElementById('custPincode')) document.getElementById('custPincode').value = customer.pincode || '';
         
-        // If there's a pincode, automatically fetch the city!
         if (customer.pincode && customer.pincode.length === 6) {
             autoPincode(customer.pincode);
         }
@@ -608,16 +552,15 @@ function loadSavedCustomer() {
 
 function saveCustomerDetails() {
     let customer = {
-        name: document.getElementById('custName').value.trim(),
-        phone: document.getElementById('custPhone').value.trim(),
-        email: document.getElementById('custEmail').value.trim(),
-        address: document.getElementById('custAddress').value.trim(),
-        pincode: document.getElementById('custPincode').value.trim()
+        name: document.getElementById('custName') ? document.getElementById('custName').value.trim() : "",
+        phone: document.getElementById('custPhone') ? document.getElementById('custPhone').value.trim() : "",
+        email: document.getElementById('custEmail') ? document.getElementById('custEmail').value.trim() : "",
+        address: document.getElementById('custAddress') ? document.getElementById('custAddress').value.trim() : "",
+        pincode: document.getElementById('custPincode') ? document.getElementById('custPincode').value.trim() : ""
     };
     localStorage.setItem("glasshut_customer", JSON.stringify(customer));
 }
 
-// This forces the script to wait until the HTML form is completely visible!
 document.addEventListener("DOMContentLoaded", function() {
     loadSavedCustomer();
 });

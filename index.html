@@ -404,7 +404,10 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
 
 
     <div class="cart-total" style="margin-bottom:8px"><span class="cart-total-label">Subtotal</span><span class="cart-total-amount" id="cartSubtotal" style="font-size:20px">&#8377;0</span></div>
-    <div class="cart-total" style="margin-bottom:8px"><span class="cart-total-label" id="shippingLabel">Shipping</span><span id="cartShipping" style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--teal)">&#8377;20</span></div>
+<div class="cart-total" style="margin-bottom:8px">
+  <span class="cart-total-label" id="shippingLabel">Shipping</span>
+  <span id="cartShipping" style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--teal)">&#8377;50</span>
+</div>
     <div style="border-top:1px solid rgba(42,139,122,0.15);padding-top:12px;margin-bottom:16px" class="cart-total"><span class="cart-total-label" style="font-weight:700;color:var(--navy)">Total</span><span class="cart-total-amount" id="cartTotal">&#8377;0</span></div>
     <button class="pay-btn" id="placeOrderBtn" style="background:var(--teal);width:100%;font-size:15px;padding:16px;letter-spacing:3px;">Proceed to Pay</button>
     <p class="pay-note">&#128274; Scan QR &amp; pay on the next step</p>
@@ -521,40 +524,46 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
     </div>
     <div class="products-grid" id="productsGrid">
 
-      <div class="product-card reveal" data-cat="daily trending"><div class="product-badge">Everyday</div>
-        <div class="product-image" style="background:#F0F4F8;overflow:hidden;">
-          <div class="img-skeleton" id="skel-lm"></div>
-          <img class="product-photo active" src="images/products/light-multi1-12.webp" alt="Light Multi Glass Bangles" data-slide="lm" loading="lazy" onload="this.classList.add('loaded');var s=document.getElementById('skel-lm');if(s)s.remove();">
-          <img class="product-photo" src="images/products/light-multi2-12.webp" alt="Light Multi Glass Bangles" data-slide="lm" loading="lazy">
-          <img class="product-photo" src="images/products/light-multi3-12.webp" alt="Light Multi Glass Bangles" data-slide="lm" loading="lazy">
-          <div class="slide-dots"><span class="slide-dot active" data-slide="lm" data-idx="0"></span><span class="slide-dot" data-slide="lm" data-idx="1"></span><span class="slide-dot" data-slide="lm" data-idx="2"></span></div>
-        </div>
-        <div class="product-info"><h3 class="product-name">Light Multi</h3><p class="product-desc">Pastel multi-color glass bangles</p>
-          <div class="variant-selector">
-            <button class="variant-btn active" onclick="selectVariant(this,'light-multi','Light Multi (12pc)',120)">12-Piece<span class="vp">&#8377;120</span></button>
-            <button class="variant-btn" onclick="selectVariant(this,'light-multi','Light Multi (24pc)',190)">24-Piece<span class="vp">&#8377;190</span></button>
-          </div>
-          <div class="product-price" id="price-light-multi">&#8377;120</div>
-          <button class="add-to-cart" id="atc-light-multi" data-name="Light Multi (12pc)" data-price="120" data-color="linear-gradient(135deg,#5DADE2,#F5B041,#58D68D)">Select Size &amp; Add</button>
-        </div>
-      </div>
+      <!-- 1. LIGHT MULTI (Updated to 24-piece only) -->
+<div class="product-card reveal" data-cat="daily trending"><div class="product-badge">Everyday</div>
+  <div class="product-image" style="background:#F0F4F8;overflow:hidden;">
+    <div class="img-skeleton" id="skel-lm"></div>
+    <img class="product-photo active" src="images/products/light-multi1-12.webp" alt="Light Multi Glass Bangles" data-slide="lm" loading="lazy" onload="this.classList.add('loaded');var s=document.getElementById('skel-lm');if(s)s.remove();">
+    <img class="product-photo" src="images/products/light-multi2-12.webp" alt="Light Multi Glass Bangles" data-slide="lm" loading="lazy">
+    <img class="product-photo" src="images/products/light-multi3-12.webp" alt="Light Multi Glass Bangles" data-slide="lm" loading="lazy">
+    <div class="slide-dots"><span class="slide-dot active" data-slide="lm" data-idx="0"></span><span class="slide-dot" data-slide="lm" data-idx="1"></span><span class="slide-dot" data-slide="lm" data-idx="2"></span></div>
+  </div>
+  <div class="product-info">
+    <h3 class="product-name">Light Multi</h3>
+    <p class="product-desc">Pastel multi-color glass bangles</p>
+    
+    <!-- Added the standard 24-piece tag instead of the buttons -->
+    <div class="product-set-tag">24-Piece Chuda Set</div>
+    
+    <div class="product-price" id="price-light-multi">&#8377;190</div>
+    <button class="add-to-cart" id="atc-light-multi" data-name="Light Multi (24pc)" data-price="190" data-color="linear-gradient(135deg,#5DADE2,#F5B041,#58D68D)">Select Size &amp; Add</button>
+  </div>
+</div>
 
-      <div class="product-card reveal" data-cat="daily trending"><div class="product-badge">Trending</div>
-        <div class="product-image" style="background:#E8E0F0;overflow:hidden;">
-          <div class="img-skeleton" id="skel-dm"></div>
-          <img class="product-photo active" src="images/products/Dark-multi1-12.webp" alt="Dark Multi Glass Bangles" data-slide="dm" loading="lazy" onload="this.classList.add('loaded');var s=document.getElementById('skel-dm');if(s)s.remove();">
-          <img class="product-photo" src="images/products/Dark-multi2-12.webp" alt="Dark Multi Glass Bangles" data-slide="dm" loading="lazy">
-          <div class="slide-dots"><span class="slide-dot active" data-slide="dm" data-idx="0"></span><span class="slide-dot" data-slide="dm" data-idx="1"></span></div>
-        </div>
-        <div class="product-info"><h3 class="product-name">Dark Multi</h3><p class="product-desc">Rich dark multi-color glass bangles</p>
-          <div class="variant-selector">
-            <button class="variant-btn active" onclick="selectVariant(this,'dark-multi','Dark Multi (12pc)',120)">12-Piece<span class="vp">&#8377;120</span></button>
-            <button class="variant-btn" onclick="selectVariant(this,'dark-multi','Dark Multi (24pc)',190)">24-Piece<span class="vp">&#8377;190</span></button>
-          </div>
-          <div class="product-price" id="price-dark-multi">&#8377;120</div>
-          <button class="add-to-cart" id="atc-dark-multi" data-name="Dark Multi (12pc)" data-price="120" data-color="linear-gradient(135deg,#1A5276,#6C3483)">Select Size &amp; Add</button>
-        </div>
-      </div>
+<!-- 2. DARK MULTI (Updated to 24-piece only) -->
+<div class="product-card reveal" data-cat="daily trending"><div class="product-badge">Trending</div>
+  <div class="product-image" style="background:#E8E0F0;overflow:hidden;">
+    <div class="img-skeleton" id="skel-dm"></div>
+    <img class="product-photo active" src="images/products/Dark-multi1-12.webp" alt="Dark Multi Glass Bangles" data-slide="dm" loading="lazy" onload="this.classList.add('loaded');var s=document.getElementById('skel-dm');if(s)s.remove();">
+    <img class="product-photo" src="images/products/Dark-multi2-12.webp" alt="Dark Multi Glass Bangles" data-slide="dm" loading="lazy">
+    <div class="slide-dots"><span class="slide-dot active" data-slide="dm" data-idx="0"></span><span class="slide-dot" data-slide="dm" data-idx="1"></span></div>
+  </div>
+  <div class="product-info">
+    <h3 class="product-name">Dark Multi</h3>
+    <p class="product-desc">Rich dark multi-color glass bangles</p>
+    
+    <!-- Added the standard 24-piece tag instead of the buttons -->
+    <div class="product-set-tag">24-Piece Chuda Set</div>
+    
+    <div class="product-price" id="price-dark-multi">&#8377;190</div>
+    <button class="add-to-cart" id="atc-dark-multi" data-name="Dark Multi (24pc)" data-price="190" data-color="linear-gradient(135deg,#1A5276,#6C3483)">Select Size &amp; Add</button>
+  </div>
+</div>
 
       <div class="product-card reveal" data-cat="bridal"><div class="product-badge">Bridal</div>
   <div class="product-image" style="background:linear-gradient(135deg,#FFF8E1,#FFECB3);overflow:hidden;">
@@ -914,7 +923,7 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
       </div>
       <div class="pol-section">
         <h4>Shipping Cost</h4>
-        <p>Flat <strong>&#8377;20 shipping</strong> on all orders.</p>
+        <p>Flat <strong>&#8377;50 shipping</strong> on all orders.</p>
         <p><strong>FREE shipping</strong> on orders above &#8377;250!</p>
       </div>
       <div class="pol-section">
@@ -933,7 +942,6 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
     </div>
   </div>
 </div>
-
 <div class="policy-overlay" id="trackOverlay">
   <div class="policy-modal">
     <div class="policy-header"><h3>Track Your Order</h3><button class="policy-close" onclick="closeModal('trackOverlay')">&times;</button></div>
