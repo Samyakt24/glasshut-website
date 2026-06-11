@@ -1,11 +1,33 @@
 /* GlassHut — styles.css */
 :root {
-  --navy: #1E2D50; --navy-deep: #141E38; --navy-light: #2A3D68;
-  --teal: #2A8B7A; --teal-dark: #1E6B5E; --teal-light: #A8D8D0; --teal-pale: #D4EEEA;
-  --copper: #856A06; --copper-light: #A07E0A; --copper-dark: #6B5504;
-  --bg: #F5F3EE; --bg-warm: #EDE9E0; --white: #FAFAF7;
-  --text-dark: #1E2D50; --text-muted: #6B7A8D; --danger: #D32F2F;
-  --phonepe: #5F259F; --gpay: #4285F4;
+  /* 1. Deepened Navy for much sharper, crisper contrast */
+  --navy: #0B192C; 
+  --navy-deep: #060F1E; 
+  --navy-light: #1A365D;
+
+  /* 2. Brighter, more vibrant Emerald/Teal */
+  --teal: #1A9E84; 
+  --teal-dark: #117863; 
+  --teal-light: #8FE0D1; 
+  --teal-pale: #E2F7F3;
+
+  /* 3. Richer, warmer Gold that actually looks metallic and vibrant */
+  --copper: #C58F17; 
+  --copper-light: #E0AA36; 
+  --copper-dark: #91680B;
+
+  /* Backgrounds stay exactly the same to keep the elegant cream look */
+  --bg: #F5F3EE; 
+  --bg-warm: #EDE9E0; 
+  --white: #FAFAF7;
+
+  /* 4. Darkened text colors so paragraphs are perfectly legible everywhere */
+  --text-dark: #0F172A; 
+  --text-muted: #334155; /* Much darker slate-grey for high legibility */
+  --danger: #D32F2F;
+  
+  --phonepe: #5F259F; 
+  --gpay: #4285F4;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -203,10 +225,45 @@ nav a:hover { color: var(--copper-light); }
 .process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; position: relative; }
 .process-steps::before { content: ''; position: absolute; top: 48px; left: 12%; right: 12%; height: 2px; background: linear-gradient(90deg, transparent, var(--copper), var(--copper), transparent); opacity: 0.3; }
 .step { text-align: center; position: relative; }
-.step-num { width: 56px; height: 56px; border-radius: 50%; border: 2px solid var(--teal); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; color: var(--navy); background: var(--bg); position: relative; z-index: 2; }
-.step h4 { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: var(--navy); margin-bottom: 8px; }
-.step p { font-size: 13px; color: var(--text-muted); line-height: 1.7; }
 
+
+.step-num { 
+  width: 72px; 
+  height: 72px; 
+  border-radius: 50%; 
+  border: 2px solid var(--teal); 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  margin: 0 auto 20px; 
+  color: var(--teal); /* Makes the icons Emerald Green */
+  background: var(--white); /* Brightens the circle */
+  position: relative; 
+  z-index: 2; 
+  box-shadow: 0 4px 15px rgba(42, 139, 122, 0.1); /* Adds a soft 3D pop */
+  transition: all 0.3s ease;
+}
+
+/* Hover effect: The circle fills with green and icon turns white */
+.step:hover .step-num {
+  background: var(--teal);
+  color: white;
+}
+
+.step h4 { 
+  font-family: 'Cormorant Garamond', serif; 
+  font-size: 24px; /* Bumped up for more impact */
+  color: var(--navy); 
+  margin-bottom: 10px; 
+  font-weight: 700; /* Bold */
+}
+
+.step p { 
+  font-size: 16px; /* Slightly larger */
+  color: var(--navy); /* Deep blue for maximum contrast and vibrancy */
+  line-height: 1.6; 
+  font-weight: 600; /* Semi-bold to make it highly legible */
+}
 /* SIZE GUIDE */
 .size-guide { padding: 100px 40px; max-width: 900px; margin: 0 auto; }
 .size-table-wrap { border: 1px solid rgba(42,139,122,0.2); overflow: hidden; border-radius: 4px; }
@@ -367,4 +424,28 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
   .trust-divider { display: none; }
   .trust-badge { padding: 0; justify-content: center; }
   .categories-section { padding: 50px 20px; }
+}
+
+/* Force paragraphs to be darker and larger */
+p, .step p, .hero-subtitle, .product-desc, .test-text {
+  color: var(--navy-deep) !important; /* Forces the darkest blue/black */
+  font-size: 16px !important; /* Bumps up the thin font */
+  font-weight: 500;
+}
+
+/* Create a true metallic gold effect for labels */
+/* Create a true, readable rich antique gold */
+/* Create a true, readable rich antique gold and force it to be bold */
+.section-label, .hero-eyebrow {
+  background: none !important; 
+  -webkit-text-fill-color: initial !important; 
+  color: #9C6F19 !important; /* Deep, rich antique gold */
+  font-weight: 800 !important; /* Extra bold */
+  letter-spacing: 4px !important;
+  text-shadow: none !important; 
+}
+
+/* Make icons bolder */
+.step-num svg {
+  stroke-width: 2.5px; /* Makes the icons thicker and more visible */
 }
