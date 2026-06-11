@@ -11,6 +11,17 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://glasshut.in">
 
+<!-- Preconnect to speed up connection to Google's servers -->
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<!-- Preload the fonts for faster rendering -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=Rajdhani:wght@500;600;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=Rajdhani:wght@500;600;800&display=swap" media="print" onload="this.media='all'">
+
+<!-- Preload your CSS file so it doesn't block page rendering -->
+<link rel="preload" href="styles.css?v=1" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="styles.css?v=1"></noscript>
+
 <link rel="preconnect" href="https://www.googletagmanager.com">
 
 <script type="application/ld+json">
@@ -27,7 +38,8 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Rajdhani:wght@400;600;700
 &display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=1">
+<link rel="preload" href="styles.css?v=1" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="styles.css?v=1"></noscript>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
