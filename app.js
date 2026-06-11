@@ -489,7 +489,7 @@ function applyDiscount() {
     
     let enteredCode = couponInput.value.trim().toUpperCase(); 
 
-    if (btoa(enteredCode) === "Q0hBTVBJT04yNg==") { 
+    if (btoa(enteredCode) === "UkVFTDEw") { 
         isChampionApplied = true; 
         updateCartUI(); 
 
