@@ -289,14 +289,89 @@ nav a:hover { color: var(--copper-light); }
 .trust-divider { width: 1px; height: 28px; background: rgba(218,165,32,0.2); }
 
 /* TESTIMONIALS */
+/* TESTIMONIALS */
 .testimonials { padding: 100px 40px; background: var(--bg-warm); }
 .testimonials-inner { max-width: 1300px; margin: 0 auto; }
 .test-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
-.test-card { padding: 40px; border: 1px solid rgba(42,139,122,0.15); background: var(--white); border-radius: 4px; contain: content; }
-.test-quote { font-family: 'Cormorant Garamond', serif; font-size: 60px; color: var(--teal); line-height: 1; margin-bottom: 8px; opacity: 0.3; }
-.test-text { font-size: 15px; color: var(--text-muted); line-height: 1.8; margin-bottom: 24px; font-style: italic; }
-.test-author { font-weight: 600; color: var(--navy); font-size: 14px; letter-spacing: 2px; text-transform: uppercase; }
-.test-stars { color: var(--copper); font-size: 14px; letter-spacing: 2px; margin-top: 8px; }
+
+/* The new review card style */
+.test-card { 
+  padding: 30px; 
+  border: none; 
+  background: var(--white); 
+  border-radius: 8px; 
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05); /* Soft shadow like the screenshots */
+  text-align: left;
+}
+
+/* Reviewer Name & Avatar */
+.review-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.reviewer-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.reviewer-name {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #334155;
+}
+
+/* Star Badge & Date */
+.review-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.review-badge {
+  color: white;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.badge-5 { background: #008f5d; } /* Deep green for 5 stars */
+.badge-4 { background: #008f5d; } /* Same green for 4 stars */
+
+.review-date {
+  font-size: 13px;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+/* The actual comment */
+.review-text {
+  font-size: 16px !important;
+  color: #1e293b !important;
+  line-height: 1.6;
+  margin-bottom: 24px;
+  font-weight: 500 !important;
+}
+
+/* Helpful Button */
+.review-helpful {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #718096;
+  font-weight: 600;
+  cursor: pointer;
+}
 
 /* NEWSLETTER */
 .newsletter { padding: 80px 40px; text-align: center; background: var(--bg); }
