@@ -179,10 +179,10 @@ nav a:hover { color: var(--copper-light); }
 }
 
 /* Set the background images via CSS instead */
-.cat-bridal .cat-card-bg { background-image: url('images/products/cat-bridal.jpg'); }
-.cat-aesthetic .cat-card-bg { background-image: url('images/products/cat-aesthetic.jpg'); }
+.cat-bridal .cat-card-bg { background-image: url('images/products/cat-bridal.webp'); }
+.cat-aesthetic .cat-card-bg { background-image: url('images/products/cat-aesthetic.webp'); }
 .cat-trending .cat-card-bg { background-image: url('images/products/cat-trending.webp'); }
-.cat-daily .cat-card-bg { background-image: url('images/products/daily-bangle.jpg'); }
+.cat-daily .cat-card-bg { background-image: url('images/products/daily-bangle.webp'); }
 
 /* Make sure the backgrounds cover the card properly */
 .cat-card-bg {
