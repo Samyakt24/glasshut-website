@@ -536,7 +536,7 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
 <section class="categories-section" id="categories">
   <div class="section-header reveal"><p class="section-label">Shop by Collection</p><h2 class="section-title">Our Collections</h2><div class="section-ornament">&#9670; &#9670; &#9670;</div></div>
   <div class="cat-grid">
-    <div class="cat-card cat-bridal reveal" onclick="filterProducts('bridal')"><div class="cat-card-bg"><img src="images/products/cat-bridal.jpg" alt="Bridal" loading="lazy"><div class="cat-shimmer"></div></div>
+    <div class="cat-card cat-bridal reveal" onclick="filterProducts('bridal')"><div class="cat-card-bg"><div class="cat-shimmer"></div></div>
       <div class="cat-card-content"><h3>Bridal</h3><p>Wedding Collection</p></div></div>
     <div class="cat-card cat-aesthetic reveal" onclick="filterProducts('aesthetic')"><div class="cat-card-bg"><img src="images/products/cat-aesthetic.jpg" alt="Aesthetic" loading="lazy"><div class="cat-shimmer"></div></div>
       <div class="cat-card-content"><h3>Aesthetic</h3><p>Stylish Designs</p></div></div>
@@ -959,13 +959,61 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
 <footer>
   <div class="footer-grid">
     <div class="footer-brand"><div class="footer-logo-wrap"><img src="images/products/logo.png" alt="GlassHut" class="footer-logo-icon"><span class="footer-logo-text">GlassHut</span></div><p>Pure handcrafted glass bangles from the heart of Firozabad.<br><strong style="color:var(--copper-light);font-size:11px;letter-spacing:1px;">A Brand by New Milan Trader — Since 1984</strong></p></div>
-    <div class="footer-col"><h4>Collections</h4><a href="#" onclick="filterProducts('bridal')">Bridal</a><a href="#" onclick="filterProducts('aesthetic')">Aesthetic</a><a href="#" onclick="filterProducts('trending')">Trending</a><a href="#" onclick="filterProducts('daily')">Everyday</a></div>
-    <div class="footer-col"><h4>Help</h4><a href="#sizes">Size Guide</a><a href="#" onclick="openModal('shippingOverlay');return false;">Shipping Info</a><a href="#" onclick="openPolicy();return false;">Returns &amp; Refund Policy</a><a href="#" onclick="openModal('trackOverlay');return false;">Track Order</a><a href="#" onclick="openModal('faqOverlay');return false;">FAQs</a></div>
+<div class="footer-col">
+  <h4>Collections</h4>
+  <a href="#products" onclick="filterProducts('bridal')">Bridal</a>
+  <a href="#products" onclick="filterProducts('aesthetic')">Aesthetic</a>
+  <a href="#products" onclick="filterProducts('trending')">Trending</a>
+  <a href="#products" onclick="filterProducts('daily')">Everyday</a>
+</div>
+<div class="footer-col">
+  <h4>Help</h4>
+  <a href="#sizes">Size Guide</a>
+  <a href="#" onclick="openModal('shippingOverlay');return false;">Shipping Info</a>
+  <a href="#" onclick="openPolicy();return false;">Returns &amp; Refund Policy</a>
+  <!-- New Links -->
+  <a href="#" onclick="openModal('privacyOverlay');return false;">Privacy Policy</a>
+  <a href="#" onclick="openModal('termsOverlay');return false;">Terms &amp; Conditions</a>
+  <a href="#" onclick="openModal('trackOverlay');return false;">Track Order</a>
+  <a href="#" onclick="openModal('faqOverlay');return false;">FAQs</a>
+</div>
+<div class="policy-overlay" id="termsOverlay">
+  <div class="policy-modal">
+    <div class="policy-header">
+      <h3>Terms & Conditions</h3>
+      <button class="policy-close" onclick="closeModal('termsOverlay')">&times;</button>
+    </div>
+    <div class="policy-body">
+      <div class="pol-section">
+        <h4>Handcrafted Products</h4>
+        <p>Because our bangles are 100% handcrafted in Firozabad, slight variations in color or finish are expected and celebrate the authentic nature of the product.</p>
+      </div>
+    </div>
+  </div>
+</div>
     <div class="footer-col"><h4>Connect</h4><a href="https://www.instagram.com/glasshut.83?igsh=MXZzNWdnZjl2bmlqaA==" target="_blank">Instagram</a><a href="/cdn-cgi/l/email-protection#2542494456564d50511d16654248444c490b464a48">Email Us</a></div>
   </div>
   <div class="footer-bottom"><span>&copy; 2026 GlassHut. All rights reserved.</span><span>Crafted to Shine &#9829; Firozabad</span></div>
 </footer>
-
+<div class="policy-overlay" id="privacyOverlay">
+  <div class="policy-modal">
+    <div class="policy-header">
+      <h3>Privacy Policy</h3>
+      <button class="policy-close" onclick="closeModal('privacyOverlay')">&times;</button>
+    </div>
+    
+    <div class="policy-body">
+      <div class="pol-section">
+        <h4>Data We Collect</h4>
+        <p>We collect your name, contact details, and address solely to fulfill your orders. Your information is kept secure and is never sold to third parties.</p>
+      </div>
+      <div class="pol-section">
+        <h4>Payments</h4>
+        <p>Payments are processed directly through secure UPI apps. We do not store any sensitive financial or banking credentials.</p>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="policy-overlay" id="policyOverlay">
   <div class="policy-modal">
     <div class="policy-header">
