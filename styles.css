@@ -171,7 +171,23 @@ nav a:hover { color: var(--copper-light); }
 .cat-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(30,45,80,0.15); }
 .cat-card-bg { width: 100%; height: 100%; position: relative; transition: transform 0.6s; }
 .cat-card:hover .cat-card-bg { transform: scale(1.05); }
-.cat-card-bg img { width: 100%; height: 100%; object-fit: cover; }
+.cat-card-bg img {
+  display: none;
+}
+
+/* Set the background images via CSS instead */
+.cat-bridal .cat-card-bg { background-image: url('images/products/cat-bridal.jpg'); }
+.cat-aesthetic .cat-card-bg { background-image: url('images/products/cat-aesthetic.jpg'); }
+.cat-trending .cat-card-bg { background-image: url('images/products/cat-trending.webp'); }
+.cat-daily .cat-card-bg { background-image: url('images/products/daily-bangle.jpg'); }
+
+/* Make sure the backgrounds cover the card properly */
+.cat-card-bg {
+  width: 100%;
+  height: 300px; /* Adjust height as needed */
+  background-size: cover;
+  background-position: center;
+}
 .cat-aesthetic .cat-card-bg img { object-position: center 60%; }
 .cat-shimmer { position: absolute; top: -50%; left: -100%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%); transform: rotate(25deg); transition: left 0.6s; pointer-events: none; }
 .cat-card:hover .cat-shimmer { left: 100%; }
@@ -532,4 +548,43 @@ p, .step p, .hero-subtitle, .product-desc, .test-text {
 /* Make icons bolder */
 .step-num svg {
   stroke-width: 2.5px; /* Makes the icons thicker and more visible */
+}
+/* Ensure the container is ready for text overlay */
+.card-content {
+  position: relative;
+  background: linear-gradient(to top, rgba(0,0,0,0.6), transparent); /* Darkens the bottom for readability */
+  padding: 20px;
+}
+
+/* Make the text stand out */
+.card-title {
+  color: white !important;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.8); /* Adds a shadow to the text */
+  font-weight: 700;
+}
+
+.card-subtitle {
+  color: #f0f0f0 !important; /* Lighter color for better contrast */
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+  font-weight: 500;
+}
+.cat-card-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px;
+  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent); /* Dark gradient makes text readable */
+  color: white; /* Forces text to be white */
+}
+
+.cat-card-content h3 {
+  color: white !important;
+  margin: 0;
+  font-size: 24px;
+}
+
+.cat-card-content p {
+  color: #e2e8f0 !important; /* Slightly lighter white for the subtext */
+  margin: 0;
 }
