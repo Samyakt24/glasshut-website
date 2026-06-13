@@ -479,6 +479,25 @@ document.querySelectorAll('a[href^="#"]').forEach(function(a) {
   });
 });
 
+/* ===== TESTIMONIAL SLIDER ===== */
+// We use 'load' to make sure the library is ready before running this
+/* ===== TESTIMONIAL SLIDER ===== */
+window.addEventListener('load', function() {
+  new Swiper(".mySwiper", {
+    slidesPerView: 1,       // Start with 1 on mobile
+    spaceBetween: 20,       // Gap between cards
+    loop: true,
+    autoplay: {
+      delay: 3000,
+      disableOnInteraction: false,
+    },
+    // This tells it to switch to 3 cards only when the screen is wide enough
+    breakpoints: {
+      768: { slidesPerView: 2 },
+      1024: { slidesPerView: 3, spaceBetween: 30 }
+    }
+  });
+});
 // ==========================================
 //        COUPON CODE SYSTEM
 // ==========================================

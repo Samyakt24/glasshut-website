@@ -310,18 +310,20 @@ nav a:hover { color: var(--copper-light); }
 /* TESTIMONIALS */
 /* TESTIMONIALS */
 .testimonials { padding: 100px 40px; background: var(--bg-warm); }
-.testimonials-inner { max-width: 1300px; margin: 0 auto; }
-.test-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
-
-/* The new review card style */
-.test-card { 
-  padding: 30px; 
-  border: none; 
-  background: var(--white); 
-  border-radius: 8px; 
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05); /* Soft shadow like the screenshots */
-  text-align: left;
+.testimonials-inner {
+  width: 90%;          /* Allows the section to fill most of the screen width */
+  max-width: 1300px;   /* Sets a comfortable maximum limit */
+  margin: 0 auto;      /* Keeps it centered */
 }
+/* The parent container */
+.test-grid {
+  display: flex;
+  flex-wrap: wrap;         /* Allows cards to wrap to a new line */
+  justify-content: center; /* Centers the group */
+  gap: 30px;               /* Adds consistent space between every card */
+  width: 100%;
+}
+
 
 /* Reviewer Name & Avatar */
 .review-header {
@@ -590,4 +592,51 @@ p, .step p, .hero-subtitle, .product-desc, .test-text {
 .cat-card-content p {
   color: #e2e8f0 !important; /* Slightly lighter white for the subtext */
   margin: 0;
+}
+/* This forces the slides to have space between them */
+/* 1. Ensure the slider container is constrained */
+/* Clean Slider CSS */
+.mySwiper {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  overflow: hidden; /* This stops cards from spilling out */
+}
+/* 1. This forces all slides in the row to stretch to the exact same height */
+/* 1. Force the wrapper to stretch its children */
+.swiper-wrapper {
+  align-items: stretch !important; 
+}
+.swiper-slide.test-card {
+  height: auto !important; /* Overrides Swiper's default math */
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  
+  /* Your aesthetic design */
+  background: var(--white);
+  border: 1px solid rgba(42,139,122,0.15);
+  border-radius: 4px;
+  padding: 40px;
+}
+/* 2. Override Swiper's Javascript height calculations */
+/* 1. Remove ANY custom rules for .swiper-wrapper. Let Swiper do its job. */
+
+/* 2. Swiper natively understands 'height: auto' to mean "make them all equal height" */
+.swiper-slide {
+  height: auto; 
+}
+
+/* 3. Tell your card to fill that equal height */
+.test-card {
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  
+  /* Your aesthetic styles */
+  background: var(--white);
+  border: 1px solid rgba(42,139,122,0.15);
+  border-radius: 4px;
+  padding: 40px;
 }

@@ -14,6 +14,8 @@
 <!-- Preconnect to speed up connection to Google's servers -->
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
 <!-- Preload the fonts for faster rendering -->
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=Rajdhani:wght@500;600;800&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=Rajdhani:wght@500;600;800&display=swap" media="print" onload="this.media='all'">
@@ -895,63 +897,100 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
 <section class="testimonials">
   <div class="testimonials-inner">
     <div class="section-header reveal">
-      <p class="section-label">Customer Love</p>
-      <h2 class="section-title">What They Say</h2>
-      <div class="section-ornament">&#9670; &#9670; &#9670;</div>
+  <p class="section-label">Customer Love</p>
+  <h2 class="section-title">What They Say</h2>
+  <div class="section-ornament">&#9670; &#9670; &#9670;</div>
+</div>
     </div>
     
-    <div class="test-grid">
-  <!-- Review 1: Swagatika Tripathy -->
-  <div class="test-card reveal">
-    <div class="review-header">
-      <div class="reviewer-avatar">
-        <!-- Replace 'images/products/swagatika.jpg' with the actual photo file -->
-        <img src="images/products/swagatika.jpg" alt="Swagatika Tripathy">
-      </div>
-      <div class="reviewer-name">Swagatika Tripathy</div>
-    </div>
-    <div class="review-meta">
-      <div class="review-badge badge-4">4.0 &#9733;</div>
-      <span class="review-date">&bull; Posted on 8 May 2026</span>
-    </div>
-    <p class="review-text">Dazzling bangles.. Fabulous in this price</p>
-  </div>
+    <div class="swiper mySwiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide test-card">
+          <div class="review-header">
+            <div class="reviewer-avatar"><img src="images/products/swagatika.jpg" alt="Swagatika"></div>
+            <div class="reviewer-name">Swagatika Tripathy</div>
+          </div>
+          <div class="review-meta">
+            <div class="review-badge badge-4">4.0 ★</div>
+            <span class="review-date">• Posted on 8 May 2026</span>
+          </div>
+          <p class="review-text">Dazzling bangles.. Fabulous in this price</p>
+        </div>
 
-  <!-- Review 2: Syamli Thakur -->
-  <div class="test-card reveal">
-    <div class="review-header">
-      <div class="reviewer-avatar">
-        <!-- Replace 'images/products/syamli.jpg' with the actual photo file -->
-        <img src="images/products/syamli.jpg" alt="Syamli Thakur">
-      </div>
-      <div class="reviewer-name">Syamli Thakur</div>
-    </div>
-    <div class="review-meta">
-      <div class="review-badge badge-5">5.0 &#9733;</div>
-      <span class="review-date">&bull; Posted on 9 May 2026</span>
-    </div>
-    <p class="review-text">Bhot achha hai sub le sakte ho</p>
-  </div>
+        <div class="swiper-slide test-card">
+          <div class="review-header">
+            <div class="reviewer-avatar"><img src="images/products/syamli.jpg" alt="Syamli"></div>
+            <div class="reviewer-name">Syamli Thakur</div>
+          </div>
+          <div class="review-meta">
+            <div class="review-badge badge-5">5.0 ★</div>
+            <span class="review-date">• Posted on 9 May 2026</span>
+          </div>
+          <p class="review-text">Bhot achha hai sub le sakte ho</p>
+        </div>
 
-  <!-- Review 3: Komal -->
-  <div class="test-card reveal">
-    <div class="review-header">
-      <div class="reviewer-avatar">
-        <!-- This uses the photo you already have in the system -->
-        <img src="images/products/avatar-komal.png" alt="Komal">
-      </div>
-      <div class="reviewer-name">Komal</div>
-    </div>
-    <div class="review-meta">
-      <div class="review-badge badge-5">5.0 &#9733;</div>
-      <span class="review-date">&bull; Posted on 28 May 2026</span>
-    </div>
-    <p class="review-text">Acchi he aap sab ko lena chahiye</p>
-  </div>
-</div>
+        <div class="swiper-slide test-card">
+          <div class="review-header">
+            <div class="reviewer-avatar"><img src="images/products/avatar-komal.png" alt="Komal"></div>
+            <div class="reviewer-name">Komal</div>
+          </div>
+          <div class="review-meta">
+            <div class="review-badge badge-5">5.0 ★</div>
+            <span class="review-date">• Posted on 28 May 2026</span>
+          </div>
+          <p class="review-text">Acchi he aap sab ko lena chahiye</p>
+        </div>
 
+        <div class="swiper-slide test-card">
+          <div class="review-header">
+            <div class="reviewer-avatar"><img src="images/products/avatar-soniya.png" alt="Soniya"></div>
+            <div class="reviewer-name">soniya</div>
+          </div>
+          <div class="review-meta">
+            <div class="review-badge badge-5">5.0 ★</div>
+            <span class="review-date">• Posted on 16 May 2026</span>
+          </div>
+          <p class="review-text">Bahut acche bangles hai aap bhi Manga sakte ho veri nice product</p>
+        </div>
+
+        <div class="swiper-slide test-card">
+          <div class="review-header">
+            <div class="reviewer-avatar"><img src="images/products/avatar-aarya.png" alt="Aarya"></div>
+            <div class="reviewer-name">Aarya Jagani</div>
+          </div>
+          <div class="review-meta">
+            <div class="review-badge badge-5">5.0 ★</div>
+            <span class="review-date">• Posted on 16 May 2026</span>
+          </div>
+          <p class="review-text">The packaging is really good and the quality of bangles is amazing. A must buy product 👌🫶✨</p>
+        </div>
+
+        <div class="swiper-slide test-card">
+          <div class="review-header">
+            <div class="reviewer-avatar"><img src="images/products/avatar-amrita.png" alt="Amrita"></div>
+            <div class="reviewer-name">Amrita Dinda</div>
+          </div>
+          <div class="review-meta">
+            <div class="review-badge badge-5">5.0 ★</div>
+            <span class="review-date">• Posted on 26 May 2026</span>
+          </div>
+          <p class="review-text">Mast hain yrrrrr Lady's must buy it 😋 😚 😋 😚 Bohot peyara chudiyan hain...</p>
+        </div>
+
+        <div class="swiper-slide test-card">
+          <div class="review-header">
+            <div class="reviewer-avatar"><img src="images/products/avatar-radhe.png" alt="Radheshyam"></div>
+            <div class="reviewer-name">Radheshyam Prajapat</div>
+          </div>
+          <div class="review-meta">
+            <div class="review-badge badge-5">5.0 ★</div>
+            <span class="review-date">• Posted on 26 May 2026</span>
+          </div>
+          <p class="review-text">bahut acchi I Hai Jaise dikh rahi thi bilkul vaise hi I am very happy thank you</p>
+        </div>
+      </div>
     </div>
-  </div>
+    </div>
 </section>
 
 <div class="ornate-border"></div>
@@ -1174,9 +1213,15 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
     </div>
   </div>
 </div>
-
 <iframe name="ghOrderFrame" id="ghOrderFrame" style="display:none;"></iframe>
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+
+<!-- 1. Load the Swiper library FIRST -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<!-- 2. Load your custom app.js file SECOND -->
 <script src="app.js?v=1"></script>
+
+
 </body>
 </html>
