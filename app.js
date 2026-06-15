@@ -309,8 +309,10 @@ function loadQRLibrary() {
   });
 }
 
+/* ===== SHOW PAYMENT STEP ===== */
 function showPaymentStep() {
-  loadQRLibrary().then(function() { _showPaymentStep(); });
+  // Directly run the step without waiting to download scripts over mobile networks
+  _showPaymentStep();
 }
 
 function _showPaymentStep() {
