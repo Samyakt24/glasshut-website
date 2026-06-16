@@ -412,7 +412,7 @@ document.querySelectorAll('.slide-dot').forEach(function(dot) {
   dot.onclick = function() { slideProduct(this.dataset.slide, parseInt(this.dataset.idx)); };
 });
 
-var slideGroups = ['lm', 'dm', 'lgc', 'dmc', 'rnc', 'sb', 'cr'];
+var slideGroups = ['lm', 'dm', 'lgc', 'dmc', 'rnc', 'sb', 'cr', 'hmr'];
 var slideshowStarted = false;
 var productsSection = document.getElementById('products');
 var slideObs = new IntersectionObserver(function(entries) {

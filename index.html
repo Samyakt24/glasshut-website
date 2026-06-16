@@ -799,6 +799,42 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
   </div>
 </div>
 
+<div class="product-card reveal" data-cat="bridal trending">
+  <div class="product-badge">Bridal</div>
+  <div class="product-image" style="background:linear-gradient(135deg,#FFF9C4,#C8E6C9);overflow:hidden;">
+    
+    <div class="img-skeleton" id="skel-hmr"></div>
+    
+    <img class="product-photo active" 
+         src="images/products/haldi-mehendi1.webp" 
+         alt="Haldi Mehendi Royale Set" 
+         data-slide="hmr" 
+         loading="lazy" 
+         decoding="async"
+         onload="this.classList.add('loaded');var s=document.getElementById('skel-hmr');if(s)s.remove();">
+         
+    <img class="product-photo" 
+         src="images/products/haldi-mehendi2.webp" 
+         alt="Haldi Mehendi Royale Set" 
+         data-slide="hmr" 
+         fetchpriority="low"
+         decoding="async">
+         
+    <div class="slide-dots">
+      <span class="slide-dot active" data-slide="hmr" data-idx="0"></span>
+      <span class="slide-dot" data-slide="hmr" data-idx="1"></span>
+    </div>
+  </div>
+  
+  <div class="product-info">
+    <h3 class="product-name">Haldi Mehendi Royale Set</h3>
+    <p class="product-desc">Vibrant yellow and green pure glass chudiyan</p>
+    <div class="product-set-tag">24-Piece Chuda Set</div>
+    <div class="product-price">&#8377;240</div>
+    <button class="add-to-cart" data-name="Haldi Mehendi Royale (24pc)" data-price="240" data-color="linear-gradient(135deg,#F1C40F,#27AE60)">Select Size &amp; Add</button>
+  </div>
+</div>
+
     </div>
   </div>
 </section>
