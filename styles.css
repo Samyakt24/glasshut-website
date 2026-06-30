@@ -34,8 +34,9 @@ html { scroll-behavior: smooth; }
 body { font-family: 'Rajdhani', 'Arial Narrow', Arial, sans-serif; background: var(--bg); color: var(--text-dark); overflow-x: hidden; }
 
 .ornate-border { width: 100%; height: 4px; background: linear-gradient(90deg, var(--teal-light), var(--copper-light) 50%, var(--teal-light)); opacity: 0.4; }
-.announcement { background: #1A2740; color: rgba(224,188,130,0.7); text-align: center; padding: 9px; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; font-weight: 400; }
-
+.announcement { background: #1A2740; color: rgba(224,188,130,0.85); padding: 10px 0; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; font-weight: 500; overflow: hidden; white-space: nowrap; position: relative; display: flex; }
+.announcement-track { display: flex; width: max-content; animation: marquee 25s linear infinite; }
+@keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 header { background: linear-gradient(180deg, #1F2F4F 0%, #1A2740 100%); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 20px rgba(0,0,0,0.15); will-change: transform; }
 .nav-inner { max-width: 1300px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 14px 40px; }
 .logo-wrap { display: flex; align-items: center; gap: 12px; text-decoration: none; }
@@ -212,13 +213,18 @@ nav a:hover { color: var(--copper-light); }
 .product-card:hover { transform: translateY(-8px); box-shadow: 0 20px 60px rgba(30,45,80,0.1); border-color: var(--teal); }
 .product-card.hidden { display: none; }
 .product-badge { position: absolute; top: 16px; left: 16px; background: var(--navy); color: var(--copper-light); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 6px 14px; font-weight: 600; z-index: 2; border-radius: 2px; }
-.product-image { width: 100%; height: 260px; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+
+/* Added cursor: zoom-in to let customers know it is interactive */
+.product-image { width: 100%; height: 260px; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; cursor: zoom-in; }
 .product-image-inner { display: flex; align-items: center; justify-content: center; gap: 4px; transition: transform 0.5s; }
 .product-card:hover .product-image-inner { transform: scale(1.06); }
-.product-photo { width: 100%; height: 100%; object-fit: cover; border-radius: 4px 4px 0 0; transition: opacity 0.6s ease, transform 0.6s ease; position: absolute; top: 0; left: 0; opacity: 0; }
+
+/* Updated the transition speed for the JS zoom and disabled pointer events */
+.product-photo { width: 100%; height: 100%; object-fit: cover; border-radius: 4px 4px 0 0; transition: opacity 0.6s ease, transform 0.1s ease-out; position: absolute; top: 0; left: 0; opacity: 0; pointer-events: none; }
 .product-photo.active { opacity: 1; }
 .product-photo.loaded { opacity: 1; }
-.product-card:hover .product-photo { transform: scale(1.06); }
+/* (Old simple hover zoom was removed from here so the advanced tracking works) */
+
 .img-skeleton { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(90deg, #f0ede6 25%, #e8e4db 50%, #f0ede6 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
 @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 .slide-dots { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; z-index: 2; }
@@ -285,18 +291,24 @@ nav a:hover { color: var(--copper-light); }
 }
 /* SIZE GUIDE */
 .size-guide { padding: 100px 40px; max-width: 900px; margin: 0 auto; }
-.size-table-wrap { border: 1px solid rgba(42,139,122,0.2); overflow: hidden; border-radius: 4px; }
-.size-table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.size-table-wrap { border: 1px solid rgba(42,139,122,0.2); overflow-x: auto; border-radius: 4px; -webkit-overflow-scrolling: touch; }
+.size-table { width: 100%; min-width: 550px; border-collapse: collapse; font-size: 15px; }
 .size-table thead { background: var(--navy); color: var(--copper-light); }
 .size-table th { padding: 16px 24px; letter-spacing: 3px; text-transform: uppercase; font-size: 11px; font-weight: 600; text-align: left; }
 .size-table td { padding: 14px 24px; border-bottom: 1px solid rgba(42,139,122,0.1); }
 .size-table tbody tr:nth-child(even) { background: rgba(42,139,122,0.03); }
 
 /* HERITAGE */
-.heritage { padding: 120px 40px; background: var(--navy-deep); position: relative; overflow: hidden; text-align: center; }
+/* Reduced overall section height */
+.heritage { padding: 80px 40px; background: var(--navy-deep); position: relative; overflow: hidden; text-align: center; }
 .heritage-pattern { position: absolute; inset: 0; opacity: 0.04; background-image: radial-gradient(circle at 25% 25%, var(--teal) 1px, transparent 1px), radial-gradient(circle at 75% 75%, var(--copper) 1px, transparent 1px); background-size: 40px 40px; }
-.heritage h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(36px, 5vw, 64px); color: var(--copper-light); font-weight: 700; margin-bottom: 24px; position: relative; }
-.heritage p { font-size: 16px; color: var(--teal-light); max-width: 620px; margin: 0 auto 40px; line-height: 1.8; opacity: 0.8; position: relative; }
+
+/* Tighter gap under the title */
+.heritage h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(36px, 5vw, 64px); color: var(--copper-light); font-weight: 700; margin-bottom: 20px; position: relative; }
+
+/* Reduces gap, and completely collapses the element if there is no text inside it */
+.heritage p { font-size: 16px; color: var(--teal-light); max-width: 620px; margin: 0 auto 24px; line-height: 1.8; opacity: 0.8; position: relative; }
+.heritage p:empty { display: none; }
 .heritage-stats { display: flex; justify-content: center; gap: 80px; position: relative; }
 .stat { text-align: center; }
 .stat-number { font-family: 'Cormorant Garamond', serif; font-size: 48px; color: var(--copper-light); font-weight: 700; display: block; }
@@ -504,7 +516,6 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
   .products-grid { grid-template-columns: 1fr; }
   .test-grid { grid-template-columns: 1fr; }
   .process-steps { grid-template-columns: 1fr 1fr; }
-  .heritage-stats { flex-direction: column; gap: 30px; }
   .footer-grid { grid-template-columns: 1fr; gap: 30px; }
   .newsletter-form { flex-direction: column; }
   .newsletter-form input { border-right: 1.5px solid var(--teal); border-radius: 2px; }
@@ -522,12 +533,33 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
   .hero-stat-num { font-size: 18px; }
   .hero-stat-label { font-size: 9px; letter-spacing: 1px; }
   .hero { min-height: 85vh; }
+  /* Add these inside your mobile @media block */
+  /* --- STRICT MOBILE SPACING FOR HERITAGE SECTION --- */
+  .heritage { 
+    padding: 60px 20px !important; 
+  }
+  .heritage h2 { 
+    margin-bottom: 12px !important; 
+    font-size: 32px !important;
+  }
+  .heritage p { 
+    margin-bottom: 30px !important; 
+    display: block !important; 
+  }
+  .heritage-stats { 
+    display: grid !important; 
+    grid-template-columns: 1fr 1fr !important; 
+    gap: 30px 10px !important; 
+    margin-top: 0 !important; 
+  }
   .hero-overlay { background: linear-gradient(to bottom, rgba(245,243,238,0.92) 0%, rgba(245,243,238,0.8) 50%, rgba(245,243,238,0.6) 100%) !important; }
   .filter-tabs { gap: 8px; }
   .filter-tab { padding: 8px 16px; font-size: 11px; }
-  .trust-badges { flex-direction: column; gap: 16px; margin-top: 30px; padding-top: 30px; }
-  .trust-divider { display: none; }
-  .trust-badge { padding: 0; justify-content: center; }
+.heritage-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 30px 10px; }
+.trust-badges { display: grid; grid-template-columns: 1fr 1fr; gap: 24px 10px; margin-top: 30px; padding-top: 30px; flex-direction: unset; }
+.trust-divider { display: none; }
+.trust-badge { padding: 0; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; justify-content: flex-start; }
+.trust-text { font-size: 11px; line-height: 1.4; }
   .categories-section { padding: 50px 20px; }
 }
 

@@ -585,3 +585,22 @@ function saveCustomerDetails() {
 document.addEventListener("DOMContentLoaded", function() {
     loadSavedCustomer();
 });
+
+/* ===== INTERACTIVE IMAGE ZOOM ===== */
+document.querySelectorAll('.product-image').forEach(function(container) {
+  container.addEventListener('mousemove', function(e) {
+    var img = this.querySelector('.product-photo.active');
+    if (!img) return;
+    var rect = this.getBoundingClientRect();
+    var x = ((e.clientX - rect.left) / rect.width) * 100;
+    var y = ((e.clientY - rect.top) / rect.height) * 100;
+    img.style.transformOrigin = x + '% ' + y + '%';
+    img.style.transform = 'scale(2.2)'; 
+  });
+  container.addEventListener('mouseleave', function() {
+    var img = this.querySelector('.product-photo.active');
+    if (!img) return;
+    img.style.transformOrigin = 'center center';
+    img.style.transform = 'scale(1)'; 
+  });
+});
