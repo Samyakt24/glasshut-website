@@ -268,8 +268,10 @@ nav a:hover { color: var(--copper-light); }
 .step-num { width: 56px; height: 56px; border-radius: 50%; border: 2px solid var(--teal); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; color: var(--navy); background: var(--bg); position: relative; z-index: 2; }
 .step h4 { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: var(--navy); margin-bottom: 8px; }
 .step p { font-size: 13px; color: var(--text-muted); line-height: 1.7; }
-.size-guide { padding: 100px 40px; max-width: 900px; margin: 0 auto; }
-.size-table-wrap { border: 1px solid rgba(42,139,122,0.2); overflow: hidden; border-radius: 4px; }
+/* Pulls the Size Guide up tight on mobile screens */
+  .size-guide {
+    padding: 20px 15px 40px !important;
+  }.size-table-wrap { border: 1px solid rgba(42,139,122,0.2); overflow: hidden; border-radius: 4px; }
 .size-table { width: 100%; border-collapse: collapse; font-size: 15px; }
 .size-table thead { background: var(--navy); color: var(--copper-light); }
 .size-table th { padding: 16px 24px; letter-spacing: 3px; text-transform: uppercase; font-size: 11px; font-weight: 600; text-align: left; }
@@ -907,11 +909,11 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
   <h2 class="reveal">India&#8217;s Bangle Capital</h2>
   <p class="reveal">GlassHut delivers authentic, handcrafted wristwear straight from the renowned kilns to your doorstep.</p>
   <div class="heritage-stats reveal">
-    <div class="stat"><span class="stat-number">40+</span><span class="stat-label">Years Legacy</span></div>
-    <div class="stat"><span class="stat-number">100%</span><span class="stat-label">Authentic</span></div>
-    <div class="stat"><span class="stat-number">200+</span><span class="stat-label">Color Shades</span></div>
-    <div class="stat"><span class="stat-number">Since 1984</span><span class="stat-label">New Milan Trader</span></div>
-  </div>
+  <div class="stat"><span class="stat-number">40+</span><span class="stat-label">Years Legacy</span></div>
+  <div class="stat"><span class="stat-number">100%</span><span class="stat-label">Authentic</span></div>
+  <div class="stat"><span class="stat-number">200+</span><span class="stat-label">Color Shades</span></div>
+  <div class="stat"><span class="stat-number">1984</span><span class="stat-label">New Milan Trader</span></div>
+</div>
   <div class="trust-badges reveal">
     <div class="trust-badge">
       <div class="trust-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#DAA520" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
@@ -1085,17 +1087,9 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
   <a href="mailto:glasshut83@gmail.com">Email Us</a>
 </div>
   </div>
-<div class="footer-bottom" style="flex-direction: column; gap: 15px;">
-      <div style="font-size: 14px; width: 100%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-        <span>&copy; 2026 GlassHut. All rights reserved.</span>
-        <span>Crafted to Shine &#9829; Proudly Indian</span>
-      </div>
-      
-      <!-- QUICK DROPDOWN POLICIES -->
-      <div class="footer-bottom">
+<div class="footer-bottom">
       <span>&copy; 2026 GlassHut. All rights reserved.</span>
       <span>Crafted to Shine &#9829; Proudly Indian</span>
-    </div>
     </div>
   </footer>
 <div class="policy-overlay" id="privacyOverlay">

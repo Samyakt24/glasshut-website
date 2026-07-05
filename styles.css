@@ -290,7 +290,11 @@ nav a:hover { color: var(--copper-light); }
   font-weight: 600; /* Semi-bold to make it highly legible */
 }
 /* SIZE GUIDE */
-.size-guide { padding: 100px 40px; max-width: 900px; margin: 0 auto; }
+.size-guide { 
+  padding: 40px 20px 80px; /* 40px top, 20px sides, 80px bottom */
+  max-width: 900px; 
+  margin: 0 auto; 
+}
 .size-table-wrap { border: 1px solid rgba(42,139,122,0.2); overflow-x: auto; border-radius: 4px; -webkit-overflow-scrolling: touch; }
 .size-table { width: 100%; min-width: 550px; border-collapse: collapse; font-size: 15px; }
 .size-table thead { background: var(--navy); color: var(--copper-light); }
@@ -309,7 +313,6 @@ nav a:hover { color: var(--copper-light); }
 /* Reduces gap, and completely collapses the element if there is no text inside it */
 .heritage p { font-size: 16px; color: var(--teal-light); max-width: 620px; margin: 0 auto 24px; line-height: 1.8; opacity: 0.8; position: relative; }
 .heritage p:empty { display: none; }
-.heritage-stats { display: flex; justify-content: center; gap: 80px; position: relative; }
 .stat { text-align: center; }
 .stat-number { font-family: 'Cormorant Garamond', serif; font-size: 48px; color: var(--copper-light); font-weight: 700; display: block; }
 .stat-label { font-size: 11px; color: var(--teal-light); letter-spacing: 4px; text-transform: uppercase; opacity: 0.5; }
@@ -562,16 +565,29 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
     margin-bottom: 30px !important; 
     display: block !important; 
   }
+/* --- HERITAGE STATS (Cleaned Layout) --- */
+
+/* 1. Desktop View (4 items in a straight row) */
+.heritage-stats { 
+  display: flex; 
+  justify-content: center; 
+  gap: 80px; 
+  position: relative; 
+  margin-top: 40px; 
+}
+
+/* 2. Mobile View (Neat 2x2 Grid with fixed spacing) */
+@media (max-width: 768px) {
   .heritage-stats { 
     display: grid !important; 
     grid-template-columns: 1fr 1fr !important; 
-    gap: 30px 10px !important; 
-    margin-top: 0 !important; 
+    gap: 40px 10px !important; 
+    margin-top: 20px !important; /* This strictly forces the gap to shrink */
   }
+}
   .hero-overlay { background: linear-gradient(to bottom, rgba(245,243,238,0.92) 0%, rgba(245,243,238,0.8) 50%, rgba(245,243,238,0.6) 100%) !important; }
   .filter-tabs { gap: 8px; }
   .filter-tab { padding: 8px 16px; font-size: 11px; }
-.heritage-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 30px 10px; }
 .trust-badges { display: grid; grid-template-columns: 1fr 1fr; gap: 24px 10px; margin-top: 30px; padding-top: 30px; flex-direction: unset; }
 .trust-divider { display: none; }
 .trust-badge { padding: 0; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; justify-content: flex-start; }
@@ -687,4 +703,28 @@ p, .step p, .hero-subtitle, .product-desc, .test-text {
   border: 1px solid rgba(42,139,122,0.15);
   border-radius: 4px;
   padding: 40px;
+}
+/* --- CRUSH THE GAP UNDER HERITAGE TITLE --- */
+.heritage h2, 
+.heritage .section-title {
+  margin-bottom: 10px !important;
+  padding-bottom: 0 !important;
+}
+
+/* Ensure the stats grid stays pulled up tight on mobile */
+@media (max-width: 768px) {
+  .heritage-stats {
+    margin-top: 15px !important;
+  }
+}
+
+/* --- FORCE FOOTER STACK ON MOBILE --- */
+@media (max-width: 768px) {
+  .footer-bottom {
+    display: flex !important;
+    flex-direction: column !important; /* Strictly forces stacking */
+    align-items: center !important;
+    text-align: center !important;
+    gap: 12px !important;
+  }
 }
