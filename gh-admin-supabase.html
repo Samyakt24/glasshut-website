@@ -203,9 +203,8 @@ import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 
 /* ============================================================
    PASTE YOUR SUPABASE VALUES HERE
-   Supabase dashboard → Project Settings → API
    ============================================================ */
-const SUPABASE_URL      = "https://remwdweujlpcfknsbwzk.supabase.co";       // e.g. https://xxxx.supabase.co
+const SUPABASE_URL      = "https://remwdweujlpcfknsbwzk.supabase.co";       
 const SUPABASE_ANON_KEY = "sb_publishable_OBbRi2Mdlb60YgNAAvmrBQ_myOSjM3P";
 /* ============================================================ */
 
@@ -214,6 +213,7 @@ const ready = !SUPABASE_URL.startsWith("PASTE");
 if (!ready) $("setupWarn").classList.remove("gone");
 
 const supabase = ready ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+let editModeId = null; // Tracks if we are editing a product
 
 function flash(el, msg, kind){
   el.textContent = msg;
@@ -260,7 +260,16 @@ if (ready) {
   $("logoutBtn").addEventListener("click", () => supabase.auth.signOut());
 }
 
-/* ---------- add ---------- */
+/* ---------- cancel edit ---------- */
+$("cancelEditBtn").addEventListener("click", () => {
+  editModeId = null;
+  $("addBtn").textContent = "Add Product";
+  $("cancelEditBtn").classList.add("gone");
+  ["pName","pDesc","pPrice","pImg1","pImg2","pImg3","pColor","pBg"].forEach(i => $(i).value = "");
+  document.querySelectorAll("#catChips .chip.on").forEach(c => c.classList.remove("on"));
+});
+
+/* ---------- add / update ---------- */
 $("addBtn").addEventListener("click", async () => {
   const name  = $("pName").value.trim();
   const price = $("pPrice").value;
@@ -270,12 +279,11 @@ $("addBtn").addEventListener("click", async () => {
   if (!name)         return flash($("formFlash"), "Product name is required.", "bad");
   if (!price)        return flash($("formFlash"), "Price is required.", "bad");
   if (!img1)         return flash($("formFlash"), "At least one image path is required.", "bad");
-  if (!cats.length)  return flash($("formFlash"), "Pick at least one category, or the product won't show under any filter.", "bad");
+  if (!cats.length)  return flash($("formFlash"), "Pick at least one category.", "bad");
 
   const images = [img1, $("pImg2").value.trim(), $("pImg3").value.trim()].filter(Boolean);
 
-  $("addBtn").disabled = true;
-  const { error } = await supabase.from("products").insert({
+  const payload = {
     name,
     description: $("pDesc").value.trim(),
     price: Number(price),
@@ -285,20 +293,35 @@ $("addBtn").addEventListener("click", async () => {
     images,
     color: $("pColor").value.trim() || "#2A8B7A",
     bg: $("pBg").value.trim() || "#F0F4F8"
-  });
+  };
 
-  if (error) {
-    flash($("formFlash"), "Could not save: " + error.message, "bad");
+  $("addBtn").disabled = true;
+
+  if (editModeId) {
+    // UPDATE existing product
+    const { error } = await supabase.from("products").update(payload).eq("id", editModeId);
+    if (error) {
+      flash($("formFlash"), "Could not update: " + error.message, "bad");
+    } else {
+      flash($("formFlash"), "Product updated successfully.", "good");
+      $("cancelEditBtn").click(); // This resets the form automatically
+      loadList();
+    }
   } else {
-    ["pName","pDesc","pPrice","pImg1","pImg2","pImg3","pColor","pBg"].forEach(i => $(i).value = "");
-    document.querySelectorAll("#catChips .chip.on").forEach(c => c.classList.remove("on"));
-    flash($("formFlash"), "Added. It is live on glasshut.in now.", "good");
-    loadList();
+    // INSERT new product
+    const { error } = await supabase.from("products").insert(payload);
+    if (error) {
+      flash($("formFlash"), "Could not save: " + error.message, "bad");
+    } else {
+      $("cancelEditBtn").click(); // Resets the form
+      flash($("formFlash"), "Added. It is live on glasshut.in now.", "good");
+      loadList();
+    }
   }
   $("addBtn").disabled = false;
 });
 
-/* ---------- list + delete ---------- */
+/* ---------- list + delete + edit ---------- */
 async function loadList(){
   const { data, error } = await supabase.from("products").select("*").order("created_at", { ascending: true });
   const list = $("list");
@@ -349,6 +372,41 @@ async function loadList(){
     price.className = "pprice";
     price.textContent = "₹" + Number(p.price).toLocaleString("en-IN");
 
+    // Action buttons container
+    const actions = document.createElement("div");
+    actions.style.display = "flex";
+    actions.style.gap = "8px";
+    actions.style.flexShrink = "0";
+
+    // Edit Button
+    const editBtn = document.createElement("button");
+    editBtn.textContent = "Edit";
+    editBtn.style.cssText = "background:none; border:1.5px solid var(--teal); color:var(--teal); padding:8px 16px; font-family:'Rajdhani',sans-serif; font-size:11px; letter-spacing:2px; text-transform:uppercase; font-weight:600; cursor:pointer; border-radius:2px;";
+    editBtn.addEventListener("click", () => {
+      editModeId = p.id;
+      $("pName").value = p.name || "";
+      $("pDesc").value = p.description || "";
+      $("pPrice").value = p.price || "";
+      $("pBadge").value = p.badge || "";
+      $("pSetTag").value = p.set_tag || "";
+      $("pImg1").value = p.images[0] || "";
+      $("pImg2").value = p.images[1] || "";
+      $("pImg3").value = p.images[2] || "";
+      $("pColor").value = p.color || "";
+      $("pBg").value = p.bg || "";
+      
+      document.querySelectorAll("#catChips .chip").forEach(c => c.classList.remove("on"));
+      if(p.cats) p.cats.forEach(cat => {
+        const chip = document.querySelector('#catChips .chip[data-cat="'+cat+'"]');
+        if(chip) chip.classList.add("on");
+      });
+
+      $("addBtn").textContent = "Update Product";
+      $("cancelEditBtn").classList.remove("gone");
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Delete Button
     const del = document.createElement("button");
     del.className = "del";
     del.textContent = "Delete";
@@ -360,49 +418,42 @@ async function loadList(){
       else loadList();
     });
 
-    row.append(img, main, price, del);
+    actions.append(editBtn, del);
+    row.append(img, main, price, actions);
     list.appendChild(row);
   });
 }
 
-/* ---------- one-time import of the 8 existing products ---------- */
+/* ---------- one-time import ---------- */
 const EXISTING = [
   { name:"Light Multi", description:"Pastel multi-color glass bangles", price:190,
     cats:["daily","trending"], badge:"Everyday", set_tag:"24-Piece Chuda Set",
     images:["images/products/light-multi1-12.webp","images/products/light-multi2-12.webp","images/products/light-multi3-12.webp"],
     color:"linear-gradient(135deg,#5DADE2,#F5B041,#58D68D)", bg:"#F0F4F8" },
-
   { name:"Dark Multi", description:"Rich dark multi-color glass bangles", price:190,
     cats:["daily","trending"], badge:"Trending", set_tag:"24-Piece Chuda Set",
     images:["images/products/Dark-multi1-12.webp","images/products/Dark-multi2-12.webp"],
     color:"linear-gradient(135deg,#1A5276,#6C3483)", bg:"#E8E0F0" },
-
   { name:"Light Golden Chuda", description:"Bridal golden glass chuda set", price:240,
     cats:["bridal"], badge:"Bridal", set_tag:"24-Piece Chuda Set",
     images:["images/products/light-chuda1.webp","images/products/light-chuda2.webp"],
     color:"#C9944A", bg:"linear-gradient(135deg,#FFF8E1,#FFECB3)" },
-
   { name:"Dark Multi Chuda", description:"Bridal dark multi-color chuda set", price:240,
     cats:["bridal"], badge:"Bridal", set_tag:"24-Piece Chuda Set",
     images:["images/products/dark-chuda1.webp","images/products/dark-chuda2.webp"],
     color:"linear-gradient(135deg,#922B21,#1A5276)", bg:"linear-gradient(135deg,#F0E0E8,#E0C8D8)" },
-
   { name:"Crimson Red", description:"Crimson Red description", price:240,
     cats:["bridal"], badge:"Bridal", set_tag:"24-Piece Chuda Set",
     images:["images/products/CrimsonRed1.webp","images/products/CrimsonRed2.webp"],
     color:"linear-gradient(135deg,#922B21,#1A5276)", bg:"linear-gradient(135deg,#F0E0E8,#E0C8D8)" },
-
   { name:"Sapphire Blue", description:"Sapphire Blue description", price:240,
     cats:["bridal"], badge:"Bridal", set_tag:"24-Piece Chuda Set",
     images:["images/products/SapphireBlue1.webp","images/products/SapphireBlue2.webp"],
     color:"#1A2740", bg:"#F0F4F8" },
-
   { name:"Rainbow Nag Chuda", description:"Rainbow glass nag chuda set", price:180,
     cats:["aesthetic"], badge:"Aesthetic", set_tag:"24-Piece Chuda Set",
     images:["images/products/Gold-Chuda.webp","images/products/Gold-Chuda1.webp"],
-    color:"linear-gradient(135deg,#C0392B,#F39C12,#27AE60,#2E86C1,#8E44AD)",
-    bg:"linear-gradient(135deg,#F5E6F0,#E8D0E8)" },
-
+    color:"linear-gradient(135deg,#C0392B,#F39C12,#27AE60,#2E86C1,#8E44AD)", bg:"linear-gradient(135deg,#F5E6F0,#E8D0E8)" },
   { name:"Haldi Mehendi Royale Set", description:"Vibrant yellow and green pure glass chudiyan", price:240,
     cats:["bridal","trending"], badge:"Bridal", set_tag:"24-Piece Chuda Set",
     images:["images/products/haldi-mehendi1.webp","images/products/haldi-mehendi2.webp"],
