@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Product Admin — GlassHut</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1E2D50; --navy-deep:#141E38;
+  --teal:#2A8B7A; --teal-dark:#1E6B5E; --teal-light:#A8D8D0; --teal-pale:#D4EEEA;
+  --copper:#856A06; --copper-light:#A07E0A;
+  --bg:#F5F3EE; --bg-warm:#EDE9E0; --white:#FAFAF7;
+  --text-dark:#1E2D50; --text-muted:#6B7A8D; --danger:#D32F2F;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Rajdhani',sans-serif;background:var(--bg);color:var(--text-dark);font-size:15px}
+.ornate-border{height:4px;background:linear-gradient(90deg,var(--teal-light),var(--copper-light) 50%,var(--teal-light));opacity:.4}
+
+header{background:linear-gradient(180deg,#1F2F4F 0%,#1A2740 100%);position:sticky;top:0;z-index:50}
+.nav-inner{max-width:1300px;margin:0 auto;display:flex;align-items:center;gap:14px;padding:14px 32px;flex-wrap:wrap}
+.logo-brand{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--copper-light);letter-spacing:2px}
+.tagline{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--teal-light);opacity:.5}
+.who{margin-left:auto;display:flex;align-items:center;gap:14px;font-size:13px;color:var(--teal-light);opacity:.8}
+.signout{background:none;border:1px solid rgba(168,216,208,.3);color:var(--teal-light);padding:6px 14px;font-family:'Rajdhani',sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-radius:2px}
+.signout:hover{border-color:var(--copper-light);color:var(--copper-light)}
+
+.wrap{max-width:1300px;margin:0 auto;padding:32px 32px 80px}
+
+.gate{min-height:100vh;display:grid;place-items:center;padding:24px;background:var(--bg)}
+.gate-card{width:100%;max-width:380px;background:var(--white);border:1px solid rgba(42,139,122,.2);border-top:4px solid var(--copper);padding:40px 34px;border-radius:4px}
+.gate-card h1{font-family:'Cormorant Garamond',serif;font-size:30px;color:var(--navy);font-weight:700;margin-bottom:4px}
+.gate-card .sub{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--copper);margin-bottom:26px}
+
+label{display:block;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);font-weight:600;margin-bottom:6px}
+input,textarea,select{width:100%;font-family:'Rajdhani',sans-serif;font-size:15px;color:var(--text-dark);background:var(--white);border:1.5px solid rgba(42,139,122,.25);padding:11px 14px;border-radius:3px;margin-bottom:14px;outline:none}
+input:focus,textarea:focus,select:focus{border-color:var(--teal)}
+textarea{resize:vertical;min-height:64px}
+.hint{font-size:12px;color:var(--text-muted);margin:-10px 0 14px;line-height:1.5}
+
+.btn{width:100%;padding:14px;background:var(--teal);color:#fff;border:none;font-family:'Rajdhani',sans-serif;font-size:13px;letter-spacing:3px;text-transform:uppercase;font-weight:700;cursor:pointer;border-radius:3px;transition:background .3s}
+.btn:hover{background:var(--navy)}
+.btn:disabled{background:var(--text-muted);cursor:not-allowed}
+.btn-copper{background:var(--copper)}
+.btn-copper:hover{background:var(--navy)}
+
+.grid{display:grid;grid-template-columns:400px 1fr;gap:30px;align-items:start}
+@media(max-width:940px){.grid{grid-template-columns:1fr}}
+.panel{background:var(--white);border:1px solid rgba(42,139,122,.15);border-radius:4px;overflow:hidden}
+.panel-head{padding:18px 22px;border-bottom:1px solid rgba(42,139,122,.12);display:flex;justify-content:space-between;align-items:center;gap:10px}
+.panel-head h2{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--navy);font-weight:700}
+.tally{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted)}
+.panel-body{padding:22px}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.chip{padding:8px 16px;border:1.5px solid var(--teal-light);background:var(--white);font-family:'Rajdhani',sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;font-weight:600;color:var(--navy);cursor:pointer;border-radius:2px;transition:all .25s}
+.chip:hover{border-color:var(--teal);background:var(--teal-pale)}
+.chip.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+
+.prow{display:flex;gap:16px;align-items:center;padding:16px 22px;border-bottom:1px solid rgba(42,139,122,.08)}
+.prow:last-child{border-bottom:none}
+.pthumb{width:64px;height:64px;flex:0 0 64px;object-fit:cover;border-radius:3px;background:var(--bg-warm);border:1px solid rgba(42,139,122,.15)}
+.pmain{flex:1;min-width:0}
+.pname{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:600;color:var(--navy);line-height:1.2}
+.pmeta{font-size:13px;color:var(--text-muted);margin-top:3px}
+.pprice{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:700;color:var(--copper)}
+.ptags{display:flex;gap:5px;margin-top:6px;flex-wrap:wrap}
+.ptag{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;background:var(--teal-pale);color:var(--teal-dark);padding:3px 8px;border-radius:2px;font-weight:600}
+.del{background:none;border:1.5px solid rgba(211,47,47,.3);color:var(--danger);padding:8px 16px;font-family:'Rajdhani',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:600;cursor:pointer;border-radius:2px;flex-shrink:0}
+.del:hover{background:var(--danger);color:#fff;border-color:var(--danger)}
+.del:disabled{opacity:.5;cursor:wait}
+
+.blank{padding:60px 24px;text-align:center;color:var(--text-muted)}
+.blank strong{display:block;font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--navy);margin-bottom:6px}
+
+.flash{padding:12px 16px;border-radius:3px;font-size:14px;margin-bottom:16px;display:none}
+.flash.on{display:block}
+.flash.good{background:var(--teal-pale);color:var(--teal-dark)}
+.flash.bad{background:rgba(211,47,47,.08);color:var(--danger)}
+
+.gone{display:none!important}
+.setup-warn{background:#FFF8E1;border:1px solid #E8D9A8;border-left:4px solid var(--copper);padding:16px 20px;font-size:14px;line-height:1.7;margin-bottom:24px;border-radius:3px}
+.setup-warn code{background:var(--white);padding:2px 6px;border:1px solid #E8D9A8;font-size:13px}
+
+.seedbox{margin-top:20px;padding:18px;background:var(--bg-warm);border-radius:3px;font-size:13px;color:var(--text-muted);line-height:1.6}
+.seedbox strong{color:var(--navy);display:block;margin-bottom:6px;font-size:15px;font-family:'Cormorant Garamond',serif}
+</style>
+</head>
+<body>
+
+<div class="gate" id="gate">
+  <div class="gate-card">
+    <h1>GlassHut</h1>
+    <div class="sub">Product Admin</div>
+    <div class="flash bad" id="loginFlash"></div>
+    <label for="email">Email</label>
+    <input type="email" id="email" autocomplete="username">
+    <label for="password">Password</label>
+    <input type="password" id="password" autocomplete="current-password">
+    <button class="btn" id="loginBtn">Sign In</button>
+  </div>
+</div>
+
+<div id="panel" class="gone">
+<div class="ornate-border"></div>
+<header>
+  <div class="nav-inner">
+    <span class="logo-brand">GlassHut</span>
+    <span class="tagline">Product Admin</span>
+    <div class="who"><span id="whoEmail"></span><button class="signout" id="logoutBtn">Sign Out</button></div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="setup-warn gone" id="setupWarn">
+    <strong>Supabase not connected.</strong> Open this file in a text editor and replace
+    <code>SUPABASE_URL</code> and <code>SUPABASE_ANON_KEY</code> near the bottom.
+    Full steps are in <code>SUPABASE-SETUP.md</code>.
+  </div>
+
+  <div class="grid">
+
+    <section class="panel">
+      <div class="panel-head"><h2>Add a Product</h2></div>
+      <div class="panel-body">
+        <div class="flash" id="formFlash"></div>
+
+        <label for="pName">Product name</label>
+        <input type="text" id="pName" placeholder="Emerald Green Chuda">
+
+        <label for="pDesc">Short description</label>
+        <input type="text" id="pDesc" placeholder="Deep green pure glass chuda set">
+
+        <label for="pPrice">Price (₹)</label>
+        <input type="number" id="pPrice" min="1" placeholder="240">
+
+        <label>Categories &mdash; tap to select</label>
+        <div class="chips" id="catChips">
+          <button type="button" class="chip" data-cat="bridal">Bridal</button>
+          <button type="button" class="chip" data-cat="aesthetic">Aesthetic</button>
+          <button type="button" class="chip" data-cat="trending">Trending</button>
+          <button type="button" class="chip" data-cat="daily">Everyday</button>
+        </div>
+
+        <label for="pBadge">Corner badge</label>
+        <select id="pBadge">
+          <option value="Bridal">Bridal</option>
+          <option value="Aesthetic">Aesthetic</option>
+          <option value="Trending">Trending</option>
+          <option value="Everyday">Everyday</option>
+          <option value="New">New</option>
+          <option value="">No badge</option>
+        </select>
+
+        <label for="pSetTag">Set tag</label>
+        <input type="text" id="pSetTag" value="24-Piece Chuda Set">
+
+        <label for="pImg1">Image 1 (shown first)</label>
+        <input type="text" id="pImg1" placeholder="images/products/emerald1.webp">
+
+        <label for="pImg2">Image 2 (optional)</label>
+        <input type="text" id="pImg2" placeholder="images/products/emerald2.webp">
+
+        <label for="pImg3">Image 3 (optional)</label>
+        <input type="text" id="pImg3" placeholder="images/products/emerald3.webp">
+        <p class="hint">Upload the .webp files to <code>images/products/</code> via cPanel first,
+        then type the path exactly as above.</p>
+
+        <label for="pColor">Cart swatch colour</label>
+        <input type="text" id="pColor" placeholder="#2A8B7A  or  linear-gradient(135deg,#C0392B,#F39C12)">
+        <p class="hint">This is the little circle shown in the cart. A plain hex colour is fine.</p>
+
+        <label for="pBg">Card background (optional)</label>
+        <input type="text" id="pBg" placeholder="linear-gradient(135deg,#FFF8E1,#FFECB3)">
+
+        <button class="btn" id="addBtn">Add Product</button>
+
+        <div class="seedbox" id="seedBox">
+          <strong>First time here?</strong>
+          Import the 8 products currently hardcoded on your site so you can manage
+          them from here. Run this once only.
+          <button class="btn btn-copper" id="seedBtn" style="margin-top:12px">Import Existing 8 Products</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Live Catalogue</h2>
+        <span class="tally" id="tally">&mdash;</span>
+      </div>
+      <div id="list"><div class="blank"><strong>Loading</strong>Fetching your products&hellip;</div></div>
+    </section>
+
+  </div>
+</div>
+</div>
+
+<script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+/* ============================================================
+   PASTE YOUR SUPABASE VALUES HERE
+   Supabase dashboard → Project Settings → API
+   ============================================================ */
+const SUPABASE_URL      = "https://remwdweujlpcfknsbwzk.supabase.co/rest/v1/";       // e.g. https://xxxx.supabase.co
+const SUPABASE_ANON_KEY = "sb_publishable_OBbRi2Mdlb60YgNAAvmrBQ_myOSjM3P";
+/* ============================================================ */
+
+const $ = id => document.getElementById(id);
+const ready = !SUPABASE_URL.startsWith("PASTE");
+if (!ready) $("setupWarn").classList.remove("gone");
+
+const supabase = ready ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+
+function flash(el, msg, kind){
+  el.textContent = msg;
+  el.className = "flash on " + kind;
+  if (kind === "good") setTimeout(() => el.className = "flash", 3500);
+}
+
+/* ---------- category chips ---------- */
+$("catChips").addEventListener("click", e => {
+  const chip = e.target.closest(".chip");
+  if (chip) chip.classList.toggle("on");
+});
+const pickedCats = () =>
+  [...document.querySelectorAll("#catChips .chip.on")].map(c => c.dataset.cat);
+
+/* ---------- auth ---------- */
+$("loginBtn").addEventListener("click", async () => {
+  if (!ready) return flash($("loginFlash"), "Add your Supabase config to this file first.", "bad");
+  const em = $("email").value.trim(), pw = $("password").value;
+  if (!em || !pw) return flash($("loginFlash"), "Enter your email and password.", "bad");
+  $("loginBtn").disabled = true;
+  const { error } = await supabase.auth.signInWithPassword({ email: em, password: pw });
+  if (error) flash($("loginFlash"), "Sign-in failed. Check your email and password.", "bad");
+  $("loginBtn").disabled = false;
+});
+$("password").addEventListener("keydown", e => { if (e.key === "Enter") $("loginBtn").click(); });
+
+if (ready) {
+  supabase.auth.onAuthStateChange((event, session) => {
+    if (session) {
+      $("gate").classList.add("gone");
+      $("panel").classList.remove("gone");
+      $("whoEmail").textContent = session.user.email;
+      loadList();
+    } else {
+      $("panel").classList.add("gone");
+      $("gate").classList.remove("gone");
+      $("password").value = "";
+    }
+  });
+  supabase.auth.getSession().then(({ data: { session } }) => {
+    if (!session) { $("gate").classList.remove("gone"); }
+  });
+  $("logoutBtn").addEventListener("click", () => supabase.auth.signOut());
+}
+
+/* ---------- add ---------- */
+$("addBtn").addEventListener("click", async () => {
+  const name  = $("pName").value.trim();
+  const price = $("pPrice").value;
+  const img1  = $("pImg1").value.trim();
+  const cats  = pickedCats();
+
+  if (!name)         return flash($("formFlash"), "Product name is required.", "bad");
+  if (!price)        return flash($("formFlash"), "Price is required.", "bad");
+  if (!img1)         return flash($("formFlash"), "At least one image path is required.", "bad");
+  if (!cats.length)  return flash($("formFlash"), "Pick at least one category, or the product won't show under any filter.", "bad");
+
+  const images = [img1, $("pImg2").value.trim(), $("pImg3").value.trim()].filter(Boolean);
+
+  $("addBtn").disabled = true;
+  const { error } = await supabase.from("products").insert({
+    name,
+    description: $("pDesc").value.trim(),
+    price: Number(price),
+    cats,
+    badge: $("pBadge").value,
+    set_tag: $("pSetTag").value.trim(),
+    images,
+    color: $("pColor").value.trim() || "#2A8B7A",
+    bg: $("pBg").value.trim() || "#F0F4F8"
+  });
+
+  if (error) {
+    flash($("formFlash"), "Could not save: " + error.message, "bad");
+  } else {
+    ["pName","pDesc","pPrice","pImg1","pImg2","pImg3","pColor","pBg"].forEach(i => $(i).value = "");
+    document.querySelectorAll("#catChips .chip.on").forEach(c => c.classList.remove("on"));
+    flash($("formFlash"), "Added. It is live on glasshut.in now.", "good");
+    loadList();
+  }
+  $("addBtn").disabled = false;
+});
+
+/* ---------- list + delete ---------- */
+async function loadList(){
+  const { data, error } = await supabase.from("products").select("*").order("created_at", { ascending: true });
+  const list = $("list");
+
+  if (error) {
+    list.innerHTML = '<div class="blank"><strong>Cannot load</strong>' + error.message + '</div>';
+    return;
+  }
+
+  $("tally").textContent = data.length + (data.length === 1 ? " product" : " products");
+  if (data.length) $("seedBox").classList.add("gone");
+
+  if (!data.length) {
+    list.innerHTML = '<div class="blank"><strong>No products yet</strong>Use the form, or import your existing eight.</div>';
+    return;
+  }
+
+  list.innerHTML = "";
+  data.forEach(p => {
+    const row = document.createElement("div");
+    row.className = "prow";
+
+    const img = document.createElement("img");
+    img.className = "pthumb";
+    img.alt = "";
+    img.src = "https://glasshut.in/" + (p.images?.[0] || "").replace(/^\//, "");
+    img.onerror = () => { img.style.visibility = "hidden"; };
+
+    const main = document.createElement("div");
+    main.className = "pmain";
+    const nm = document.createElement("div");
+    nm.className = "pname";
+    nm.textContent = p.name;
+    const meta = document.createElement("div");
+    meta.className = "pmeta";
+    meta.textContent = p.description || "";
+    const tags = document.createElement("div");
+    tags.className = "ptags";
+    (p.cats || []).forEach(c => {
+      const t = document.createElement("span");
+      t.className = "ptag";
+      t.textContent = c;
+      tags.appendChild(t);
+    });
+    main.append(nm, meta, tags);
+
+    const price = document.createElement("div");
+    price.className = "pprice";
+    price.textContent = "₹" + Number(p.price).toLocaleString("en-IN");
+
+    const del = document.createElement("button");
+    del.className = "del";
+    del.textContent = "Delete";
+    del.addEventListener("click", async () => {
+      if (!confirm('Remove "' + p.name + '" from the shop?\n\nThis cannot be undone.')) return;
+      del.disabled = true; del.textContent = "Removing";
+      const { error: delErr } = await supabase.from("products").delete().eq("id", p.id);
+      if (delErr) { alert("Could not delete: " + delErr.message); del.disabled = false; del.textContent = "Delete"; }
+      else loadList();
+    });
+
+    row.append(img, main, price, del);
+    list.appendChild(row);
+  });
+}
+
+/* ---------- one-time import of the 8 existing products ---------- */
+const EXISTING = [
+  { name:"Light Multi", description:"Pastel multi-color glass bangles", price:190,
+    cats:["daily","trending"], badge:"Everyday", set_tag:"24-Piece Chuda Set",
+    images:["images/products/light-multi1-12.webp","images/products/light-multi2-12.webp","images/products/light-multi3-12.webp"],
+    color:"linear-gradient(135deg,#5DADE2,#F5B041,#58D68D)", bg:"#F0F4F8" },
+
+  { name:"Dark Multi", description:"Rich dark multi-color glass bangles", price:190,
+    cats:["daily","trending"], badge:"Trending", set_tag:"24-Piece Chuda Set",
+    images:["images/products/Dark-multi1-12.webp","images/products/Dark-multi2-12.webp"],
+    color:"linear-gradient(135deg,#1A5276,#6C3483)", bg:"#E8E0F0" },
+
+  { name:"Light Golden Chuda", description:"Bridal golden glass chuda set", price:240,
+    cats:["bridal"], badge:"Bridal", set_tag:"24-Piece Chuda Set",
+    images:["images/products/light-chuda1.webp","images/products/light-chuda2.webp"],
+    color:"#C9944A", bg:"linear-gradient(135deg,#FFF8E1,#FFECB3)" },
+
+  { name:"Dark Multi Chuda", description:"Bridal dark multi-color chuda set", price:240,
+    cats:["bridal"], badge:"Bridal", set_tag:"24-Piece Chuda Set",
+    images:["images/products/dark-chuda1.webp","images/products/dark-chuda2.webp"],
+    color:"linear-gradient(135deg,#922B21,#1A5276)", bg:"linear-gradient(135deg,#F0E0E8,#E0C8D8)" },
+
+  { name:"Crimson Red", description:"Crimson Red description", price:240,
+    cats:["bridal"], badge:"Bridal", set_tag:"24-Piece Chuda Set",
+    images:["images/products/CrimsonRed1.webp","images/products/CrimsonRed2.webp"],
+    color:"linear-gradient(135deg,#922B21,#1A5276)", bg:"linear-gradient(135deg,#F0E0E8,#E0C8D8)" },
+
+  { name:"Sapphire Blue", description:"Sapphire Blue description", price:240,
+    cats:["bridal"], badge:"Bridal", set_tag:"24-Piece Chuda Set",
+    images:["images/products/SapphireBlue1.webp","images/products/SapphireBlue2.webp"],
+    color:"#1A2740", bg:"#F0F4F8" },
+
+  { name:"Rainbow Nag Chuda", description:"Rainbow glass nag chuda set", price:180,
+    cats:["aesthetic"], badge:"Aesthetic", set_tag:"24-Piece Chuda Set",
+    images:["images/products/Gold-Chuda.webp","images/products/Gold-Chuda1.webp"],
+    color:"linear-gradient(135deg,#C0392B,#F39C12,#27AE60,#2E86C1,#8E44AD)",
+    bg:"linear-gradient(135deg,#F5E6F0,#E8D0E8)" },
+
+  { name:"Haldi Mehendi Royale Set", description:"Vibrant yellow and green pure glass chudiyan", price:240,
+    cats:["bridal","trending"], badge:"Bridal", set_tag:"24-Piece Chuda Set",
+    images:["images/products/haldi-mehendi1.webp","images/products/haldi-mehendi2.webp"],
+    color:"linear-gradient(135deg,#F1C40F,#27AE60)", bg:"linear-gradient(135deg,#FFF9C4,#C8E6C9)" }
+];
+
+$("seedBtn").addEventListener("click", async () => {
+  const { data: existing } = await supabase.from("products").select("id").limit(1);
+  if (existing && existing.length && !confirm("Your catalogue already has products. Import anyway? This may create duplicates.")) return;
+
+  $("seedBtn").disabled = true;
+  $("seedBtn").textContent = "Importing…";
+  const { error } = await supabase.from("products").insert(EXISTING);
+  if (error) {
+    flash($("formFlash"), "Import failed: " + error.message, "bad");
+    $("seedBtn").disabled = false;
+    $("seedBtn").textContent = "Import Existing 8 Products";
+  } else {
+    flash($("formFlash"), "All 8 products imported. You can now delete the hardcoded ones from index.html.", "good");
+    loadList();
+  }
+});
+</script>
+</body>
+</html>
