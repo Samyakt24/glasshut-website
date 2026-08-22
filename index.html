@@ -1302,7 +1302,87 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <!-- 2. Load your custom app.js file SECOND -->
-<script src="app.js?v=1"></script>
+<script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+/* Same values you pasted into gh-admin-supabase.html */
+const SUPABASE_URL      = "https://remwdweujlpcfknsbwzk.supabase.co/rest/v1/";       // e.g. https://xxxx.supabase.co
+const SUPABASE_ANON_KEY = "sb_publishable_OBbRi2Mdlb60YgNAAvmrBQ_myOSjM3P";
+
+const esc = s => String(s == null ? "" : s)
+  .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+  .replace(/"/g,"&quot;").replace(/'/g,"&#39;");
+
+function buildCard(p, key){
+  const imgs = (p.images || []).filter(Boolean);
+  if (!imgs.length) return "";
+
+  const photos = imgs.map((src, i) =>
+    `<img class="product-photo${i === 0 ? " active" : ""}" src="${esc(src)}" alt="${esc(p.name)}"
+          data-slide="${key}" loading="lazy" decoding="async"
+          onload="this.classList.add('loaded')">`
+  ).join("");
+
+  const dots = imgs.length > 1
+    ? `<div class="slide-dots">${imgs.map((_, i) =>
+        `<span class="slide-dot${i === 0 ? " active" : ""}" data-slide="${key}" data-idx="${i}"></span>`
+      ).join("")}</div>`
+    : "";
+
+  const badge  = p.badge  ? `<div class="product-badge">${esc(p.badge)}</div>` : "";
+  const setTag = p.set_tag ? `<div class="product-set-tag">${esc(p.set_tag)}</div>` : "";
+  const desc   = p.description ? `<p class="product-desc">${esc(p.description)}</p>` : "";
+  const cartName = p.set_tag && /24/.test(p.set_tag) ? `${p.name} (24pc)` : p.name;
+
+  return `
+<div class="product-card reveal" data-cat="${esc((p.cats || []).join(" "))}">
+  ${badge}
+  <div class="product-image" style="background:${esc(p.bg || "#F0F4F8")};overflow:hidden;">
+    ${photos}
+    ${dots}
+  </div>
+  <div class="product-info">
+    <h3 class="product-name">${esc(p.name)}</h3>
+    ${desc}
+    ${setTag}
+    <div class="product-price">&#8377;${Number(p.price)}</div>
+    <button class="add-to-cart"
+            data-name="${esc(cartName)}"
+            data-price="${Number(p.price)}"
+            data-color="${esc(p.color || "#2A8B7A")}">Select Size &amp; Add</button>
+  </div>
+</div>`;
+}
+
+function startApp(){
+  const s = document.createElement("script");
+  s.src = "app.js?v=2";
+  document.body.appendChild(s);
+}
+
+(async function loadProducts(){
+  const grid = document.getElementById("productsGrid");
+  if (!grid) return startApp();
+
+  try {
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const { data, error } = await supabase.from("products").select("*").order("created_at", { ascending: true });
+
+    if (error) throw error;
+
+    if (data && data.length) {
+      let html = "", n = 0;
+      data.forEach(p => { html += buildCard(p, "p" + (n++)); });
+      grid.innerHTML = html;
+    }
+    // If Supabase has no rows, the hardcoded cards already in the HTML stay put.
+  } catch (err) {
+    console.error("GlassHut: could not load products, showing hardcoded ones.", err);
+  }
+
+  startApp();
+})();
+</script>
 
 
 </body>
