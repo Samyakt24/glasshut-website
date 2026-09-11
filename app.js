@@ -411,8 +411,11 @@ function slideProduct(groupId, idx) {
   if(dots[idx]) dots[idx].classList.add('active');
 }
 
-document.querySelectorAll('.slide-dot').forEach(function(dot) {
-  dot.onclick = function() { slideProduct(this.dataset.slide, parseInt(this.dataset.idx)); };
+document.addEventListener('click', function(e) {
+  var dot = e.target.closest('.slide-dot');
+  if (dot) {
+    slideProduct(dot.dataset.slide, parseInt(dot.dataset.idx));
+  }
 });
 
 var slideGroups = Array.from(
@@ -424,7 +427,11 @@ var slideObs = new IntersectionObserver(function(entries) {
   entries.forEach(function(e) {
     if (e.isIntersecting && !slideshowStarted) {
       slideshowStarted = true;
-      slideGroups.forEach(function(gid) {
+      var groupIds = new Set();
+      document.querySelectorAll('[data-slide]').forEach(function(el) {
+        groupIds.add(el.dataset.slide);
+      });
+      groupIds.forEach(function(gid) {
         var imgs = document.querySelectorAll('img[data-slide="' + gid + '"]');
         if (imgs.length < 2) return;
         var current = 0;
