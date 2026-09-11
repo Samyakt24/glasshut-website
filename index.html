@@ -1018,7 +1018,7 @@ function buildCard(p, key){
   const cartName = p.set_tag && /24/.test(p.set_tag) ? `${p.name} (24pc)` : p.name;
 
   return `
-<div class="product-card reveal" data-cat="${esc((p.cats || []).join(" "))}">
+<div class="product-card" data-cat="${esc((p.cats || []).join(" "))}">
   ${badge}
   <div class="product-image" style="background:${esc(p.bg || "#F0F4F8")};overflow:hidden;">
     ${photos}
