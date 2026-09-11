@@ -344,7 +344,6 @@ function _showPaymentStep() {
       html += '<div class="os-row"><span>' + item.name + ' (Size ' + item.size + ') x' + item.qty + '</span><span>&#8377;' + (item.price * item.qty) + '</span></div>';
     });
     
-    // Add discount line to summary if applied
     if (isChampionApplied) {
        html += '<div class="os-row" style="color:#d9534f"><span>Discount</span><span>- &#8377;' + getDiscountAmount() + '</span></div>';
     }
@@ -398,7 +397,11 @@ document.getElementById('orderDoneBtn').onclick = function() {
   pendingOrder = null;
 };
 
-/* ===== PRODUCT IMAGE SLIDESHOW ===== */
+/* ===== PRODUCT IMAGE SLIDESHOW =====
+   CHANGED: this used to hardcode slideGroups = ['lm','dm','lgc',...] which
+   only covered the original 8 products. It now reads whatever data-slide
+   groups actually exist on the page, so products added later (including
+   ones coming from the database loader) get the same auto-rotation. */
 function slideProduct(groupId, idx) {
   var imgs = document.querySelectorAll('img[data-slide="' + groupId + '"]');
   var dots = document.querySelectorAll('.slide-dot[data-slide="' + groupId + '"]');
@@ -412,7 +415,9 @@ document.querySelectorAll('.slide-dot').forEach(function(dot) {
   dot.onclick = function() { slideProduct(this.dataset.slide, parseInt(this.dataset.idx)); };
 });
 
-var slideGroups = ['lm', 'dm', 'lgc', 'dmc', 'rnc', 'sb', 'cr', 'hmr'];
+var slideGroups = Array.from(
+  new Set(Array.from(document.querySelectorAll('[data-slide]')).map(function(el) { return el.dataset.slide; }))
+);
 var slideshowStarted = false;
 var productsSection = document.getElementById('products');
 var slideObs = new IntersectionObserver(function(entries) {
@@ -482,31 +487,29 @@ document.querySelectorAll('a[href^="#"]').forEach(function(a) {
 });
 
 /* ===== TESTIMONIAL SLIDER ===== */
-// We use 'load' to make sure the library is ready before running this
-/* ===== TESTIMONIAL SLIDER ===== */
 window.addEventListener('load', function() {
   new Swiper(".mySwiper", {
-    slidesPerView: 1,       // Start with 1 on mobile
-    spaceBetween: 20,       // Gap between cards
+    slidesPerView: 1,
+    spaceBetween: 20,
     loop: true,
     autoplay: {
       delay: 3000,
       disableOnInteraction: false,
     },
-    // This tells it to switch to 3 cards only when the screen is wide enough
     breakpoints: {
       768: { slidesPerView: 2 },
       1024: { slidesPerView: 3, spaceBetween: 30 }
     }
   });
 });
+
 // ==========================================
 //        COUPON CODE SYSTEM
 // ==========================================
 
 function applyDiscount() {
     let couponInput = document.getElementById("couponCode");
-    if(!couponInput) return; // safety check
+    if(!couponInput) return;
     
     let enteredCode = couponInput.value.trim().toUpperCase(); 
 
