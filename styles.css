@@ -128,7 +128,7 @@ nav a:hover { color: var(--copper-light); }
 .hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; z-index: 1; transition: opacity 0.5s ease, transform 0.5s ease; will-change: transform, opacity; }
 .hero-overlay { display: none; }
 .hero-bg-pattern { display: none; }
-.hero-inner { max-width: 1200px; margin: 0 auto; padding: 80px 40px; z-index: 3; position: relative; width: 100%; }
+.hero-inner { max-width: 1200px; margin: 0 auto; padding: 80px 40px; z-index: 3; position: relative; width: 100%; min-height: 450px; }
 .hero-visual { display: none; }
 .hero-text { 
   max-width: 560px; 
@@ -524,7 +524,7 @@ footer { background: var(--navy-deep); padding: 80px 40px 30px; color: var(--tea
   .newsletter-form { flex-direction: column; }
   .newsletter-form input { border-right: 1.5px solid var(--teal); border-radius: 2px; }
   .newsletter-form button { border-radius: 2px; }
-  .hero-inner { padding: 50px 20px; }
+  .hero-inner { padding: 50px 20px; min-height: 350px; }
   .hero-text { max-width: 100%; text-align: left; }
   .hero-title { font-size: 36px; }
   .hero-title em { font-size: 0.75em; }
