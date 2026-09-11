@@ -246,9 +246,10 @@ nav a:hover { color: var(--copper-light); }
 .add-to-cart:hover { background: var(--teal); border-color: var(--teal); color: white; }
 
 /* PROCESS */
+/* PROCESS */
 .process-section { padding: 100px 40px; max-width: 1100px; margin: 0 auto; }
 .process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; position: relative; }
-.process-steps::before { content: ''; position: absolute; top: 48px; left: 12%; right: 12%; height: 2px; background: linear-gradient(90deg, transparent, var(--copper), var(--copper), transparent); opacity: 0.3; }
+.process-steps::before { content: ''; position: absolute; top: 36px; left: 12%; right: 12%; height: 2px; background: linear-gradient(90deg, transparent, var(--copper), var(--copper), transparent); opacity: 0.3; }
 .step { text-align: center; position: relative; }
 
 
@@ -727,4 +728,8 @@ p, .step p, .hero-subtitle, .product-desc, .test-text {
     text-align: center !important;
     gap: 12px !important;
   }
+}
+/* Fix for overlapping slider images */
+.product-image .product-photo:not(.active) {
+  display: none !important;
 }
