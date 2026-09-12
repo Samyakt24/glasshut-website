@@ -67,10 +67,16 @@ sizeConfirm.onclick = function() {
   closeSizeModal();
   openCart();
 };
-document.querySelectorAll('.add-to-cart').forEach(function(btn) {
-  btn.onclick = function() {
-    openSizeModal({ name: this.dataset.name, price: parseInt(this.dataset.price), color: this.dataset.color });
-  };
+// DYNAMIC BUTTON LISTENER
+document.addEventListener('click', function(e) {
+  var btn = e.target.closest('.add-to-cart');
+  if (btn) {
+    openSizeModal({ 
+      name: btn.dataset.name, 
+      price: parseInt(btn.dataset.price, 10), 
+      color: btn.dataset.color 
+    });
+  }
 });
 
 /* ===== VARIANT SELECTOR ===== */
@@ -175,7 +181,33 @@ function updateCartUI() {
 
 placeOrderBtn.onclick = function() {
   if (cart.length === 0 || !validateForm()) return;
-  showPaymentStep();
+
+  // 1. Get exact cart total and customer details
+  var total = getGrandTotal();
+  var custName = document.getElementById('custName').value.trim();
+  var custPhone = document.getElementById('custPhone').value.trim();
+  var custEmail = document.getElementById('custEmail').value.trim();
+  var custAddress = document.getElementById('custAddress').value.trim();
+  var custCity = document.getElementById('custCity').value.trim();
+  var custState = document.getElementById('custState').value.trim();
+  var custPincode = document.getElementById('custPincode').value.trim();
+
+  var fullAddress = custAddress + ', ' + custCity + ', ' + custState + ' - ' + custPincode;
+  
+  // 2. Format items for Supabase
+  var itemsList = cart.map(function(i) {
+    return i.name + ' (Size ' + i.size + ') x' + i.qty;
+  }).join(', ');
+
+  // 3. Launch Razorpay securely
+  triggerRazorpayPayment({
+    name: custName,
+    phone: custPhone,
+    email: custEmail,
+    address: fullAddress,
+    amount: total, 
+    items: itemsList
+  });
 };
 
 document.getElementById('copyUpiBtn2').onclick = function() {
@@ -614,3 +646,95 @@ document.querySelectorAll('.product-image').forEach(function(container) {
     img.style.transform = 'scale(1)'; 
   });
 });
+
+// Replace with your actual Key ID (rzp_test_... or rzp_live_...)
+const RAZORPAY_KEY_ID = "rzp_live_TbISTmcOgjiRT8";
+
+async function triggerRazorpayPayment(orderDetails) {
+  // orderDetails should have: { name, phone, email, address, amount, items }
+  
+  const options = {
+    key: RAZORPAY_KEY_ID,
+    amount: Math.round(orderDetails.amount * 100), // Amount in paise (₹1 = 100 paise)
+    currency: "INR",
+    name: "GlassHut",
+    description: "Order Payment",
+    image: "images/products/logo.png", // Optional: link to your logo
+    prefill: {
+      name: orderDetails.name,
+      email: orderDetails.email || "",
+      contact: orderDetails.phone
+    },
+    theme: {
+      color: "#842338" // Adjust to match your brand accent color
+    },
+    handler: async function (response) {
+      // This runs when the customer successfully completes payment
+      console.log("Payment Successful:", response.razorpay_payment_id);
+      
+      await saveOrderToSupabase({
+        ...orderDetails,
+        payment_id: response.razorpay_payment_id,
+        status: "PAID"
+      });
+    },
+    modal: {
+      ondismiss: function () {
+        console.log("Customer closed the checkout popup without paying.");
+      }
+    }
+  };
+
+  const rzp = new Razorpay(options);
+  
+  rzp.on("payment.failed", function (response) {
+    alert("Payment failed: " + response.error.description);
+    console.error("Payment error:", response.error);
+  });
+
+  rzp.open();
+}
+
+async function saveOrderToSupabase(orderData) {
+  try {
+    // Assuming supabaseClient is already initialized in your project
+    const { data, error } = await supabaseClient
+      .from('orders')
+      .insert([
+        {
+          customer_name: orderData.name,
+          customer_phone: orderData.phone,
+          customer_email: orderData.email,
+          shipping_address: orderData.address,
+          total_amount: orderData.amount,
+          items: orderData.items,
+          payment_id: orderData.payment_id,
+          payment_status: orderData.status,
+          created_at: new Date().toISOString()
+        }
+      ]);
+
+    if (error) {
+      console.error("Error saving order to Supabase:", error);
+      alert("Payment was successful, but there was an issue recording your order. Please contact support.");
+      return;
+    }
+
+    // Success! Clear the cart and show confirmation
+// Success! Clear the cart, reset UI, and show confirmation
+    alert("Thank you! Your order has been placed successfully. Payment ID: " + orderData.payment_id);
+    
+    // Empty the active cart array
+    cart = []; 
+    // Update the visual cart drawer to show 0 items
+    updateCartUI(); 
+    // Close the cart drawer
+    closeCart(); 
+    
+    // Redirect to home or reload the page
+    window.location.href = "/";
+  } catch (err) {
+    console.error("Unexpected error:", err);
+  }
+}
+
