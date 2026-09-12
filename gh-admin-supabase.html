@@ -142,6 +142,28 @@ textarea{resize:vertical;min-height:64px}
           <button type="button" class="chip" data-cat="trending">Trending</button>
           <button type="button" class="chip" data-cat="daily">Everyday</button>
         </div>
+        <!-- Order Management Panel -->
+    <section class="panel" style="margin-top: 30px;">
+      <div class="panel-head">
+        <h2>Order Management</h2>
+        <span class="tally" id="orderTally">&mdash;</span>
+      </div>
+      <div class="panel-body" style="overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; text-align: left;">
+            <thead>
+                <tr style="border-bottom: 2px solid rgba(42,139,122,.15);">
+                    <th style="padding: 10px; color: var(--navy); font-size: 13px;">Date</th>
+                    <th style="padding: 10px; color: var(--navy); font-size: 13px;">Customer</th>
+                    <th style="padding: 10px; color: var(--navy); font-size: 13px;">Order Details</th>
+                    <th style="padding: 10px; color: var(--navy); font-size: 13px;">Update Status & Link</th>
+                </tr>
+            </thead>
+            <tbody id="ordersList">
+                <tr><td colspan="4" class="blank">Loading orders...</td></tr>
+            </tbody>
+        </table>
+      </div>
+    </section>
 
         <label for="pBadge">Corner badge</label>
         <select id="pBadge">
@@ -248,6 +270,7 @@ if (ready) {
       $("panel").classList.remove("gone");
       $("whoEmail").textContent = session.user.email;
       loadList();
+      loadOrders();
     } else {
       $("panel").classList.add("gone");
       $("gate").classList.remove("gone");
@@ -476,6 +499,71 @@ $("seedBtn").addEventListener("click", async () => {
     loadList();
   }
 });
+
+/* ---------- order management ---------- */
+async function loadOrders() {
+  const { data, error } = await supabase.from('orders').select('*').order('created_at', { ascending: false });
+  const tbody = $("ordersList");
+  
+  if (error) { tbody.innerHTML = `<tr><td colspan="4" class="blank">Error loading orders.</td></tr>`; return; }
+  
+  $("orderTally").textContent = data.length + " orders";
+  if (!data.length) { tbody.innerHTML = `<tr><td colspan="4" class="blank">No orders yet.</td></tr>`; return; }
+  
+  tbody.innerHTML = "";
+  data.forEach(o => {
+    const tr = document.createElement("tr");
+    tr.style.borderBottom = "1px solid rgba(42,139,122,.08)";
+    const date = new Date(o.created_at).toLocaleDateString('en-IN');
+    
+    tr.innerHTML = `
+      <td style="padding: 12px; font-size: 13px;">${date}</td>
+      <td style="padding: 12px;">
+        <strong>${o.customer_name}</strong><br>
+        <span style="font-size:12px;color:var(--text-muted);">${o.customer_phone}</span><br>
+        <span style="font-size:11px;color:var(--text-muted);">${o.shipping_address}</span>
+      </td>
+      <td style="padding: 12px; font-size: 13px; line-height: 1.4;">
+        ${o.items}<br>
+        <strong style="color:var(--copper)">₹${o.total_amount}</strong>
+      </td>
+      <td style="padding: 12px; display: flex; flex-direction: column; gap: 6px;">
+        <select id="status-${o.id}" style="padding:6px; font-size:12px; margin:0; border: 1px solid #ccc; border-radius:3px;">
+          <option value="PAID" ${o.payment_status === 'PAID' ? 'selected' : ''}>Paid (Processing)</option>
+          <option value="PACKING" ${o.payment_status === 'PACKING' ? 'selected' : ''}>Packing</option>
+          <option value="SHIPPED" ${o.payment_status === 'SHIPPED' ? 'selected' : ''}>Shipped</option>
+          <option value="DELIVERED" ${o.payment_status === 'DELIVERED' ? 'selected' : ''}>Delivered</option>
+          <option value="CANCELLED" ${o.payment_status === 'CANCELLED' ? 'selected' : ''}>Cancelled</option>
+        </select>
+        <input type="text" id="link-${o.id}" value="${o.tracking_link || ''}" placeholder="Paste courier link here" style="padding:6px; font-size:12px; margin:0; border: 1px solid #ccc; border-radius:3px;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <button onclick="saveOrderUpdates('${o.id}')" style="background:var(--teal); color:white; border:none; padding:6px 12px; border-radius:3px; cursor:pointer; font-size:11px; font-weight:bold;">Update Order</button>
+          <span id="msg-${o.id}" style="color:var(--teal); font-size:11px; opacity:0; transition:opacity 0.3s;">✓ Saved</span>
+        </div>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+window.saveOrderUpdates = async function(id) {
+  const newStatus = document.getElementById(`status-${id}`).value;
+  const newLink = document.getElementById(`link-${id}`).value.trim();
+  
+  const { error } = await supabase.from('orders').update({ 
+    payment_status: newStatus,
+    tracking_link: newLink
+  }).eq('id', id);
+  
+  if(error) {
+    alert("Failed to update order.");
+    console.error(error);
+  } else {
+    const msg = document.getElementById(`msg-${id}`);
+    msg.style.opacity = "1";
+    setTimeout(() => msg.style.opacity = "0", 2000);
+  }
+};
 </script>
 </body>
 </html>

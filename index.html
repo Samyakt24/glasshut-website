@@ -44,6 +44,8 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
 
 <link rel="preconnect" href="https://www.googletagmanager.com">
 
+
+
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Organization","name":"GlassHut","url":"https://glasshut.in","logo":"https://glasshut.in/images/products/light-multi1-12.webp","description":"Pure handcrafted glass bangles from Firozabad. Shop bridal chuda, daily wear, aesthetic and trending glass bangle sets.","address":{"@type":"PostalAddress","addressLocality":"Firozabad","addressRegion":"Uttar Pradesh","addressCountry":"IN"},"contactPoint":{"@type":"ContactPoint","email":"glasshut83@gmail.com","contactType":"customer service"},"sameAs":["https://www.instagram.com/glasshut.83"]}
 </script>
@@ -750,7 +752,7 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
 <div class="footer-col">
   <h4>Help</h4>
   <a href="#sizes">Size Guide</a>
-  <a href="#" onclick="openModal('shippingOverlay');return false;">Shipping Info</a>
+<a href="#" onclick="openModal('trackOverlay');return false;">Track Order</a>
   <a href="#" onclick="openPolicy();return false;">Returns &amp; Refund Policy</a>
   <!-- New Links -->
   <a href="#" onclick="openModal('privacyOverlay');return false;">Privacy Policy</a>
@@ -910,15 +912,29 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
     </div>
   </div>
 </div>
+<!-- Order Tracking Modal -->
 <div class="policy-overlay" id="trackOverlay">
   <div class="policy-modal">
-    <div class="policy-header"><h3>Track Your Order</h3><button class="policy-close" onclick="closeModal('trackOverlay')">&times;</button></div>
+    <div class="policy-header">
+      <h3>Track Your Order</h3>
+      <button class="policy-close" onclick="closeModal('trackOverlay')">&times;</button>
+    </div>
+    
     <div class="policy-body">
-      <div class="pol-section">
-        <h4>How to Track Your Order</h4>
-        <p>Once your order is shipped, we will share the <strong>tracking number</strong> with you via phone call or SMS.</p>
-        <p>You can also email us at <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="56313a3725253e23226e6516313b373f3a7835393b">[email&#160;protected]</a></strong> with your order number and we will share the latest status.</p>
+      <!-- 1. The New Tracking Search Box -->
+      <div class="pol-section" style="text-align: center; border-bottom: 1px solid rgba(42,139,122,.15); padding-bottom: 24px; margin-bottom: 24px;">
+        <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 15px;">Enter your billing mobile number to check your order status.</p>
+        
+        <input type="tel" id="trackPhone" placeholder="10-digit mobile number" maxlength="10" style="width: 100%; padding: 11px 14px; margin-bottom: 14px; border: 1.5px solid rgba(42,139,122,.25); border-radius: 3px; font-family: 'Rajdhani', sans-serif; font-size: 15px; outline: none;">
+        
+        <button onclick="checkOrderStatus()" style="background: var(--teal); color: white; padding: 14px; border: none; border-radius: 3px; cursor: pointer; width: 100%; font-family: 'Rajdhani', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; transition: background 0.3s;">
+          Look Up Orders
+        </button>
+        
+        <div id="trackResult" style="margin-top: 20px; text-align: left; max-height: 350px; overflow-y: auto;"></div>
       </div>
+
+      <!-- 2. Your Original Timeline -->
       <div class="pol-section">
         <h4>Order Status Timeline</h4>
         <p><strong>Order Placed</strong> &#8212; We received your order and are verifying payment.</p>
@@ -927,6 +943,8 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
         <p><strong>Out for Delivery</strong> &#8212; Your bangles will arrive today.</p>
         <p><strong>Delivered</strong> &#8212; Enjoy your beautiful bangles!</p>
       </div>
+
+      <!-- 3. Your Original Support Info -->
       <div class="pol-section">
         <h4>Didn't Receive Your Order?</h4>
         <p>If your order hasn't arrived within <strong>7 business days</strong>, please email us at <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3e59525f4d4d564b4a060d7e59535f5752105d5153">[email&#160;protected]</a></strong> with your order number.</p>
@@ -995,6 +1013,9 @@ import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 const SUPABASE_URL      = "https://remwdweujlpcfknsbwzk.supabase.co";       // e.g. https://xxxx.supabase.co
 const SUPABASE_ANON_KEY = "sb_publishable_OBbRi2Mdlb60YgNAAvmrBQ_myOSjM3P";
 
+// This shares the database connection globally so app.js can use it!
+window.supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
 const esc = s => String(s == null ? "" : s)
   .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
   .replace(/"/g,"&quot;").replace(/'/g,"&#39;");
@@ -1047,7 +1068,8 @@ function buildCard(p, key){
   if (!grid) return startApp();
 
   try {
-    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    // CHANGE THIS LINE:
+    const supabase = window.supabaseClient; 
     const { data, error } = await supabase.from("products").select("*").order("created_at", { ascending: true });
 
     if (error) throw error;

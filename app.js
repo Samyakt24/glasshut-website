@@ -1,6 +1,5 @@
 /* GlassHut — app.js */
 
-var UPI_ID = 'samyaktjain1999-2@okicici';
 var cart = [];
 var isChampionApplied = false; // Just a simple ON/OFF switch! 
 var pendingProduct = null;
@@ -738,3 +737,57 @@ async function saveOrderToSupabase(orderData) {
   }
 }
 
+// --- GUEST ORDER TRACKING BY PHONE (PRIVACY SAFE) ---
+// --- GUEST ORDER TRACKING BY PHONE (PRIVACY SAFE) ---
+async function checkOrderStatus() {
+  const phone = document.getElementById('trackPhone').value.trim();
+  const resultDiv = document.getElementById('trackResult');
+
+  if (!phone || phone.length !== 10 || isNaN(phone)) {
+    alert("Please enter a valid 10-digit mobile number.");
+    return;
+  }
+
+  resultDiv.innerHTML = "<p style='text-align: center; color: #666;'>Looking up your orders...</p>";
+
+  try {
+    // Only fetch safe columns. No name, email, or address.
+    const { data, error } = await supabaseClient
+      .from('orders')
+      .select('created_at, payment_status, items, total_amount, tracking_link')
+      .eq('customer_phone', phone)
+      .order('created_at', { ascending: false });
+
+    if (error || !data || data.length === 0) {
+      resultDiv.innerHTML = `<p style="color: #D32F2F; text-align: center;">We couldn't find any orders linked to this number.</p>`;
+      return;
+    }
+
+    let html = "";
+    data.forEach(order => {
+      const orderDate = new Date(order.created_at).toLocaleDateString('en-IN');
+      
+      const trackingButton = order.tracking_link 
+        ? `<a href="${order.tracking_link}" target="_blank" style="display:inline-block; margin-top:10px; background:#1E2D50; color:white; padding:6px 12px; border-radius:4px; text-decoration:none; font-size:12px;">📍 Track Package</a>`
+        : ``;
+
+      html += `
+        <div style="background: #FAFAF7; padding: 15px; border-radius: 6px; border: 1px solid #e2e8f0; margin-bottom: 15px;">
+          <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding-bottom: 8px; margin-bottom: 8px;">
+             <span style="font-size: 13px; color: #6B7A8D;">Date: ${orderDate}</span>
+             <span style="font-size: 13px; font-weight: bold; color: #2A8B7A;">${order.payment_status}</span>
+          </div>
+          <p style="margin: 5px 0 0 0; font-size: 13px; color: #1E2D50; line-height: 1.4;">${order.items}</p>
+          <p style="margin: 5px 0 0 0; font-size: 14px; font-weight: bold; color: #856A06;">Total: ₹${order.total_amount}</p>
+          ${trackingButton}
+        </div>
+      `;
+    });
+    
+    resultDiv.innerHTML = html;
+
+  } catch (err) {
+    console.error("Tracking Error:", err);
+    resultDiv.innerHTML = `<p style="color: #D32F2F; text-align: center;">System error. Please try again later.</p>`;
+  }
+}
