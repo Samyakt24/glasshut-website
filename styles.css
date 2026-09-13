@@ -733,3 +733,128 @@ p, .step p, .hero-subtitle, .product-desc, .test-text {
 .product-image .product-photo:not(.active) {
   display: none !important;
 }
+
+/* =========================================
+   FINAL LAYOUT FIXES
+   ========================================= */
+
+/* 1. Fix Arohi Red Button Alignment (Pushes buttons to bottom) */
+.product-card {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+}
+.product-info {
+  display: flex !important;
+  flex-direction: column !important;
+  flex-grow: 1 !important;
+}
+.add-to-cart {
+  margin-top: auto !important; 
+}
+
+/* 2. Fix Logo Icon (Turns white square into a neat circle) */
+.logo-wrap {
+  flex: 0 0 auto !important;
+}
+.logo-icon {
+  height: 50px !important;
+  width: 50px !important;
+  object-fit: cover !important;
+  border-radius: 50% !important; 
+}
+
+/* 3. Fix Heritage Stats (Forces straight row on Desktop) */
+@media (min-width: 769px) {
+  .heritage-stats {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center !important;
+    gap: 80px !important;
+    margin-top: 40px !important;
+  }
+}
+
+/* 4. Fix Slider Dots (Keeps them pinned to the image bottom) */
+.slide-dots {
+  bottom: 10px !important;
+  z-index: 10 !important;
+}
+
+/* 5. Fix Hero Section Spacing & Mobile Stats */
+.hero-cta {
+  margin-bottom: 32px !important; /* Adds breathing room below the button */
+}
+
+@media (max-width: 768px) {
+  .hero-stats {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important; /* Forces a neat 2x2 grid */
+    gap: 20px 12px !important; /* Vertical and horizontal spacing */
+    margin-top: 24px !important;
+    padding-top: 24px !important;
+    border-top: 1px solid rgba(42, 139, 122, 0.15) !important; /* Elegant separator line */
+  }
+  
+  /* Shrinks the stat text slightly so it fits perfectly side-by-side */
+  .hero-stat-num {
+    font-size: 16px !important;
+    margin-bottom: 2px !important;
+  }
+  .hero-stat-label {
+    font-size: 9px !important;
+    letter-spacing: 1px !important;
+  }
+}
+
+/* =========================================
+   MOBILE PRODUCT CARD UPGRADE (2 Per Row)
+   ========================================= */
+@media (max-width: 768px) {
+  /* 1. Show 2 products side-by-side instead of 1 giant one */
+  .products-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 12px !important; /* Tighter spacing for mobile */
+  }
+
+  /* 2. Adjust image height so it looks proportional */
+  .product-image {
+    height: 180px !important; 
+  }
+
+  /* 3. Shrink text and padding to fit the smaller cards */
+  .product-info {
+    padding: 12px 8px !important;
+  }
+  
+  .product-name {
+    font-size: 16px !important;
+    margin-bottom: 2px !important;
+  }
+  
+  /* Hides extra-long descriptions with '...' so cards stay the same height */
+  .product-desc {
+    font-size: 12px !important;
+    white-space: nowrap !important; 
+    overflow: hidden !important;
+    text-overflow: ellipsis !important; 
+  }
+  
+  .product-set-tag {
+    font-size: 9px !important;
+    padding: 4px 8px !important;
+    margin-bottom: 8px !important;
+  }
+  
+  .product-price {
+    font-size: 18px !important;
+    margin-bottom: 8px !important;
+  }
+  
+  /* Shrinks the button text so it still fits nicely */
+  .add-to-cart {
+    padding: 8px 4px !important;
+    font-size: 10px !important;
+    letter-spacing: 1px !important;
+  }
+}
