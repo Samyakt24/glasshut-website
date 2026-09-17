@@ -890,3 +890,4 @@ p, .step p, .hero-subtitle, .product-desc, .test-text {
   background: #C89B3C !important;
   color: #0b192c !important; /* Navy text on hover */
 }
+.cart-item-photo{width:56px;height:56px;object-fit:cover;border-radius:6px;flex-shrink:0;border:1px solid rgba(42,139,122,.15)}
