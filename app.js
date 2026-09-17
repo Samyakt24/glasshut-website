@@ -1,5 +1,6 @@
 /* GlassHut — app.js */
 
+var UPI_ID = 'samyaktjain1999-2@okicici';
 var cart = [];
 var isChampionApplied = false; // Just a simple ON/OFF switch! 
 var pendingProduct = null;
@@ -70,10 +71,13 @@ sizeConfirm.onclick = function() {
 document.addEventListener('click', function(e) {
   var btn = e.target.closest('.add-to-cart');
   if (btn) {
-    openSizeModal({ 
-      name: btn.dataset.name, 
-      price: parseInt(btn.dataset.price, 10), 
-      color: btn.dataset.color 
+    var card = btn.closest('.product-card');
+    var ph = card ? (card.querySelector('.product-photo.active') || card.querySelector('.product-photo')) : null;
+    openSizeModal({
+      name: btn.dataset.name,
+      price: parseInt(btn.dataset.price, 10),
+      color: btn.dataset.color,
+      img: ph ? ph.src : (btn.dataset.img || '')
     });
   }
 });
