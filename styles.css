@@ -869,3 +869,24 @@ p, .step p, .hero-subtitle, .product-desc, .test-text {
     letter-spacing: 1px !important;
   }
 }
+/* Top Navigation Track Button */
+.header-track-btn {
+  background: transparent !important;
+  border: 1px solid #C89B3C !important; /* Elegant GlassHut Copper */
+  color: #C89B3C !important;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  border-radius: 2px;
+  cursor: pointer;
+  margin-left: 15px; 
+  transition: all 0.3s ease;
+}
+
+.header-track-btn:hover {
+  background: #C89B3C !important;
+  color: #0b192c !important; /* Navy text on hover */
+}

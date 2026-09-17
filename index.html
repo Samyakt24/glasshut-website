@@ -69,18 +69,29 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
   </div>
 </div>
 <div class="ornate-border"></div>
-
 <header>
   <div class="nav-inner">
-    <a href="#" class="logo-wrap"><img src="images/products/logo.png" alt="GlassHut" class="logo-icon" width="452" height="452"><div class="logo-text"><span class="logo-brand">GlassHut</span><span class="logo-sub">Crafted to Shine</span></div></a>
+    <a href="#" class="logo-wrap">
+      <img src="images/products/logo.png" alt="GlassHut" class="logo-icon" width="452" height="452">
+      <div class="logo-text">
+        <span class="logo-brand">GlassHut</span>
+        <span class="logo-sub">Crafted to Shine</span>
+      </div>
+    </a>
+    
 <nav>
   <a href="index.html#categories">Collections</a>
   <a href="index.html#products">Shop</a>
   <a href="index.html#process">Our Craft</a>
-<a href="about.html" onclick="window.location.href='about.html'; return false;">About Us</a>
+  <a href="about.html" onclick="window.location.href='about.html'; return false;">About Us</a>
+  <a href="#" onclick="openModal('trackOverlay'); return false;">Track Order</a>
 </nav>
+    
     <div class="nav-icons">
-      <button class="nav-icon-btn" id="cartBtn" aria-label="View cart"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M6 6h15l-1.5 9H7.5L6 6z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="9" cy="20" r="1.5" fill="currentColor" stroke="none"/><circle cx="18" cy="20" r="1.5" fill="currentColor" stroke="none"/><path d="M2 2h3l1 4" fill="none" stroke="currentColor" stroke-width="2"/></svg><span class="cart-count" id="cartCount">0</span></button>
+      <button class="nav-icon-btn" id="cartBtn" aria-label="View cart">
+        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M6 6h15l-1.5 9H7.5L6 6z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="9" cy="20" r="1.5" fill="currentColor" stroke="none"/><circle cx="18" cy="20" r="1.5" fill="currentColor" stroke="none"/><path d="M2 2h3l1 4" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
       <button class="hamburger" id="hamburgerBtn" aria-label="Open menu"><span></span><span></span><span></span></button>
     </div>
   </div>
@@ -93,6 +104,11 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
   <a href="#process" onclick="closeMobileMenu()">Our Craft</a>
   <a href="#heritage" onclick="closeMobileMenu()">About Us</a>
   <a href="#sizes" onclick="closeMobileMenu()">Size Guide</a>
+  
+  <!-- NEW: Mobile Track Order Link -->
+  <a href="#" onclick="closeMobileMenu(); openModal('trackOverlay'); return false;" style="color: var(--teal); font-weight: 700; border-top: 1px solid rgba(42, 139, 122, 0.2); margin-top: 10px; padding-top: 20px;">
+    Track Order 📍
+  </a>
 </div>
 
 <div class="cart-overlay" id="cartOverlay"></div>
@@ -745,12 +761,10 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
 <div class="footer-col">
   <h4>Help</h4>
   <a href="#sizes">Size Guide</a>
-<a href="#" onclick="openModal('trackOverlay');return false;">Track Order</a>
   <a href="#" onclick="openPolicy();return false;">Returns &amp; Refund Policy</a>
   <!-- New Links -->
   <a href="#" onclick="openModal('privacyOverlay');return false;">Privacy Policy</a>
   <a href="#" onclick="openModal('termsOverlay');return false;">Terms &amp; Conditions</a>
-  <a href="#" onclick="openModal('trackOverlay');return false;">Track Order</a>
   <a href="#" onclick="openModal('faqOverlay');return false;">FAQs</a>
 </div>
 <div class="policy-overlay" id="termsOverlay">
@@ -996,7 +1010,7 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
 <!-- The 'defer' keyword tells the browser to load these in the background without blocking the screen -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
-<script src="app.js?v=2" defer></script>
+<script src="app.js?v=3" defer></script>
 
 <!-- 2. Load your custom app.js file SECOND -->
 <script type="module">
