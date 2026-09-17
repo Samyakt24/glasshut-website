@@ -114,6 +114,7 @@ function getGrandTotal() {
 }
 
 function updateCartUI() {
+  localStorage.setItem('glasshut_cart', JSON.stringify(cart));
   var subtotal = getTotal(), shipping = getShipping(), total = getGrandTotal();
   var count = cart.reduce(function(s, i) { return s + i.qty; }, 0);
   
@@ -596,6 +597,10 @@ function removeDiscount() {
 //        SAVE CUSTOMER DETAILS
 // ==========================================
 
+// ==========================================
+//        SAVE CUSTOMER DETAILS & AUTO-LOAD
+// ==========================================
+
 function loadSavedCustomer() {
     let savedData = localStorage.getItem("glasshut_customer");
     if (savedData) {
@@ -605,6 +610,8 @@ function loadSavedCustomer() {
         if(document.getElementById('custEmail')) document.getElementById('custEmail').value = customer.email || '';
         if(document.getElementById('custAddress')) document.getElementById('custAddress').value = customer.address || '';
         if(document.getElementById('custPincode')) document.getElementById('custPincode').value = customer.pincode || '';
+        if(document.getElementById('custCity')) document.getElementById('custCity').value = customer.city || '';
+        if(document.getElementById('custState')) document.getElementById('custState').value = customer.state || '';
         
         if (customer.pincode && customer.pincode.length === 6) {
             autoPincode(customer.pincode);
@@ -618,15 +625,45 @@ function saveCustomerDetails() {
         phone: document.getElementById('custPhone') ? document.getElementById('custPhone').value.trim() : "",
         email: document.getElementById('custEmail') ? document.getElementById('custEmail').value.trim() : "",
         address: document.getElementById('custAddress') ? document.getElementById('custAddress').value.trim() : "",
-        pincode: document.getElementById('custPincode') ? document.getElementById('custPincode').value.trim() : ""
+        pincode: document.getElementById('custPincode') ? document.getElementById('custPincode').value.trim() : "",
+        city: document.getElementById('custCity') ? document.getElementById('custCity').value.trim() : "",
+        state: document.getElementById('custState') ? document.getElementById('custState').value.trim() : ""
     };
     localStorage.setItem("glasshut_customer", JSON.stringify(customer));
 }
 
-document.addEventListener("DOMContentLoaded", function() {
-    loadSavedCustomer();
+// 1. Save data instantly as they type in the form
+document.querySelectorAll('#checkoutForm input, #checkoutForm select').forEach(function(input) {
+    input.addEventListener('input', saveCustomerDetails);
 });
 
+// 2. Load everything back if the page is refreshed
+document.addEventListener("DOMContentLoaded", function() {
+    // Restore the Cart
+    let savedCart = localStorage.getItem("glasshut_cart");
+    if (savedCart) {
+        try { 
+            cart = JSON.parse(savedCart); 
+        } catch(e) { 
+            cart = []; 
+        }
+        updateCartUI(); // Redraws the cart drawer
+    }
+    
+    // Restore the Form
+    loadSavedCustomer();
+    
+    // Restore the Success Screen (from previous step)
+    let savedOrder = sessionStorage.getItem('glasshut_last_order');
+    if (savedOrder) {
+        let orderData = JSON.parse(savedOrder);
+        document.getElementById('orderId').textContent = 'Payment ID: ' + orderData.orderId;
+        document.getElementById('orderConfirmSummary').innerHTML = orderData.summaryHtml;
+        document.getElementById('payStep').style.display = 'none';
+        document.getElementById('confirmStep').style.display = 'block';
+        document.getElementById('orderConfirmOverlay').classList.add('open');
+    }
+});
 /* ===== INTERACTIVE IMAGE ZOOM ===== */
 document.querySelectorAll('.product-image').forEach(function(container) {
   container.addEventListener('mousemove', function(e) {
@@ -696,8 +733,7 @@ async function triggerRazorpayPayment(orderDetails) {
 
 async function saveOrderToSupabase(orderData) {
   try {
-    // Assuming supabaseClient is already initialized in your project
-    const { data, error } = await supabaseClient
+    const { data, error } = await window.supabaseClient
       .from('orders')
       .insert([
         {
@@ -714,24 +750,40 @@ async function saveOrderToSupabase(orderData) {
       ]);
 
     if (error) {
-      console.error("Error saving order to Supabase:", error);
-      alert("Payment was successful, but there was an issue recording your order. Please contact support.");
+      console.error("Supabase Error Details:", error);
+      alert("Database Error: " + error.message);
       return;
     }
 
-    // Success! Clear the cart and show confirmation
-// Success! Clear the cart, reset UI, and show confirmation
-    alert("Thank you! Your order has been placed successfully. Payment ID: " + orderData.payment_id);
+    // --- STEP 3: CLEAR CART & SHOW POPUP ---
     
-    // Empty the active cart array
+    // 1. Empty the active cart array AND clear the saved memory
     cart = []; 
-    // Update the visual cart drawer to show 0 items
+    localStorage.removeItem('glasshut_cart');
+    
+    // 2. Update the visual cart drawer to show 0 items and close it
     updateCartUI(); 
-    // Close the cart drawer
     closeCart(); 
     
-    // Redirect to home or reload the page
-    window.location.href = "/";
+    // 3. Build a summary receipt
+    let summaryHtml = `
+      <div class="os-row"><span>${orderData.items}</span></div>
+      <div class="os-row total"><span>Total Paid</span><span>₹${orderData.amount}</span></div>
+    `;
+
+    // 4. Save receipt to session memory so it survives a refresh
+    sessionStorage.setItem('glasshut_last_order', JSON.stringify({
+      orderId: orderData.payment_id,
+      summaryHtml: summaryHtml
+    }));
+
+    // 5. Open the beautiful confirmation popup directly (No page reload!)
+    document.getElementById('orderId').textContent = 'Payment ID: ' + orderData.payment_id;
+    document.getElementById('orderConfirmSummary').innerHTML = summaryHtml;
+    document.getElementById('payStep').style.display = 'none';
+    document.getElementById('confirmStep').style.display = 'block';
+    document.getElementById('orderConfirmOverlay').classList.add('open');
+
   } catch (err) {
     console.error("Unexpected error:", err);
   }
