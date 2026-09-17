@@ -135,16 +135,19 @@ function updateCartUI() {
     cartFooter.style.display = 'block';
     document.getElementById('cartPayBar').style.display = 'block';
     
-    cartSubtotal.innerHTML = '&#8377;' + subtotal.toLocaleString('en-IN');
+    if (cartSubtotal) cartSubtotal.innerHTML = '&#8377;' + subtotal.toLocaleString('en-IN');
     
-    if (shipping === 0) {
-      cartShipping.innerHTML = 'FREE';
-      cartShipping.style.color = 'var(--teal)';
-      shippingLabel.textContent = 'Shipping';
-    } else {
-      cartShipping.innerHTML = '&#8377;' + shipping;
-      cartShipping.style.color = 'var(--copper-dark)';
-      shippingLabel.innerHTML = 'Shipping <span style="font-size:10px;opacity:0.6">(Free above &#8377;250)</span>';
+    // Safety check: Only update shipping if the HTML element exists
+    if (cartShipping) {
+        if (shipping === 0) {
+          cartShipping.innerHTML = 'FREE';
+          cartShipping.style.color = 'var(--teal)';
+          if (shippingLabel) shippingLabel.textContent = 'Shipping';
+        } else {
+          cartShipping.innerHTML = '&#8377;' + shipping;
+          cartShipping.style.color = 'var(--copper-dark)';
+          if (shippingLabel) shippingLabel.innerHTML = 'Shipping <span style="font-size:10px;opacity:0.6">(Free above &#8377;250)</span>';
+        }
     }
     
     // --- DISCOUNT ROW LOGIC ---
@@ -152,7 +155,7 @@ function updateCartUI() {
     var cartDiscountRow = document.getElementById('cartDiscountRow');
     var cartDiscountAmount = document.getElementById('cartDiscountAmount');
 
-    if (discount > 0 && cartDiscountRow) {
+    if (discount > 0 && cartDiscountRow && cartDiscountAmount) {
         cartDiscountRow.style.display = 'flex';
         cartDiscountAmount.innerHTML = '-&#8377;' + discount;
     } else if (cartDiscountRow) {

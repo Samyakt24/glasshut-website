@@ -152,14 +152,25 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
 </div>
 
 
-    <div class="cart-total" style="margin-bottom:8px"><span class="cart-total-label">Subtotal</span><span class="cart-total-amount" id="cartSubtotal" style="font-size:20px">&#8377;0</span></div>
+ <div class="cart-total" style="margin-bottom:8px">
+  <span class="cart-total-label">Subtotal</span>
+  <span class="cart-total-amount" id="cartSubtotal" style="font-size:20px">&#8377;0</span>
+</div>
+
+<div class="cart-total" style="margin-bottom:8px">
+  <span class="cart-total-label" id="shippingLabel">Shipping</span>
+  <span id="cartShipping" style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--teal)">&#8377;50</span>
+</div>
+
 <div class="cart-total" id="cartDiscountRow" style="margin-bottom:8px; display:none;">
   <span class="cart-total-label" style="color:#d9534f;">Discount Applied</span>
   <span id="cartDiscountAmount" style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:#d9534f;">-&#8377;0</span>
 </div>
-    <div style="border-top:1px solid rgba(42,139,122,0.15);padding-top:12px;margin-bottom:16px" class="cart-total"><span class="cart-total-label" style="font-weight:700;color:var(--navy)">Total</span><span class="cart-total-amount" id="cartTotal">&#8377;0</span></div>
-  </div>
-  </div>
+
+<div style="border-top:1px solid rgba(42,139,122,0.15);padding-top:12px;margin-bottom:16px" class="cart-total">
+  <span class="cart-total-label" style="font-weight:700;color:var(--navy)">Total</span>
+  <span class="cart-total-amount" id="cartTotal">&#8377;0</span>
+</div>
   <div class="cart-pay-bar" id="cartPayBar" style="display:none;">
     <button class="pay-btn" id="placeOrderBtn" style="background:var(--teal);width:100%;font-size:15px;padding:16px;letter-spacing:3px;">Proceed to Pay</button>
     <p class="pay-note">&#128274; Scan QR &amp; pay on the next step</p>
