@@ -11,39 +11,17 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://glasshut.in">
 
-<!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1740966377098626');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Meta Pixel Code -->
-
-<!-- Preconnect to speed up connection to Google's servers -->
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="image" href="images/products/hero-flat.webp" fetchpriority="high">
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<!-- Swiper CSS made non-blocking -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"></noscript>
 
-<!-- Preload the fonts for faster rendering -->
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Rajdhani:wght@400;500;600;700;800&display=optional">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Rajdhani:wght@400;500;600;700;800&display=optional" media="print" onload="this.media='all'">
 
-<!-- Preload your CSS file so it doesn't block page rendering -->
-<link rel="stylesheet" href="styles.css?v=2">
-
-<link rel="preconnect" href="https://www.googletagmanager.com">
-
-
+<link rel="stylesheet" href="styles.css?v=3">
 
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Organization","name":"GlassHut","url":"https://glasshut.in","logo":"https://glasshut.in/images/products/light-multi1-12.webp","description":"Pure handcrafted glass bangles from Firozabad. Shop bridal chuda, daily wear, aesthetic and trending glass bangle sets.","address":{"@type":"PostalAddress","addressLocality":"Firozabad","addressRegion":"Uttar Pradesh","addressCountry":"IN"},"contactPoint":{"@type":"ContactPoint","email":"glasshut83@gmail.com","contactType":"customer service"},"sameAs":["https://www.instagram.com/glasshut.83"]}
@@ -55,7 +33,6 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
 
 <link rel="icon" type="image/png" href="images/products/logo.png">
 <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
-
 
 </head>
 <body>
@@ -78,15 +55,15 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
         <span class="logo-sub">Crafted to Shine</span>
       </div>
     </a>
-    
+
 <nav>
   <a href="index.html#categories">Collections</a>
   <a href="index.html#products">Shop</a>
   <a href="index.html#process">Our Craft</a>
-  <a href="about.html" onclick="window.location.href='about.html'; return false;">About Us</a>
+  <a href="about.html">About Us</a>
   <a href="#" onclick="openModal('trackOverlay'); return false;">Track Order</a>
 </nav>
-    
+
     <div class="nav-icons">
       <button class="nav-icon-btn" id="cartBtn" aria-label="View cart">
         <svg class="nav-icon" viewBox="0 0 24 24"><path d="M6 6h15l-1.5 9H7.5L6 6z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="9" cy="20" r="1.5" fill="currentColor" stroke="none"/><circle cx="18" cy="20" r="1.5" fill="currentColor" stroke="none"/><path d="M2 2h3l1 4" fill="none" stroke="currentColor" stroke-width="2"/></svg>
@@ -104,8 +81,6 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
   <a href="#process" onclick="closeMobileMenu()">Our Craft</a>
   <a href="#heritage" onclick="closeMobileMenu()">About Us</a>
   <a href="#sizes" onclick="closeMobileMenu()">Size Guide</a>
-  
-  <!-- NEW: Mobile Track Order Link -->
   <a href="#" onclick="closeMobileMenu(); openModal('trackOverlay'); return false;" style="color: var(--teal); font-weight: 700; border-top: 1px solid rgba(42, 139, 122, 0.2); margin-top: 10px; padding-top: 20px;">
     Track Order 📍
   </a>
@@ -125,10 +100,10 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
       <div class="form-row"><input type="text" id="custAddress" placeholder="Full Address (House No, Street, Area) *"><div class="form-error" id="errAddress">Please enter your address</div></div>
       <div class="form-row-half">
         <div class="form-row"><input type="text" id="custCity" placeholder="City *"><div class="form-error" id="errCity">Enter city</div></div>
-        <div class="form-row"><input type="text" id="custPincode" placeholder="Pincode *" maxlength="6" oninput="autoPincode(this.value)"><div class="form-error" id="errPin">Enter valid 6-digit pincode</div></div>
+        <div class="form-row"><input type="text" id="custPincode" placeholder="Pincode *" maxlength="6"><div class="form-error" id="errPin">Enter valid 6-digit pincode</div></div>
       </div>
       <div class="form-row">
-        <select id="custState" style="width:100%;padding:11px 14px;border:1.5px solid rgba(42,139,122,0.25);background:var(--white);font-family:'Rajdhani',sans-serif;font-size:14px;color:var(--text-dark);outline:none;border-radius:3px;-webkit-appearance:none;appearance:none;background-image:url('data:image/svg+xml;utf8,<svg fill=\&quot;%236B7A8D\&quot; viewBox=\&quot;0 0 24 24\&quot; xmlns=\&quot;http://www.w3.org/2000/svg\&quot;><path d=\&quot;M7 10l5 5 5-5z\&quot;/></svg>');background-repeat:no-repeat;background-position:right 12px center;background-size:18px;">
+        <select id="custState" style="width:100%;padding:11px 14px;border:1.5px solid rgba(42,139,122,0.25);background:var(--white);font-family:'Rajdhani',sans-serif;font-size:14px;color:var(--text-dark);outline:none;border-radius:3px;-webkit-appearance:none;appearance:none;">
           <option value="" disabled selected>Select State *</option>
           <option>Andhra Pradesh</option><option>Arunachal Pradesh</option><option>Assam</option><option>Bihar</option>
           <option>Chhattisgarh</option><option>Goa</option><option>Gujarat</option><option>Haryana</option>
@@ -137,43 +112,32 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
           <option>Mizoram</option><option>Nagaland</option><option>Odisha</option><option>Punjab</option>
           <option>Rajasthan</option><option>Sikkim</option><option>Tamil Nadu</option><option>Telangana</option>
           <option>Tripura</option><option>Uttar Pradesh</option><option>Uttarakhand</option><option>West Bengal</option>
-          <option>Andaman & Nicobar</option><option>Chandigarh</option><option>Dadra & Nagar Haveli</option>
-          <option>Daman & Diu</option><option>Delhi</option><option>Jammu & Kashmir</option><option>Ladakh</option>
+          <option>Andaman &amp; Nicobar</option><option>Chandigarh</option><option>Dadra &amp; Nagar Haveli</option>
+          <option>Daman &amp; Diu</option><option>Delhi</option><option>Jammu &amp; Kashmir</option><option>Ladakh</option>
           <option>Lakshadweep</option><option>Puducherry</option>
         </select>
         <div class="form-error" id="errState">Select your state</div>
       </div>
       <div id="pinLoading" style="font-size:11px;color:var(--teal);margin-top:-6px;margin-bottom:6px;display:none;"></div>
     </div>
-    
-<div style="display: flex; gap: 10px; margin-bottom: 20px;">
-    <input type="text" id="couponCode" placeholder="Enter Promo Code" style="flex: 1; padding: 10px; border: 1px solid #d1d5db; border-radius: 4px; font-size: 14px; outline: none;">
-    <button onclick="applyDiscount()" style="background-color: #2e8b74; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; transition: 0.3s;">Apply</button>
-</div>
 
+    <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+      <input type="text" id="couponCode" placeholder="Enter Promo Code" style="flex: 1; padding: 10px; border: 1px solid #d1d5db; border-radius: 4px; font-size: 14px; outline: none;">
+      <button onclick="applyDiscount()" style="background-color: #2e8b74; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; transition: 0.3s;">Apply</button>
+    </div>
 
- <div class="cart-total" style="margin-bottom:8px">
-  <span class="cart-total-label">Subtotal</span>
-  <span class="cart-total-amount" id="cartSubtotal" style="font-size:20px">&#8377;0</span>
-</div>
-
-<div class="cart-total" style="margin-bottom:8px">
-  <span class="cart-total-label" id="shippingLabel">Shipping</span>
-  <span id="cartShipping" style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--teal)">&#8377;50</span>
-</div>
-
-<div class="cart-total" id="cartDiscountRow" style="margin-bottom:8px; display:none;">
-  <span class="cart-total-label" style="color:#d9534f;">Discount Applied</span>
-  <span id="cartDiscountAmount" style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:#d9534f;">-&#8377;0</span>
-</div>
-
-<div style="border-top:1px solid rgba(42,139,122,0.15);padding-top:12px;margin-bottom:16px" class="cart-total">
-  <span class="cart-total-label" style="font-weight:700;color:var(--navy)">Total</span>
-  <span class="cart-total-amount" id="cartTotal">&#8377;0</span>
-</div>
+    <div class="cart-total" style="margin-bottom:8px"><span class="cart-total-label">Subtotal</span><span class="cart-total-amount" id="cartSubtotal" style="font-size:20px">&#8377;0</span></div>
+    <div class="cart-total" style="margin-bottom:8px"><span class="cart-total-label" id="shippingLabel">Shipping</span><span class="cart-total-amount" id="cartShipping" style="font-size:20px">&#8377;0</span></div>
+    <div class="cart-total" id="cartDiscountRow" style="margin-bottom:8px; display:none;">
+      <span class="cart-total-label" style="color:#d9534f;">Discount Applied</span>
+      <span id="cartDiscountAmount" style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:#d9534f;">-&#8377;0</span>
+    </div>
+    <div style="border-top:1px solid rgba(42,139,122,0.15);padding-top:12px;margin-bottom:16px" class="cart-total"><span class="cart-total-label" style="font-weight:700;color:var(--navy)">Total</span><span class="cart-total-amount" id="cartTotal">&#8377;0</span></div>
+  </div>
+  </div>
   <div class="cart-pay-bar" id="cartPayBar" style="display:none;">
     <button class="pay-btn" id="placeOrderBtn" style="background:var(--teal);width:100%;font-size:15px;padding:16px;letter-spacing:3px;">Proceed to Pay</button>
-    <p class="pay-note">&#128274; Scan QR &amp; pay on the next step</p>
+    <p class="pay-note">&#128274; Secure payment on the next step</p>
   </div>
 </div>
 
@@ -232,7 +196,7 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
       <div style="background:var(--bg);padding:12px;border-radius:4px;margin-bottom:16px;text-align:center;">
         <div style="font-size:12px;color:var(--text-muted);line-height:1.6;">
           <strong style="color:var(--navy);">Need to cancel?</strong><br>
-          Email <strong><a href="mailto:glasshut83@gmail.com" class="__cf_email__" data-cfemail="c0a7aca1b3b3a8b5b4f8f380a7ada1a9aceea3afad">glasshut83@gmail.com</a></strong> with your order number<br>before we ship. Full refund via UPI within 3-5 days.
+          Email <strong><a href="mailto:glasshut83@gmail.com">glasshut83@gmail.com</a></strong> with your order number<br>before we ship. Full refund via UPI within 3-5 days.
         </div>
       </div>
       <button class="order-done-btn" id="orderDoneBtn" style="width:100%;">Continue Shopping</button>
@@ -246,13 +210,12 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
   <div class="hero-overlay"></div>
   <div class="hero-inner">
     <div class="hero-text">
-<p class="hero-eyebrow">&#10022; Crafted to Shine</p>
+      <p class="hero-eyebrow">&#10022; Crafted to Shine</p>
       <h1 class="hero-title">The Art of<em>Glass Bangles</em></h1>
       <div class="hero-divider"></div>
       <div class="hero-badge"><span class="hero-badge-dot"></span>Authentic Heritage</div>
       <p class="hero-subtitle">Shaped by expert hands &#8212; vibrant hues, premium materials, and a <strong>four-decade legacy</strong> of artisanal excellence.</p>
       <a href="#products" class="hero-cta">Shop Now</a>
-      
     </div>
   </div>
 </section>
@@ -283,285 +246,149 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
     </div>
     <div class="products-grid" id="productsGrid">
 
-      <!-- 1. LIGHT MULTI (Updated to 24-piece only) -->
 <div class="product-card reveal" data-cat="daily trending"><div class="product-badge">Everyday</div>
   <div class="product-image" style="background:#F0F4F8;overflow:hidden;">
     <div class="img-skeleton" id="skel-lm"></div>
     <img class="product-photo active" src="images/products/light-multi1-12.webp" alt="Light Multi Glass Bangles" width="800" height="533" data-slide="lm" loading="lazy" onload="this.classList.add('loaded');var s=document.getElementById('skel-lm');if(s)s.remove();">
-<img class="product-photo" src="images/products/light-multi2-12.webp" alt="Light Multi Glass Bangles" width="800" height="533" data-slide="lm" loading="lazy">
-<img class="product-photo" src="images/products/light-multi3-12.webp" alt="Light Multi Glass Bangles" width="800" height="533" data-slide="lm" loading="lazy">
+    <img class="product-photo" src="images/products/light-multi2-12.webp" alt="Light Multi Glass Bangles" width="800" height="533" data-slide="lm" loading="lazy">
+    <img class="product-photo" src="images/products/light-multi3-12.webp" alt="Light Multi Glass Bangles" width="800" height="533" data-slide="lm" loading="lazy">
     <div class="slide-dots"><span class="slide-dot active" data-slide="lm" data-idx="0"></span><span class="slide-dot" data-slide="lm" data-idx="1"></span><span class="slide-dot" data-slide="lm" data-idx="2"></span></div>
   </div>
   <div class="product-info">
     <h3 class="product-name">Light Multi</h3>
     <p class="product-desc">Pastel multi-color glass bangles</p>
-    
-    <!-- Added the standard 24-piece tag instead of the buttons -->
     <div class="product-set-tag">24-Piece Chuda Set</div>
-    
     <div class="product-price" id="price-light-multi">&#8377;190</div>
-    <button class="add-to-cart" id="atc-light-multi" data-name="Light Multi (24pc)" data-price="190" data-color="linear-gradient(135deg,#5DADE2,#F5B041,#58D68D)">Select Size &amp; Add</button>
+    <button class="add-to-cart" id="atc-light-multi" data-name="Light Multi (24pc)" data-price="190" data-color="linear-gradient(135deg,#5DADE2,#F5B041,#58D68D)" data-img="images/products/light-multi1-12.webp">Select Size &amp; Add</button>
   </div>
 </div>
 
-<!-- 2. DARK MULTI (Updated to 24-piece only) -->
 <div class="product-card reveal" data-cat="daily trending"><div class="product-badge">Trending</div>
   <div class="product-image" style="background:#E8E0F0;overflow:hidden;">
     <div class="img-skeleton" id="skel-dm"></div>
     <img class="product-photo active" src="images/products/Dark-multi1-12.webp" alt="Dark Multi Glass Bangles" width="800" height="533" data-slide="dm" loading="lazy" onload="this.classList.add('loaded');var s=document.getElementById('skel-dm');if(s)s.remove();">
-<img class="product-photo" src="images/products/Dark-multi2-12.webp" alt="Dark Multi Glass Bangles" width="800" height="533" data-slide="dm" loading="lazy">
+    <img class="product-photo" src="images/products/Dark-multi2-12.webp" alt="Dark Multi Glass Bangles" width="800" height="533" data-slide="dm" loading="lazy">
     <div class="slide-dots"><span class="slide-dot active" data-slide="dm" data-idx="0"></span><span class="slide-dot" data-slide="dm" data-idx="1"></span></div>
   </div>
   <div class="product-info">
     <h3 class="product-name">Dark Multi</h3>
     <p class="product-desc">Rich dark multi-color glass bangles</p>
-    
-    <!-- Added the standard 24-piece tag instead of the buttons -->
     <div class="product-set-tag">24-Piece Chuda Set</div>
-    
     <div class="product-price" id="price-dark-multi">&#8377;190</div>
-    <button class="add-to-cart" id="atc-dark-multi" data-name="Dark Multi (24pc)" data-price="190" data-color="linear-gradient(135deg,#1A5276,#6C3483)">Select Size &amp; Add</button>
+    <button class="add-to-cart" id="atc-dark-multi" data-name="Dark Multi (24pc)" data-price="190" data-color="linear-gradient(135deg,#1A5276,#6C3483)" data-img="images/products/Dark-multi1-12.webp">Select Size &amp; Add</button>
   </div>
 </div>
 
-      <div class="product-card reveal" data-cat="bridal"><div class="product-badge">Bridal</div>
+<div class="product-card reveal" data-cat="bridal"><div class="product-badge">Bridal</div>
   <div class="product-image" style="background:linear-gradient(135deg,#FFF8E1,#FFECB3);overflow:hidden;">
-    
     <div class="img-skeleton" id="skel-lgc"></div>
-    
-    <img class="product-photo active" 
-     src="images/products/light-chuda1.webp" 
-     alt="Light Golden Chuda" 
-     width="800" height="800"
-     data-slide="lgc" 
-     loading="lazy" 
-     decoding="async"
-     onload="this.classList.add('loaded');var s=document.getElementById('skel-lgc');if(s)s.remove();">
-     
-<img class="product-photo" 
-     src="images/products/light-chuda2.webp" 
-     alt="Light Golden Chuda" 
-     width="800" height="800"
-     data-slide="lgc" 
-     loading="lazy"
-     decoding="async">
-         
+    <img class="product-photo active" src="images/products/light-chuda1.webp" alt="Light Golden Chuda" width="800" height="800" data-slide="lgc" loading="lazy" decoding="async" onload="this.classList.add('loaded');var s=document.getElementById('skel-lgc');if(s)s.remove();">
+    <img class="product-photo" src="images/products/light-chuda2.webp" alt="Light Golden Chuda" width="800" height="800" data-slide="lgc" loading="lazy" decoding="async">
     <div class="slide-dots">
       <span class="slide-dot active" data-slide="lgc" data-idx="0"></span>
       <span class="slide-dot" data-slide="lgc" data-idx="1"></span>
     </div>
   </div>
-  
   <div class="product-info">
     <h3 class="product-name">Light Golden Chuda</h3>
     <p class="product-desc">Bridal golden glass chuda set</p>
     <div class="product-set-tag">24-Piece Chuda Set</div>
     <div class="product-price">&#8377;240</div>
-    <button class="add-to-cart" data-name="Light Golden Chuda (24pc)" data-price="240" data-color="#C9944A">Select Size &amp; Add</button>
+    <button class="add-to-cart" data-name="Light Golden Chuda (24pc)" data-price="240" data-color="#C9944A" data-img="images/products/light-chuda1.webp">Select Size &amp; Add</button>
   </div>
 </div>
 
 <div class="product-card reveal" data-cat="bridal"><div class="product-badge">Bridal</div>
   <div class="product-image" style="background:linear-gradient(135deg,#F0E0E8,#E0C8D8);overflow:hidden;">
-    
     <div class="img-skeleton" id="skel-dmc"></div>
-    
-    <img class="product-photo active" 
-     src="images/products/dark-chuda1.webp" 
-     alt="Dark Multi Chuda" 
-     width="936" height="618"
-     data-slide="dmc" 
-     loading="lazy" 
-     decoding="async"
-     onload="this.classList.add('loaded');var s=document.getElementById('skel-dmc');if(s)s.remove();">
-     
-<img class="product-photo" 
-     src="images/products/dark-chuda2.webp" 
-     alt="Dark Multi Chuda" 
-     width="1000" height="1000"
-     data-slide="dmc" 
-     loading="lazy"
-     decoding="async">
-         
+    <img class="product-photo active" src="images/products/dark-chuda1.webp" alt="Dark Multi Chuda" width="936" height="618" data-slide="dmc" loading="lazy" decoding="async" onload="this.classList.add('loaded');var s=document.getElementById('skel-dmc');if(s)s.remove();">
+    <img class="product-photo" src="images/products/dark-chuda2.webp" alt="Dark Multi Chuda" width="1000" height="1000" data-slide="dmc" loading="lazy" decoding="async">
     <div class="slide-dots">
       <span class="slide-dot active" data-slide="dmc" data-idx="0"></span>
       <span class="slide-dot" data-slide="dmc" data-idx="1"></span>
     </div>
   </div>
-  
   <div class="product-info">
     <h3 class="product-name">Dark Multi Chuda</h3>
     <p class="product-desc">Bridal dark multi-color chuda set</p>
     <div class="product-set-tag">24-Piece Chuda Set</div>
     <div class="product-price">&#8377;240</div>
-    <button class="add-to-cart" data-name="Dark Multi Chuda (24pc)" data-price="240" data-color="linear-gradient(135deg,#922B21,#1A5276)">Select Size &amp; Add</button>
+    <button class="add-to-cart" data-name="Dark Multi Chuda (24pc)" data-price="240" data-color="linear-gradient(135deg,#922B21,#1A5276)" data-img="images/products/dark-chuda1.webp">Select Size &amp; Add</button>
   </div>
 </div>
 
-<!-- =============================================================
-     Crimson Red – product card
-     ============================================================= -->
 <div class="product-card reveal" data-cat="bridal">
   <div class="product-badge">Bridal</div>
-
-  <div class="product-image"
-       style="background:linear-gradient(135deg,#F0E0E8,#E0C8D8);overflow:hidden;">
-
+  <div class="product-image" style="background:linear-gradient(135deg,#F0E0E8,#E0C8D8);overflow:hidden;">
     <div class="img-skeleton" id="skel-cr"></div>
-
-    <img class="product-photo active"
-         src="images/products/CrimsonRed1.webp"
-         alt="Crimson Red"
-         data-slide="cr"
-         loading="lazy"
-         decoding="async"
-         style="object-fit: contain; transition:opacity .35s ease;"
-         onload="this.classList.add('loaded');var s=document.getElementById('skel-cr');if(s)s.remove();">
-
-<!--    <img class="product-photo"
-         src="images/products/CrimsonRed2.webp"
-         alt="Crimson Red"
-         data-slide="cr"
-         fetchpriority="low"
-         decoding="async"
-         style="object-fit: contain; transition:opacity .35s ease;"> -->
-    
+    <img class="product-photo active" src="images/products/CrimsonRed1.webp" alt="Crimson Red" data-slide="cr" loading="lazy" decoding="async" style="object-fit: contain;" onload="this.classList.add('loaded');var s=document.getElementById('skel-cr');if(s)s.remove();">
     <div class="slide-dots">
-      <span class="slide-dot active"
-            data-slide="cr"
-            data-idx="0"
-            style="transition:background-color .2s ease, transform .2s ease;"></span>
-      <span class="slide-dot"
-            data-slide="cr"
-            data-idx="1"
-            style="transition:background-color .2s ease, transform .2s ease;"></span>
+      <span class="slide-dot active" data-slide="cr" data-idx="0"></span>
     </div>
   </div>
-
   <div class="product-info">
     <h3 class="product-name">Crimson Red</h3>
     <p class="product-desc">Crimson Red description</p>
-    <div class="product-set-tag">24‑Piece Chuda Set</div>
+    <div class="product-set-tag">24-Piece Chuda Set</div>
     <div class="product-price">&#8377;240</div>
-    <button class="add-to-cart"
-            data-name="Crimson Red (24pc)"
-            data-price="240"
-            data-color="linear-gradient(135deg,#922B21,#1A5276)">
-      Select Size &amp; Add
-    </button>
+    <button class="add-to-cart" data-name="Crimson Red (24pc)" data-price="240" data-color="linear-gradient(135deg,#922B21,#1A5276)" data-img="images/products/CrimsonRed1.webp">Select Size &amp; Add</button>
   </div>
 </div>
-
-
 
 <div class="product-card reveal" data-cat="bridal">
   <div class="product-badge">Bridal</div>
   <div class="product-image" style="background:#F0F4F8;overflow:hidden;">
-  
-  <div class="img-skeleton" id="skel-sb"></div>
-  
-  <img class="product-photo active" 
-       src="images/products/SapphireBlue1.webp" 
-       alt="Sapphire Blue"
-       data-slide="sb"
-       style="object-fit: contain;"
-       onload="this.classList.add('loaded');var s=document.getElementById('skel-sb');if(s)s.remove();">
-       
- <!--  <img class="product-photo" 
-       src="images/products/SapphireBlue2.webp" 
-       alt="Sapphire Blue" 
-       data-slide="sb" 
-       fetchpriority="low"
-       decoding="async"
-       style="object-fit: contain;"> -->
-       
-  <div class="slide-dots">
-    <span class="slide-dot active" data-slide="sb" data-idx="0"></span>
-    <span class="slide-dot" data-slide="sb" data-idx="1"></span>
+    <div class="img-skeleton" id="skel-sb"></div>
+    <img class="product-photo active" src="images/products/SapphireBlue1.webp" alt="Sapphire Blue" data-slide="sb" loading="lazy" decoding="async" style="object-fit: contain;" onload="this.classList.add('loaded');var s=document.getElementById('skel-sb');if(s)s.remove();">
+    <div class="slide-dots">
+      <span class="slide-dot active" data-slide="sb" data-idx="0"></span>
+    </div>
   </div>
-</div>
-  
   <div class="product-info">
     <h3 class="product-name">Sapphire Blue</h3>
     <p class="product-desc">Sapphire Blue description</p>
     <div class="product-set-tag">24-Piece Chuda Set</div>
     <div class="product-price">&#8377;240</div>
-    <button class="add-to-cart" data-name="Sapphire Blue (24pc)" data-price="240" data-color="#1A2740">Select Size &amp; Add</button>
+    <button class="add-to-cart" data-name="Sapphire Blue (24pc)" data-price="240" data-color="#1A2740" data-img="images/products/SapphireBlue1.webp">Select Size &amp; Add</button>
   </div>
 </div>
 
-      <div class="product-card reveal" data-cat="aesthetic"><div class="product-badge">Aesthetic</div>
+<div class="product-card reveal" data-cat="aesthetic"><div class="product-badge">Aesthetic</div>
   <div class="product-image" style="background:linear-gradient(135deg,#F5E6F0,#E8D0E8);overflow:hidden;">
-    
     <div class="img-skeleton" id="skel-rnc"></div>
-    
-    <img class="product-photo active" 
-     src="images/products/Gold-Chuda.webp" 
-     alt="Rainbow Nag Chuda" 
-     width="592" height="815"
-     data-slide="rnc" 
-     loading="lazy" 
-     decoding="async"
-     onload="this.classList.add('loaded');var s=document.getElementById('skel-rnc');if(s)s.remove();">
-     
-<img class="product-photo" 
-     src="images/products/Gold-Chuda1.webp" 
-     alt="Rainbow Nag Chuda" 
-     width="587" height="886"
-     data-slide="rnc" 
-     loading="lazy"
-     decoding="async">
-         
+    <img class="product-photo active" src="images/products/Gold-Chuda.webp" alt="Rainbow Nag Chuda" width="592" height="815" data-slide="rnc" loading="lazy" decoding="async" onload="this.classList.add('loaded');var s=document.getElementById('skel-rnc');if(s)s.remove();">
+    <img class="product-photo" src="images/products/Gold-Chuda1.webp" alt="Rainbow Nag Chuda" width="587" height="886" data-slide="rnc" loading="lazy" decoding="async">
     <div class="slide-dots">
       <span class="slide-dot active" data-slide="rnc" data-idx="0"></span>
       <span class="slide-dot" data-slide="rnc" data-idx="1"></span>
     </div>
   </div>
-  
   <div class="product-info">
     <h3 class="product-name">Rainbow Nag Chuda</h3>
     <p class="product-desc">Rainbow glass nag chuda set</p>
     <div class="product-set-tag">24-Piece Chuda Set</div>
     <div class="product-price">&#8377;180</div>
-    <button class="add-to-cart" data-name="Rainbow Nag Chuda (24pc)" data-price="180" data-color="linear-gradient(135deg,#C0392B,#F39C12,#27AE60,#2E86C1,#8E44AD)">Select Size &amp; Add</button>
+    <button class="add-to-cart" data-name="Rainbow Nag Chuda (24pc)" data-price="180" data-color="linear-gradient(135deg,#C0392B,#F39C12,#27AE60,#2E86C1,#8E44AD)" data-img="images/products/Gold-Chuda.webp">Select Size &amp; Add</button>
   </div>
 </div>
 
 <div class="product-card reveal" data-cat="bridal trending">
   <div class="product-badge">Bridal</div>
   <div class="product-image" style="background:linear-gradient(135deg,#FFF9C4,#C8E6C9);overflow:hidden;">
-    
     <div class="img-skeleton" id="skel-hmr"></div>
-    
-    <img class="product-photo active" 
-     src="images/products/haldi-mehendi1.webp" 
-     alt="Haldi Mehendi Royale Set" 
-     width="1560" height="1040"
-     data-slide="hmr" 
-     loading="lazy" 
-     decoding="async"
-     onload="this.classList.add('loaded');var s=document.getElementById('skel-hmr');if(s)s.remove();">
-     
-<img class="product-photo" 
-     src="images/products/haldi-mehendi2.webp" 
-     alt="Haldi Mehendi Royale Set" 
-     width="1560" height="1040"
-     data-slide="hmr" 
-     loading="lazy"
-     decoding="async">
-         
+    <img class="product-photo active" src="images/products/haldi-mehendi1.webp" alt="Haldi Mehendi Royale Set" width="1560" height="1040" data-slide="hmr" loading="lazy" decoding="async" onload="this.classList.add('loaded');var s=document.getElementById('skel-hmr');if(s)s.remove();">
+    <img class="product-photo" src="images/products/haldi-mehendi2.webp" alt="Haldi Mehendi Royale Set" width="1560" height="1040" data-slide="hmr" loading="lazy" decoding="async">
     <div class="slide-dots">
       <span class="slide-dot active" data-slide="hmr" data-idx="0"></span>
       <span class="slide-dot" data-slide="hmr" data-idx="1"></span>
     </div>
   </div>
-  
   <div class="product-info">
     <h3 class="product-name">Haldi Mehendi Royale Set</h3>
     <p class="product-desc">Vibrant yellow and green pure glass chudiyan</p>
     <div class="product-set-tag">24-Piece Chuda Set</div>
     <div class="product-price">&#8377;240</div>
-    <button class="add-to-cart" data-name="Haldi Mehendi Royale (24pc)" data-price="240" data-color="linear-gradient(135deg,#F1C40F,#27AE60)">Select Size &amp; Add</button>
+    <button class="add-to-cart" data-name="Haldi Mehendi Royale (24pc)" data-price="240" data-color="linear-gradient(135deg,#F1C40F,#27AE60)" data-img="images/products/haldi-mehendi1.webp">Select Size &amp; Add</button>
   </div>
 </div>
 
@@ -576,7 +403,6 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
     <div class="section-ornament">&#9670; &#9670; &#9670;</div>
   </div>
   <div class="process-steps">
-    
     <div class="step reveal">
       <div class="step-num">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>
@@ -584,7 +410,6 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
       <h4>Melting</h4>
       <p>Raw glass melted in furnaces at over 1500&#176;C.</p>
     </div>
-
     <div class="step reveal">
       <div class="step-num">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="4"></circle></svg>
@@ -592,7 +417,6 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
       <h4>Shaping</h4>
       <p>Molten glass shaped into rings by skilled hands.</p>
     </div>
-
     <div class="step reveal">
       <div class="step-num">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg>
@@ -600,7 +424,6 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
       <h4>Coloring</h4>
       <p>Natural pigments create vibrant, lasting colors.</p>
     </div>
-
     <div class="step reveal">
       <div class="step-num">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 6 6 3-6 3-3 6-3-6-6-3 6-3z"></path></svg>
@@ -608,7 +431,6 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
       <h4>Finishing</h4>
       <p>Polished, inspected, sorted. Only the finest reach you.</p>
     </div>
-
   </div>
 </section>
 
@@ -618,9 +440,8 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
     <h2 class="section-title">Size Guide</h2>
     <div class="section-ornament">&#9670; &#9670; &#9670;</div>
   </div>
-  
   <div class="size-image-wrap reveal" style="text-align: center; padding: 0 20px;">
-    <img src="images/products/sizeChartGlassHut.webp" alt="How to Measure Bangle Size" style="width: 100%; max-width: 700px; height: auto; border-radius: 8px; box-shadow: 0 10px 40px rgba(30,45,80,0.1); border: 1px solid rgba(42,139,122,0.15);">
+    <img src="images/products/sizeChartGlassHut.webp" alt="How to Measure Bangle Size" loading="lazy" style="width: 100%; max-width: 700px; height: auto; border-radius: 8px; box-shadow: 0 10px 40px rgba(30,45,80,0.1); border: 1px solid rgba(42,139,122,0.15);">
   </div>
 </section>
 
@@ -629,11 +450,11 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
   <h2 class="reveal">India&#8217;s Bangle Capital</h2>
   <p class="reveal">GlassHut delivers authentic, handcrafted wristwear straight from the renowned kilns to your doorstep.</p>
   <div class="heritage-stats reveal">
-  <div class="stat"><span class="stat-number">40+</span><span class="stat-label">Years Legacy</span></div>
-  <div class="stat"><span class="stat-number">100%</span><span class="stat-label">Authentic</span></div>
-  <div class="stat"><span class="stat-number">200+</span><span class="stat-label">Color Shades</span></div>
-  <div class="stat"><span class="stat-number">1984</span><span class="stat-label">New Milan Trader</span></div>
-</div>
+    <div class="stat"><span class="stat-number">40+</span><span class="stat-label">Years Legacy</span></div>
+    <div class="stat"><span class="stat-number">100%</span><span class="stat-label">Authentic</span></div>
+    <div class="stat"><span class="stat-number">200+</span><span class="stat-label">Color Shades</span></div>
+    <div class="stat"><span class="stat-number">1984</span><span class="stat-label">New Milan Trader</span></div>
+  </div>
   <div class="trust-badges reveal">
     <div class="trust-badge">
       <div class="trust-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#DAA520" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
@@ -664,13 +485,13 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
       <h2 class="section-title">What They Say</h2>
       <div class="section-ornament">&#9670; &#9670; &#9670;</div>
     </div>
-    
+
     <div class="swiper mySwiper">
       <div class="swiper-wrapper">
-        
+
         <div class="swiper-slide test-card">
           <div class="review-header">
-            <div class="reviewer-avatar"><img src="images/products/swagatika.jpg" alt="Swagatika" width="50" height="50"> </div>
+            <div class="reviewer-avatar"><img src="images/products/swagatika.jpg" alt="Swagatika" width="50" height="50" loading="lazy"></div>
             <div class="reviewer-name">Swagatika Tripathy</div>
           </div>
           <div class="review-meta">
@@ -682,7 +503,7 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
 
         <div class="swiper-slide test-card">
           <div class="review-header">
-            <div class="reviewer-avatar"><img src="images/products/syamli.jpg" alt="Syamli" width="50" height="50"> </div>
+            <div class="reviewer-avatar"><img src="images/products/syamli.jpg" alt="Syamli" width="50" height="50" loading="lazy"></div>
             <div class="reviewer-name">Syamli Thakur</div>
           </div>
           <div class="review-meta">
@@ -694,7 +515,7 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
 
         <div class="swiper-slide test-card">
           <div class="review-header">
-            <div class="reviewer-avatar"><img src="images/products/avatar-komal.png" alt="Komal" width="50" height="50"> </div>
+            <div class="reviewer-avatar"><img src="images/products/avatar-komal.png" alt="Komal" width="50" height="50" loading="lazy"></div>
             <div class="reviewer-name">Komal</div>
           </div>
           <div class="review-meta">
@@ -706,7 +527,7 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
 
         <div class="swiper-slide test-card">
           <div class="review-header">
-            <div class="reviewer-avatar"><img src="images/products/avatar-soniya.png" alt="Soniya" width="50" height="50"> </div>
+            <div class="reviewer-avatar"><img src="images/products/avatar-soniya.png" alt="Soniya" width="50" height="50" loading="lazy"></div>
             <div class="reviewer-name">soniya</div>
           </div>
           <div class="review-meta">
@@ -718,7 +539,7 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
 
         <div class="swiper-slide test-card">
           <div class="review-header">
-            <div class="reviewer-avatar"><img src="images/products/avatar-aarya.png" alt="Aarya" width="50" height="50"> </div>
+            <div class="reviewer-avatar"><img src="images/products/avatar-aarya.png" alt="Aarya" width="50" height="50" loading="lazy"></div>
             <div class="reviewer-name">Aarya Jagani</div>
           </div>
           <div class="review-meta">
@@ -730,7 +551,7 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
 
         <div class="swiper-slide test-card">
           <div class="review-header">
-            <div class="reviewer-avatar"><img src="images/products/avatar-amrita.png" alt="Amrita" width="50" height="50"> </div>
+            <div class="reviewer-avatar"><img src="images/products/avatar-amrita.png" alt="Amrita" width="50" height="50" loading="lazy"></div>
             <div class="reviewer-name">Amrita Dinda</div>
           </div>
           <div class="review-meta">
@@ -742,7 +563,7 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
 
         <div class="swiper-slide test-card">
           <div class="review-header">
-            <div class="reviewer-avatar"><img src="images/products/avatar-radhe.png" alt="Radheshyam" width="50" height="50"> </div>
+            <div class="reviewer-avatar"><img src="images/products/avatar-radhe.png" alt="Radheshyam" width="50" height="50" loading="lazy"></div>
             <div class="reviewer-name">Radha Prajapat</div>
           </div>
           <div class="review-meta">
@@ -751,90 +572,91 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
           </div>
           <p class="review-text">bahut acchi I Hai Jaise dikh rahi thi bilkul vaise hi I am very happy thank you</p>
         </div>
-        
+
       </div>
     </div>
-  </div> 
+  </div>
 </section>
 
 <div class="ornate-border"></div>
 
 <footer>
   <div class="footer-grid">
-    <div class="footer-brand"><div class="footer-logo-wrap"><img src="images/products/logo.png" alt="GlassHut" class="footer-logo-icon"><span class="footer-logo-text">GlassHut</span></div><p>Artisanal chudiyan crafted with passion and precision.<br><strong style="color:var(--copper-light);font-size:11px;letter-spacing:1px;">A Legacy by New Milan Trader — Since 1984</strong></p></div>
-<div class="footer-col">
-  <h4>Collections</h4>
-  <a href="#products" onclick="filterProducts('bridal')">Bridal</a>
-  <a href="#products" onclick="filterProducts('aesthetic')">Aesthetic</a>
-  <a href="#products" onclick="filterProducts('trending')">Trending</a>
-  <a href="#products" onclick="filterProducts('daily')">Everyday</a>
-</div>
-<div class="footer-col">
-  <h4>Help</h4>
-  <a href="#sizes">Size Guide</a>
-  <a href="#" onclick="openPolicy();return false;">Returns &amp; Refund Policy</a>
-  <!-- New Links -->
-  <a href="#" onclick="openModal('privacyOverlay');return false;">Privacy Policy</a>
-  <a href="#" onclick="openModal('termsOverlay');return false;">Terms &amp; Conditions</a>
-  <a href="#" onclick="openModal('faqOverlay');return false;">FAQs</a>
-</div>
+    <div class="footer-brand"><div class="footer-logo-wrap"><img src="images/products/logo.png" alt="GlassHut" class="footer-logo-icon" loading="lazy"><span class="footer-logo-text">GlassHut</span></div><p>Artisanal chudiyan crafted with passion and precision.<br><strong style="color:var(--copper-light);font-size:11px;letter-spacing:1px;">A Legacy by New Milan Trader — Since 1984</strong></p></div>
+    <div class="footer-col">
+      <h4>Collections</h4>
+      <a href="#products" onclick="filterProducts('bridal')">Bridal</a>
+      <a href="#products" onclick="filterProducts('aesthetic')">Aesthetic</a>
+      <a href="#products" onclick="filterProducts('trending')">Trending</a>
+      <a href="#products" onclick="filterProducts('daily')">Everyday</a>
+    </div>
+    <div class="footer-col">
+      <h4>Help</h4>
+      <a href="#sizes">Size Guide</a>
+      <a href="#" onclick="openPolicy();return false;">Returns &amp; Refund Policy</a>
+      <a href="#" onclick="openModal('privacyOverlay');return false;">Privacy Policy</a>
+      <a href="#" onclick="openModal('termsOverlay');return false;">Terms &amp; Conditions</a>
+      <a href="#" onclick="openModal('faqOverlay');return false;">FAQs</a>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <a href="https://www.instagram.com/glasshut.83" target="_blank" rel="noopener noreferrer">Instagram</a>
+      <a href="https://www.facebook.com/share/1PK8VStaw9/" target="_blank" rel="noopener noreferrer">Facebook</a>
+      <a href="mailto:glasshut83@gmail.com">Email Us</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 GlassHut. All rights reserved.</span>
+    <span>Crafted to Shine &#9829; Proudly Indian</span>
+  </div>
+</footer>
+
 <div class="policy-overlay" id="termsOverlay">
   <div class="policy-modal">
     <div class="policy-header">
-      <h3>Terms & Conditions</h3>
+      <h3>Terms &amp; Conditions</h3>
       <button class="policy-close" onclick="closeModal('termsOverlay')">&times;</button>
     </div>
     <div class="policy-body">
       <div class="pol-section">
         <h4>Handcrafted Products</h4>
-        <p>Because our chudiyan are 100% handcrafted by artisans, slight variations in color, thickness, or finish are expected. These are natural marks of authentic craftsmanship and are not considered defects</p>
+        <p>Because our chudiyan are 100% handcrafted by artisans, slight variations in color, thickness, or finish are expected. These are natural marks of authentic craftsmanship and are not considered defects.</p>
       </div>
       <div class="pol-section">
-        <h4>Shipping & Payments</h4>
-        <p>Free shipping applies to orders above ₹250. Standard shipping rates apply for orders below this amount. Orders are processed once secure UPI payment is confirmed.</p>
+        <h4>Shipping &amp; Payments</h4>
+        <p>Free shipping applies to orders above ₹250. Standard shipping rates apply for orders below this amount. Orders are processed once secure payment is confirmed.</p>
       </div>
       <div class="pol-section">
-        <h4>Damage Claims & Unboxing Video</h4>
+        <h4>Damage Claims &amp; Unboxing Video</h4>
         <p>Glass is fragile by nature. To claim any transit damage, an uncut, continuous unboxing video is strictly required. The video must start from the sealed package, and claims must be reported within 24 hours of delivery.</p>
       </div>
     </div>
   </div>
 </div>
-<div class="footer-col">
-  <h4>Connect</h4>
-  <a href="https://www.instagram.com/glasshut.in" target="_blank" rel="noopener noreferrer">Instagram</a>
-  <li><a href="https://www.facebook.com/share/1PK8VStaw9/" target="_blank">Facebook</a></li>
-  <a href="mailto:glasshut83@gmail.com">Email Us</a>
-</div>
-  </div>
-<div class="footer-bottom">
-      <span>&copy; 2026 GlassHut. All rights reserved.</span>
-      <span>Crafted to Shine &#9829; Proudly Indian</span>
-    </div>
-  </footer>
+
 <div class="policy-overlay" id="privacyOverlay">
   <div class="policy-modal">
     <div class="policy-header">
       <h3>Privacy Policy</h3>
       <button class="policy-close" onclick="closeModal('privacyOverlay')">&times;</button>
     </div>
-    
     <div class="policy-body">
       <div class="pol-section">
         <h4>Data We Collect</h4>
-        <p>We collect your name, phone number, email address, and shipping details solely to fulfill your orders. Your information is kept secure and is never sold, traded, or rented to third parties</p>
+        <p>We collect your name, phone number, email address, and shipping details solely to fulfill your orders. Your information is kept secure and is never sold, traded, or rented to third parties.</p>
       </div>
       <div class="pol-section">
         <h4>Payments</h4>
-        <p>Payments are processed directly through secure UPI apps. We do not store any sensitive financial or banking credentials on our servers.</p>
+        <p>Payments are processed through secure payment providers. We do not store any sensitive financial or banking credentials on our servers.</p>
       </div>
       <div class="pol-section">
         <h4>How We Use Your Data</h4>
-        <p>Your details are used strictly to process shipments, send tracking updates, and provide customer support. We only share necessary delivery data with our trusted courier partners</p>
+        <p>Your details are used strictly to process shipments, send tracking updates, and provide customer support. We only share necessary delivery data with our trusted courier partners.</p>
       </div>
     </div>
   </div>
 </div>
+
 <div class="policy-overlay" id="policyOverlay">
   <div class="policy-modal">
     <div class="policy-header">
@@ -842,21 +664,18 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
       <button class="policy-close" id="policyClose">&times;</button>
     </div>
     <div class="policy-body">
-
       <div class="pol-section">
         <h4>1. Broken During Shipping &#8212; Free Replacement</h4>
         <p>If your bangles arrive broken or damaged during shipping, we will send a <strong>free replacement</strong> at no extra cost.</p>
         <p><strong>Important:</strong> You MUST record an <strong>unboxing video</strong> while opening the package for the first time. This video is mandatory proof for any breakage claim. No unboxing video = no replacement.</p>
-        <p>Send the video within <strong>24 hours of delivery</strong> to <a href="mailto:glasshut83@gmail.com" class="__cf_email__" data-cfemail="a6c1cac7d5d5ced3d29e95e6c1cbc7cfca88c5c9cb">glasshut83@gmail.com</a> with your order number.</p>
+        <p>Send the video within <strong>24 hours of delivery</strong> to <a href="mailto:glasshut83@gmail.com">glasshut83@gmail.com</a> with your order number.</p>
       </div>
-
       <div class="pol-section">
         <h4>2. Wrong Item Received &#8212; Free Exchange</h4>
         <p>If you receive the wrong color, size, or product, we will send the correct item <strong>free of charge</strong>.</p>
         <p>Customer must <strong>return the wrong item first</strong>. GlassHut will pay the return shipping cost (since it is our mistake).</p>
         <p>The correct item will be shipped after we receive the returned product. Send your unboxing video within <strong>48 hours</strong> as proof.</p>
       </div>
-
       <div class="pol-section warn">
         <h4>3. Changed Your Mind &#8212; Return in Same Condition</h4>
         <p>We accept returns if the bangles are in the <strong>exact same condition</strong> as delivered &#8212; unbroken, unworn, and in original packaging.</p>
@@ -866,34 +685,29 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
         <p>Return request must be made within <strong>4 days of delivery</strong>.</p>
         <p>If the size doesn't fit, we also offer a <strong>one-time size exchange</strong> for &#8377;20 shipping only.</p>
       </div>
-
       <div class="pol-section">
         <h4>4. Order Cancellation</h4>
         <p>You can cancel your order <strong>before we ship it</strong> (usually within 1-2 days of placing the order).</p>
-        <p>Email <strong><a href="mailto:glasshut83@gmail.com" class="__cf_email__" data-cfemail="c8afa4a9bbbba0bdbcf0fb88afa5a9a1a4e6aba7a5">glasshut83@gmail.com</a></strong> with your order number and we will cancel it.</p>
-        <p>Full refund will be processed to your <strong>original UPI account within 3-5 business days</strong>.</p>
+        <p>Email <strong><a href="mailto:glasshut83@gmail.com">glasshut83@gmail.com</a></strong> with your order number and we will cancel it.</p>
+        <p>Full refund will be processed to your <strong>original account within 3-5 business days</strong>.</p>
         <p>Once the order is shipped, it <strong>cannot be cancelled</strong> &#8212; please follow the return policy instead.</p>
       </div>
-
       <div class="pol-section strict">
         <h4>5. Refund Policy</h4>
         <p><strong>Full refund</strong> if more than 50% of bangles in a set arrive broken (with unboxing video proof).</p>
-        <p>Refund processed to your <strong>original UPI account within 3&#8211;5 business days</strong>.</p>
+        <p>Refund processed to your <strong>original account within 3&#8211;5 business days</strong>.</p>
         <p><strong>No claims after 4 days from delivery date.</strong></p>
       </div>
-
       <div class="pol-section">
         <h4>6. How to Make a Claim</h4>
-        <p><strong>Step 1:</strong> Email <strong><a href="mailto:glasshut83@gmail.com" class="__cf_email__" data-cfemail="a2c5cec3d1d1cad7d69a91e2c5cfc3cbce8cc1cdcf">glasshut83@gmail.com</a></strong> with your order number.</p>
+        <p><strong>Step 1:</strong> Email <strong><a href="mailto:glasshut83@gmail.com">glasshut83@gmail.com</a></strong> with your order number.</p>
         <p><strong>Step 2:</strong> Attach your <strong>unboxing video</strong> clearly showing the issue.</p>
         <p><strong>Step 3:</strong> We will respond within <strong>24 hours</strong> with a solution.</p>
       </div>
-
       <div class="pol-highlight">
         We pack every order with bubble wrap and cardboard protection.<br>
         Your bangles are our pride &#8212; if anything goes wrong, we will make it right.
       </div>
-
     </div>
   </div>
 </div>
@@ -911,7 +725,7 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
       </div>
       <div class="pol-section">
         <h4>Shipping Cost</h4>
-        <p>Flat <strong>&#8377;50 shipping</strong> on all orders.</p>
+        <p>Flat <strong>&#8377;60 shipping</strong> on all orders.</p>
         <p><strong>FREE shipping</strong> on orders above &#8377;250!</p>
       </div>
       <div class="pol-section">
@@ -930,29 +744,22 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
     </div>
   </div>
 </div>
-<!-- Order Tracking Modal -->
+
 <div class="policy-overlay" id="trackOverlay">
   <div class="policy-modal">
     <div class="policy-header">
       <h3>Track Your Order</h3>
       <button class="policy-close" onclick="closeModal('trackOverlay')">&times;</button>
     </div>
-    
     <div class="policy-body">
-      <!-- 1. The New Tracking Search Box -->
       <div class="pol-section" style="text-align: center; border-bottom: 1px solid rgba(42,139,122,.15); padding-bottom: 24px; margin-bottom: 24px;">
         <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 15px;">Enter your billing mobile number to check your order status.</p>
-        
         <input type="tel" id="trackPhone" placeholder="10-digit mobile number" maxlength="10" style="width: 100%; padding: 11px 14px; margin-bottom: 14px; border: 1.5px solid rgba(42,139,122,.25); border-radius: 3px; font-family: 'Rajdhani', sans-serif; font-size: 15px; outline: none;">
-        
-        <button onclick="checkOrderStatus()" style="background: var(--teal); color: white; padding: 14px; border: none; border-radius: 3px; cursor: pointer; width: 100%; font-family: 'Rajdhani', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; transition: background 0.3s;">
+        <button onclick="checkOrderStatus()" style="background: var(--teal); color: white; padding: 14px; border: none; border-radius: 3px; cursor: pointer; width: 100%; font-family: 'Rajdhani', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;">
           Look Up Orders
         </button>
-        
         <div id="trackResult" style="margin-top: 20px; text-align: left; max-height: 350px; overflow-y: auto;"></div>
       </div>
-
-      <!-- 2. Your Original Timeline -->
       <div class="pol-section">
         <h4>Order Status Timeline</h4>
         <p><strong>Order Placed</strong> &#8212; We received your order and are verifying payment.</p>
@@ -961,11 +768,9 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
         <p><strong>Out for Delivery</strong> &#8212; Your bangles will arrive today.</p>
         <p><strong>Delivered</strong> &#8212; Enjoy your beautiful bangles!</p>
       </div>
-
-      <!-- 3. Your Original Support Info -->
       <div class="pol-section">
         <h4>Didn't Receive Your Order?</h4>
-        <p>If your order hasn't arrived within <strong>7 business days</strong>, please email us at <strong><a href="mailto:glasshut83@gmail.com" class="__cf_email__" data-cfemail="3e59525f4d4d564b4a060d7e59535f5752105d5153">glasshut83@gmail.com</a></strong> with your order number.</p>
+        <p>If your order hasn't arrived within <strong>7 business days</strong>, please email us at <strong><a href="mailto:glasshut83@gmail.com">glasshut83@gmail.com</a></strong> with your order number.</p>
         <p>We will investigate with our shipping partner and resolve it within 48 hours.</p>
       </div>
     </div>
@@ -990,7 +795,7 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
       </div>
       <div class="pol-section">
         <h4>What payment methods do you accept?</h4>
-        <p>We accept <strong>UPI payments</strong> — PhonePe, Google Pay, Paytm, or any UPI app. No extra charges.</p>
+        <p>We accept <strong>UPI, cards, netbanking and wallets</strong> through our secure payment gateway. No extra charges.</p>
       </div>
       <div class="pol-section">
         <h4>How long does delivery take?</h4>
@@ -998,7 +803,7 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
       </div>
       <div class="pol-section">
         <h4>Can I cancel my order?</h4>
-        <p>Yes! Email <strong><a href="mailto:glasshut83@gmail.com" class="__cf_email__" data-cfemail="ddbab1bcaeaeb5a8a9e5ee9dbab0bcb4b1f3beb2b0">glasshut83@gmail.com</a></strong> with your order number before we ship. Full refund via UPI in 3-5 days. Once shipped, cancellation is not possible.</p>
+        <p>Yes! Email <strong><a href="mailto:glasshut83@gmail.com">glasshut83@gmail.com</a></strong> with your order number before we ship. Full refund in 3-5 days. Once shipped, cancellation is not possible.</p>
       </div>
       <div class="pol-section">
         <h4>Can I return or exchange?</h4>
@@ -1006,31 +811,24 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
       </div>
       <div class="pol-section">
         <h4>How do I contact GlassHut?</h4>
-        <p>Email us at <strong><a href="mailto:glasshut83@gmail.com" class="__cf_email__" data-cfemail="7512191406061d00014d46351218141c195b161a18">glasshut83@gmail.com</a></strong> — we respond within 24 hours. You can also DM us on <strong>Instagram @glasshut.83</strong>.</p>
+        <p>Email us at <strong><a href="mailto:glasshut83@gmail.com">glasshut83@gmail.com</a></strong> — we respond within 24 hours. You can also DM us on <strong>Instagram @glasshut.83</strong>.</p>
       </div>
     </div>
   </div>
 </div>
-<iframe name="ghOrderFrame" id="ghOrderFrame" style="display:none;"></iframe>
 
-<!-- Razorpay setup -->
+<iframe name="ghOrderFrame" id="ghOrderFrame" style="display:none;" title="order"></iframe>
+
 <script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>
-
-<!-- 1. Load the Swiper library FIRST -->
-<!-- The 'defer' keyword tells the browser to load these in the background without blocking the screen -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
-<script src="app.js?v=3" defer></script>
+<script src="app.js?v=4" defer></script>
 
-<!-- 2. Load your custom app.js file SECOND -->
 <script type="module">
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-/* Same values you pasted into gh-admin-supabase.html */
-const SUPABASE_URL      = "https://remwdweujlpcfknsbwzk.supabase.co";       // e.g. https://xxxx.supabase.co
+const SUPABASE_URL      = "https://remwdweujlpcfknsbwzk.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_OBbRi2Mdlb60YgNAAvmrBQ_myOSjM3P";
 
-// This shares the database connection globally so app.js can use it!
 window.supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 const esc = s => String(s == null ? "" : s)
@@ -1073,37 +871,49 @@ function buildCard(p, key){
     <button class="add-to-cart"
             data-name="${esc(cartName)}"
             data-price="${Number(p.price)}"
-            data-color="${esc(p.color || "#2A8B7A")}">Select Size &amp; Add</button>
+            data-color="${esc(p.color || "#2A8B7A")}"
+            data-img="${esc(imgs[0])}">Select Size &amp; Add</button>
   </div>
 </div>`;
 }
 
-
-
 (async function loadProducts(){
   const grid = document.getElementById("productsGrid");
-  if (!grid) return startApp();
+  if (!grid) return;
 
   try {
-    // CHANGE THIS LINE:
-    const supabase = window.supabaseClient; 
+    const supabase = window.supabaseClient;
     const { data, error } = await supabase.from("products").select("*").order("created_at", { ascending: true });
-
     if (error) throw error;
 
     if (data && data.length) {
       let html = "", n = 0;
       data.forEach(p => { html += buildCard(p, "p" + (n++)); });
-      grid.innerHTML = html;
+      // Only replace the hardcoded cards if we actually built something.
+      if (html.trim()) grid.innerHTML = html;
     }
-    // If Supabase has no rows, the hardcoded cards already in the HTML stay put.
   } catch (err) {
     console.error("GlassHut: could not load products, showing hardcoded ones.", err);
   }
-
 })();
 </script>
 
+<!-- Meta Pixel — moved to the end so it never blocks first paint -->
+<script>
+window.addEventListener('load', function(){
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1740966377098626');
+  fbq('track', 'PageView');
+});
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1" alt=""></noscript>
 
 </body>
 </html>
