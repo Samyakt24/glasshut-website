@@ -101,12 +101,12 @@ function addToCart(name, price, color, size) {
 }
 
 function getTotal() { return cart.reduce(function(s, i) { return s + i.price * i.qty; }, 0); }
-//function getShipping() { return getTotal() >= 250 ? 0 : 50; }
+function getShipping() { return getTotal() >= 250 ? 0 : 50; }
 function getShipping() { return 0; }
 // --- DYNAMIC DISCOUNT MATH ---
 function getDiscountAmount() { 
     if (!isChampionApplied) return 0; 
-    return getTotal() > 240 ? 40 : 20; 
+    return 20; 
 }
 
 function getGrandTotal() { 
@@ -146,6 +146,19 @@ function updateCartUI() {
       cartShipping.style.color = 'var(--copper-dark)';
       shippingLabel.innerHTML = 'Shipping <span style="font-size:10px;opacity:0.6">(Free above &#8377;250)</span>';
     }
+    
+    // --- DISCOUNT ROW LOGIC ---
+    var discount = getDiscountAmount();
+    var cartDiscountRow = document.getElementById('cartDiscountRow');
+    var cartDiscountAmount = document.getElementById('cartDiscountAmount');
+
+    if (discount > 0 && cartDiscountRow) {
+        cartDiscountRow.style.display = 'flex';
+        cartDiscountAmount.innerHTML = '-&#8377;' + discount;
+    } else if (cartDiscountRow) {
+        cartDiscountRow.style.display = 'none';
+    }
+    // --------------------------
     
     if (cartTotal) {
         cartTotal.innerHTML = '&#8377;' + total.toLocaleString('en-IN');
