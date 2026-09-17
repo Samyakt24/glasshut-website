@@ -128,10 +128,12 @@ function updateCartUI() {
   if (cart.length === 0) {
     cartEmpty.style.display = 'block';
     cartFooter.style.display = 'none';
+    document.getElementById('cartPayBar').style.display = 'none';
     cartItems.querySelectorAll('.cart-item').forEach(function(i) { i.remove(); });
   } else {
     cartEmpty.style.display = 'none';
     cartFooter.style.display = 'block';
+    document.getElementById('cartPayBar').style.display = 'block';
     
     cartSubtotal.innerHTML = '&#8377;' + subtotal.toLocaleString('en-IN');
     

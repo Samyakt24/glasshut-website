@@ -39,7 +39,7 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Rajdhani:wght@400;500;600;700;800&display=optional" media="print" onload="this.media='all'">
 
 <!-- Preload your CSS file so it doesn't block page rendering -->
-<link rel="stylesheet" href="styles.css?v=1">
+<link rel="stylesheet" href="styles.css?v=2">
 
 <link rel="preconnect" href="https://www.googletagmanager.com">
 
@@ -98,6 +98,7 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
 <div class="cart-overlay" id="cartOverlay"></div>
 <div class="cart-drawer" id="cartDrawer">
   <div class="cart-header"><h3>Your Cart</h3><button class="cart-close" id="cartClose">&times;</button></div>
+  <div class="cart-scroll">
   <div class="cart-items" id="cartItems"><div class="cart-empty" id="cartEmpty"><div class="cart-empty-icon">&#9675;</div><p>Your cart is empty</p></div></div>
   <div class="cart-footer" id="cartFooter" style="display:none;">
     <div class="checkout-form" id="checkoutForm">
@@ -141,6 +142,9 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
   <span id="cartShipping" style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--teal)">&#8377;50</span>
 </div>
     <div style="border-top:1px solid rgba(42,139,122,0.15);padding-top:12px;margin-bottom:16px" class="cart-total"><span class="cart-total-label" style="font-weight:700;color:var(--navy)">Total</span><span class="cart-total-amount" id="cartTotal">&#8377;0</span></div>
+  </div>
+  </div>
+  <div class="cart-pay-bar" id="cartPayBar" style="display:none;">
     <button class="pay-btn" id="placeOrderBtn" style="background:var(--teal);width:100%;font-size:15px;padding:16px;letter-spacing:3px;">Proceed to Pay</button>
     <p class="pay-note">&#128274; Scan QR &amp; pay on the next step</p>
   </div>
