@@ -105,8 +105,7 @@ function addToCart(name, price, color, size) {
 }
 
 function getTotal() { return cart.reduce(function(s, i) { return s + i.price * i.qty; }, 0); }
-function getShipping() { return getTotal() >= 250 ? 0 : 50; }
-function getShipping() { return 0; }
+function getShipping() { return cart.length === 0 || getTotal() >= 250 ? 0 : 60; }
 // --- DYNAMIC DISCOUNT MATH ---
 function getDiscountAmount() { 
     if (!isChampionApplied) return 0; 
