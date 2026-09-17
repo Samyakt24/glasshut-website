@@ -332,7 +332,7 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
      alt="Light Golden Chuda" 
      width="800" height="800"
      data-slide="lgc" 
-     fetchpriority="low"
+     loading="lazy"
      decoding="async">
          
     <div class="slide-dots">
@@ -369,7 +369,7 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
      alt="Dark Multi Chuda" 
      width="1000" height="1000"
      data-slide="dmc" 
-     fetchpriority="low"
+     loading="lazy"
      decoding="async">
          
     <div class="slide-dots">
@@ -407,13 +407,13 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
          style="object-fit: contain; transition:opacity .35s ease;"
          onload="this.classList.add('loaded');var s=document.getElementById('skel-cr');if(s)s.remove();">
 
-    <img class="product-photo"
+<!--    <img class="product-photo"
          src="images/products/CrimsonRed2.webp"
          alt="Crimson Red"
          data-slide="cr"
          fetchpriority="low"
          decoding="async"
-         style="object-fit: contain; transition:opacity .35s ease;">
+         style="object-fit: contain; transition:opacity .35s ease;"> -->
     
     <div class="slide-dots">
       <span class="slide-dot active"
@@ -456,13 +456,13 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
        style="object-fit: contain;"
        onload="this.classList.add('loaded');var s=document.getElementById('skel-sb');if(s)s.remove();">
        
-  <img class="product-photo" 
+ <!--  <img class="product-photo" 
        src="images/products/SapphireBlue2.webp" 
        alt="Sapphire Blue" 
        data-slide="sb" 
        fetchpriority="low"
        decoding="async"
-       style="object-fit: contain;">
+       style="object-fit: contain;"> -->
        
   <div class="slide-dots">
     <span class="slide-dot active" data-slide="sb" data-idx="0"></span>
@@ -498,7 +498,7 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
      alt="Rainbow Nag Chuda" 
      width="587" height="886"
      data-slide="rnc" 
-     fetchpriority="low"
+     loading="lazy"
      decoding="async">
          
     <div class="slide-dots">
@@ -536,7 +536,7 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
      alt="Haldi Mehendi Royale Set" 
      width="1560" height="1040"
      data-slide="hmr" 
-     fetchpriority="low"
+     loading="lazy"
      decoding="async">
          
     <div class="slide-dots">
@@ -1003,7 +1003,7 @@ src="https://www.facebook.com/tr?id=1740966377098626&ev=PageView&noscript=1"
 <iframe name="ghOrderFrame" id="ghOrderFrame" style="display:none;"></iframe>
 
 <!-- Razorpay setup -->
- <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>
 
 <!-- 1. Load the Swiper library FIRST -->
 <!-- The 'defer' keyword tells the browser to load these in the background without blocking the screen -->
