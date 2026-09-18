@@ -1,46 +1,57 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
-const RAZORPAY_KEY_ID = Deno.env.get("RAZORPAY_KEY_ID");
-const RAZORPAY_KEY_SECRET = Deno.env.get("RAZORPAY_KEY_SECRET");
+const RAZORPAY_KEY_ID = Deno.env.get("RAZORPAY_KEY_ID")!;
+const RAZORPAY_KEY_SECRET = Deno.env.get("RAZORPAY_KEY_SECRET")!;
+
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers":
+    "authorization, x-client-info, apikey, content-type",
+};
+
+const json = (body: unknown, status = 200) =>
+  new Response(JSON.stringify(body), {
+    status,
+    headers: { ...corsHeaders, "Content-Type": "application/json" },
+  });
 
 serve(async (req) => {
-  const corsHeaders = {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-  };
-
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
   }
 
   try {
-    const { amount } = await req.json();
+    const { order_id } = await req.json();
+    if (!order_id) return json({ error: "order_id required" }, 400);
+
     const auth = btoa(`${RAZORPAY_KEY_ID}:${RAZORPAY_KEY_SECRET}`);
 
-    const res = await fetch("https://api.razorpay.com/v1/orders", {
-      method: "POST",
-      headers: {
-        "Authorization": `Basic ${auth}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        amount: Math.round(amount * 100),
-        currency: "INR",
-        receipt: `receipt_${Date.now()}`, // <--- THIS IS MANDATORY FOR RAZORPAY
-        payment_capture: true
-      }),
-    });
+    const res = await fetch(
+      `https://api.razorpay.com/v1/orders/${order_id}/payments`,
+      { headers: { Authorization: `Basic ${auth}` } },
+    );
+    const data = await res.json();
 
-    const order = await res.json();
-    console.log("Razorpay Response:", order); // <--- This will show in Supabase Edge Function Logs
+    if (!res.ok) {
+      console.error("Razorpay error:", data);
+      return json({ paid: false, error: data?.error?.description }, 502);
+    }
 
-    return new Response(JSON.stringify(order), {
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    // Find a payment that actually went through.
+    const good = (data.items ?? []).find(
+      (p: any) => p.status === "captured" || p.status === "authorized",
+    );
+
+    if (!good) return json({ paid: false });
+
+    return json({
+      paid: true,
+      payment_id: good.id,
+      status: good.status,
+      amount: good.amount / 100,
+      method: good.method,
     });
   } catch (err) {
-    return new Response(JSON.stringify({ error: err.message }), {
-      status: 500,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
+    return json({ paid: false, error: (err as Error).message }, 500);
   }
 });
