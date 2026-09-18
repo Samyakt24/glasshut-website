@@ -719,7 +719,7 @@ async function triggerRazorpayPayment(orderDetails) {
   // orderDetails should have: { name, phone, email, address, amount, items }
 
   // Create a real Razorpay Order first (server-side), so Auto Capture actually works
-    const orderRes = await fetch("https://remwdweujlpcfknsbwzk.supabase.co/functions/v1/create-razorpay-order", {
+  const orderRes = await fetch("https://remwdweujlpcfknsbwzk.supabase.co/functions/v1/bright-responder", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
