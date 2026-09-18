@@ -559,6 +559,7 @@ async function loadOrders() {
           <input type="text" id="link-${o.id}" value="${o.tracking_link || ''}" placeholder="Paste courier tracking link">
           <div style="display:flex;align-items:center;gap:10px">
             <button class="o-save" onclick="saveOrderUpdates('${o.id}')">Update Order</button>
+            <button class="o-save" style="background:#D32F2F" onclick="deleteOrder('${o.id}')">Delete</button>
             <span class="o-saved" id="msg-${o.id}">&#10003; Saved</span>
           </div>
         </div>
@@ -585,6 +586,12 @@ window.saveOrderUpdates = async function(id) {
     msg.style.opacity = "1";
     setTimeout(() => msg.style.opacity = "0", 2000);
   }
+};
+  window.deleteOrder = async function(id) {
+  if (!confirm("Delete this order permanently? This cannot be undone.")) return;
+  const { error } = await supabase.from('orders').delete().eq('id', id);
+  if (error) { alert("Failed to delete: " + error.message); return; }
+  loadOrders();
 };
 </script>
 </body>
