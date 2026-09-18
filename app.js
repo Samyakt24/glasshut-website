@@ -716,25 +716,39 @@ document.querySelectorAll('.product-image').forEach(function(container) {
 const RAZORPAY_KEY_ID = "rzp_live_TbISTmcOgjiRT8";
 
 async function triggerRazorpayPayment(orderDetails) {
-  // orderDetails should have: { name, phone, email, address, amount, items }
+  let razorpayOrder;
 
-  // Create a real Razorpay Order first (server-side), so Auto Capture actually works
-  const orderRes = await fetch("https://remwdweujlpcfknsbwzk.supabase.co/functions/v1/bright-responder", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer sb_publishable_OBbRi2Mdlb60YgNAAvmrBQ_myOSjM3P"
-    },
-    body: JSON.stringify({ amount: orderDetails.amount })
-  });
-  const razorpayOrder = await orderRes.json();
+  // 1. SAFE FETCH: Ask Supabase for the Order ID
+  try {
+    const orderRes = await fetch("https://remwdweujlpcfknsbwzk.supabase.co/functions/v1/bright-responder", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer sb_publishable_OBbRi2Mdlb60YgNAAvmrBQ_myOSjM3P"
+      },
+      body: JSON.stringify({ amount: orderDetails.amount })
+    });
+    
+    razorpayOrder = await orderRes.json();
+    
+    // SAFETY NET: Stop the script if the server fails to create an order
+    if (!razorpayOrder || !razorpayOrder.id) {
+        console.error("Server returned an invalid order:", razorpayOrder);
+        alert("Payment system is busy. Please try again in a moment.");
+        return; 
+    }
+  } catch (err) {
+    console.error("Failed to fetch order:", err);
+    alert("Connection error. Please check your internet and try again.");
+    return;
+  }
 
-
-    const options = {
+  // 2. Open Razorpay using the verified order_id
+  const options = {
     key: RAZORPAY_KEY_ID,
-    amount: Math.round(orderDetails.amount * 100), // Amount in paise (₹1 = 100 paise)
+    amount: Math.round(orderDetails.amount * 100),
     currency: "INR",
-    order_id: razorpayOrder.id,
+    order_id: razorpayOrder.id, // <--- This guarantees auto-capture works
     notes: {
       name: orderDetails.name,
       phone: orderDetails.phone,
@@ -744,26 +758,24 @@ async function triggerRazorpayPayment(orderDetails) {
     },
     name: "GlassHut",
     description: "Order Payment",
-    image: "images/products/logo.png", // Optional: link to your logo
+    image: "images/products/logo.png", 
     prefill: {
       name: orderDetails.name,
       email: orderDetails.email || "",
       contact: orderDetails.phone
     },
-    theme: {
-      color: "#842338" // Adjust to match your brand accent color
-    },
-        handler: async function (response) {
-      // This runs when the customer successfully completes payment
+    theme: { color: "#842338" },
+    handler: async function (response) {
       console.log("Payment Successful:", response.razorpay_payment_id);
 
+      // CLAUDE'S STRATEGY: Keep the frontend save as a backup!
       await saveOrderToSupabase({
         ...orderDetails,
         payment_id: response.razorpay_payment_id,
         status: "PAID"
       });
-
-      // Also log to Google Sheet + trigger confirmation email (same as before)
+      
+      // Google Sheets Backup
       sendToSheet({
         orderId: orderDetails.orderId,
         date: new Date().toLocaleDateString('en-IN'),
@@ -783,18 +795,15 @@ async function triggerRazorpayPayment(orderDetails) {
     },
     modal: {
       ondismiss: function () {
-        console.log("Customer closed the checkout popup without paying.");
+        console.log("Customer closed the checkout popup.");
       }
     }
   };
 
   const rzp = new Razorpay(options);
-  
   rzp.on("payment.failed", function (response) {
     alert("Payment failed: " + response.error.description);
-    console.error("Payment error:", response.error);
   });
-
   rzp.open();
 }
 
