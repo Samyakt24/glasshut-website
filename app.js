@@ -717,7 +717,7 @@ document.querySelectorAll('.product-image').forEach(function(container) {
 // REPLACE lines 715-866 of app.js with everything below.
 // ============================================================
 
-const RAZORPAY_KEY_ID = "rzp_live_TbISTmcOgjiRT8"; // <-- put your NEW key id here
+const RAZORPAY_KEY_ID = "rzp_live_TdbYdJwJijmvkm"; // <-- put your NEW key id here
 const SUPA_FN = "https://remwdweujlpcfknsbwzk.supabase.co/functions/v1";
 const SUPA_AUTH = "Bearer sb_publishable_OBbRi2Mdlb60YgNAAvmrBQ_myOSjM3P";
 
