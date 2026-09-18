@@ -105,7 +105,8 @@ function addToCart(name, price, color, size) {
 }
 
 function getTotal() { return cart.reduce(function(s, i) { return s + i.price * i.qty; }, 0); }
-function getShipping() { return cart.length === 0 || getTotal() >= 250 ? 0 : 60; }
+//function getShipping() { return cart.length === 0 || getTotal() >= 250 ? 0 : 60; }
+function getShipping() { return 0; }
 // --- DYNAMIC DISCOUNT MATH ---
 function getDiscountAmount() { 
     if (!isChampionApplied) return 0; 
@@ -204,7 +205,7 @@ placeOrderBtn.onclick = function() {
   if (cart.length === 0 || !validateForm()) return;
 
   // 1. Get exact cart total and customer details
-  var total = getGrandTotal();
+  var subtotal = getTotal(), shipping = getShipping(), total = getGrandTotal();
   var custName = document.getElementById('custName').value.trim();
   var custPhone = document.getElementById('custPhone').value.trim();
   var custEmail = document.getElementById('custEmail').value.trim();
@@ -214,7 +215,8 @@ placeOrderBtn.onclick = function() {
   var custPincode = document.getElementById('custPincode').value.trim();
 
   var fullAddress = custAddress + ', ' + custCity + ', ' + custState + ' - ' + custPincode;
-  
+  var ordNum = 'GH-' + Date.now().toString().slice(-6);
+
   // 2. Format items for Supabase
   var itemsList = cart.map(function(i) {
     return i.name + ' (Size ' + i.size + ') x' + i.qty;
@@ -222,11 +224,17 @@ placeOrderBtn.onclick = function() {
 
   // 3. Launch Razorpay securely
   triggerRazorpayPayment({
+    orderId: ordNum,
     name: custName,
     phone: custPhone,
     email: custEmail,
     address: fullAddress,
-    amount: total, 
+    city: custCity,
+    state: custState,
+    pincode: custPincode,
+    amount: total,
+    subtotal: subtotal,
+    shipping: shipping,
     items: itemsList
   });
 };
@@ -709,7 +717,16 @@ const RAZORPAY_KEY_ID = "rzp_live_TbISTmcOgjiRT8";
 
 async function triggerRazorpayPayment(orderDetails) {
   // orderDetails should have: { name, phone, email, address, amount, items }
-  
+
+  // Create a real Razorpay Order first (server-side), so Auto Capture actually works
+  const orderRes = await fetch("https://remwdweujlpcfknsbwzk.supabase.co/functions/v1/create-razorpay-order", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ amount: orderDetails.amount })
+  });
+  const razorpayOrder = await orderRes.json();
+
+
   const options = {
     key: RAZORPAY_KEY_ID,
     amount: Math.round(orderDetails.amount * 100), // Amount in paise (₹1 = 100 paise)
@@ -725,14 +742,32 @@ async function triggerRazorpayPayment(orderDetails) {
     theme: {
       color: "#842338" // Adjust to match your brand accent color
     },
-    handler: async function (response) {
+        handler: async function (response) {
       // This runs when the customer successfully completes payment
       console.log("Payment Successful:", response.razorpay_payment_id);
-      
+
       await saveOrderToSupabase({
         ...orderDetails,
         payment_id: response.razorpay_payment_id,
         status: "PAID"
+      });
+
+      // Also log to Google Sheet + trigger confirmation email (same as before)
+      sendToSheet({
+        orderId: orderDetails.orderId,
+        date: new Date().toLocaleDateString('en-IN'),
+        time: new Date().toLocaleTimeString('en-IN'),
+        customerName: orderDetails.name,
+        phone: orderDetails.phone,
+        email: orderDetails.email,
+        address: orderDetails.address,
+        city: orderDetails.city,
+        state: orderDetails.state,
+        pincode: orderDetails.pincode,
+        items: orderDetails.items,
+        subtotal: String(orderDetails.subtotal),
+        shipping: String(orderDetails.shipping),
+        total: String(orderDetails.amount)
       });
     },
     modal: {
