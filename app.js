@@ -1,3 +1,4 @@
+
 /* GlassHut — app.js */
 
 var UPI_ID = 'samyaktjain1999-2@okicici';
@@ -712,30 +713,32 @@ document.querySelectorAll('.product-image').forEach(function(container) {
   });
 });
 
-// Replace with your actual Key ID (rzp_test_... or rzp_live_...)
-const RAZORPAY_KEY_ID = "rzp_live_TbISTmcOgjiRT8";
+// ============================================================
+// REPLACE lines 715-866 of app.js with everything below.
+// ============================================================
+
+const RAZORPAY_KEY_ID = "rzp_live_TbISTmcOgjiRT8"; // <-- put your NEW key id here
+const SUPA_FN = "https://remwdweujlpcfknsbwzk.supabase.co/functions/v1";
+const SUPA_AUTH = "Bearer sb_publishable_OBbRi2Mdlb60YgNAAvmrBQ_myOSjM3P";
+
+let orderAlreadySaved = false; // stops double-saving
 
 async function triggerRazorpayPayment(orderDetails) {
+  orderAlreadySaved = false;
   let razorpayOrder;
 
-  // 1. SAFE FETCH: Ask Supabase for the Order ID
   try {
-    const orderRes = await fetch("https://remwdweujlpcfknsbwzk.supabase.co/functions/v1/bright-responder", {
+    const orderRes = await fetch(`${SUPA_FN}/bright-responder`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer sb_publishable_OBbRi2Mdlb60YgNAAvmrBQ_myOSjM3P"
-      },
+      headers: { "Content-Type": "application/json", "Authorization": SUPA_AUTH },
       body: JSON.stringify({ amount: orderDetails.amount })
     });
-    
     razorpayOrder = await orderRes.json();
-    
-    // SAFETY NET: Stop the script if the server fails to create an order
+
     if (!razorpayOrder || !razorpayOrder.id) {
-        console.error("Server returned an invalid order:", razorpayOrder);
-        alert("Payment system is busy. Please try again in a moment.");
-        return; 
+      console.error("Server returned an invalid order:", razorpayOrder);
+      alert("Payment system is busy. Please try again in a moment.");
+      return;
     }
   } catch (err) {
     console.error("Failed to fetch order:", err);
@@ -743,12 +746,13 @@ async function triggerRazorpayPayment(orderDetails) {
     return;
   }
 
-  // 2. Open Razorpay using the verified order_id
+  const rzpOrderId = razorpayOrder.id;
+
   const options = {
     key: RAZORPAY_KEY_ID,
     amount: Math.round(orderDetails.amount * 100),
     currency: "INR",
-    order_id: razorpayOrder.id, // <--- This guarantees auto-capture works
+    order_id: rzpOrderId,
     notes: {
       name: orderDetails.name,
       phone: orderDetails.phone,
@@ -758,113 +762,169 @@ async function triggerRazorpayPayment(orderDetails) {
     },
     name: "GlassHut",
     description: "Order Payment",
-    image: "images/products/logo.png", 
+    image: "images/products/logo.png",
     prefill: {
       name: orderDetails.name,
       email: orderDetails.email || "",
       contact: orderDetails.phone
     },
     theme: { color: "#842338" },
-    handler: async function (response) {
-      console.log("Payment Successful:", response.razorpay_payment_id);
 
-      // CLAUDE'S STRATEGY: Keep the frontend save as a backup!
-      await saveOrderToSupabase({
-        ...orderDetails,
-        payment_id: response.razorpay_payment_id,
-        status: "PAID"
-      });
-      
-      // Google Sheets Backup
-      sendToSheet({
-        orderId: orderDetails.orderId,
-        date: new Date().toLocaleDateString('en-IN'),
-        time: new Date().toLocaleTimeString('en-IN'),
-        customerName: orderDetails.name,
-        phone: orderDetails.phone,
-        email: orderDetails.email,
-        address: orderDetails.address,
-        city: orderDetails.city,
-        state: orderDetails.state,
-        pincode: orderDetails.pincode,
-        items: orderDetails.items,
-        subtotal: String(orderDetails.subtotal),
-        shipping: String(orderDetails.shipping),
-        total: String(orderDetails.amount)
-      });
+    // FAST PATH: bank replied in time
+    handler: async function (response) {
+      await completeOrder(orderDetails, response.razorpay_payment_id);
     },
+
+    // SLOW PATH: user closed popup, but payment may still be processing
     modal: {
       ondismiss: function () {
-        console.log("Customer closed the checkout popup.");
+        showWaitingMessage();
+        pollForPayment(rzpOrderId, orderDetails);
       }
     }
   };
 
   const rzp = new Razorpay(options);
+
+  // SLOW PATH: Razorpay gave up waiting, money may still have gone through
   rzp.on("payment.failed", function (response) {
-    alert("Payment failed: " + response.error.description);
+    console.warn("payment.failed fired:", response.error);
+    showWaitingMessage();
+    pollForPayment(rzpOrderId, orderDetails);
   });
+
   rzp.open();
 }
 
-async function saveOrderToSupabase(orderData) {
-  try {
-    const { data, error } = await window.supabaseClient
-      .from('orders')
-      .insert([
-        {
-          customer_name: orderData.name,
-          customer_phone: orderData.phone,
-          customer_email: orderData.email,
-          shipping_address: orderData.address,
-          total_amount: orderData.amount,
-          items: orderData.items,
-          payment_id: orderData.payment_id,
-          payment_status: orderData.status,
-          created_at: new Date().toISOString()
-        }
-      ]);
+// ---- Ask our own server if the money actually arrived ----
+async function pollForPayment(rzpOrderId, orderDetails) {
+  const maxTries = 24;      // 24 x 5s = 2 minutes
+  const delayMs = 5000;
 
-    if (error) {
-      console.error("Supabase Error Details:", error);
-      alert("Database Error: " + error.message);
-      return;
+  for (let i = 0; i < maxTries; i++) {
+    if (orderAlreadySaved) return;
+    await new Promise(r => setTimeout(r, delayMs));
+
+    try {
+      const res = await fetch(`${SUPA_FN}/check-payment`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": SUPA_AUTH },
+        body: JSON.stringify({ order_id: rzpOrderId })
+      });
+      const result = await res.json();
+
+      if (result.paid) {
+        hideWaitingMessage();
+        await completeOrder(orderDetails, result.payment_id);
+        return;
+      }
+    } catch (err) {
+      console.error("Poll error:", err);
     }
-
-    // --- STEP 3: CLEAR CART & SHOW POPUP ---
-    
-    // 1. Empty the active cart array AND clear the saved memory
-    cart = []; 
-    localStorage.removeItem('glasshut_cart');
-    
-    // 2. Update the visual cart drawer to show 0 items and close it
-    updateCartUI(); 
-    closeCart(); 
-    
-    // 3. Build a summary receipt
-    let summaryHtml = `
-      <div class="os-row"><span>${orderData.items}</span></div>
-      <div class="os-row total"><span>Total Paid</span><span>₹${orderData.amount}</span></div>
-    `;
-
-    // 4. Save receipt to session memory so it survives a refresh
-    sessionStorage.setItem('glasshut_last_order', JSON.stringify({
-      orderId: orderData.payment_id,
-      summaryHtml: summaryHtml
-    }));
-
-    // 5. Open the beautiful confirmation popup directly (No page reload!)
-    document.getElementById('orderId').textContent = 'Payment ID: ' + orderData.payment_id;
-    document.getElementById('orderConfirmSummary').innerHTML = summaryHtml;
-    document.getElementById('payStep').style.display = 'none';
-    document.getElementById('confirmStep').style.display = 'block';
-    document.getElementById('orderConfirmOverlay').classList.add('open');
-
-  } catch (err) {
-    console.error("Unexpected error:", err);
   }
+
+  hideWaitingMessage();
+  alert(
+    "We could not confirm your payment yet.\n\n" +
+    "If money has left your account, DO NOT pay again. " +
+    "Please WhatsApp us your payment reference and we will confirm your order."
+  );
 }
 
+function showWaitingMessage() {
+  let el = document.getElementById('gh-waiting');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'gh-waiting';
+    el.style.cssText =
+      'position:fixed;inset:0;z-index:99999;background:rgba(30,45,80,.92);' +
+      'color:#fff;display:flex;align-items:center;justify-content:center;' +
+      'text-align:center;padding:24px;font-size:16px;line-height:1.6';
+    el.innerHTML =
+      '<div><div style="font-size:20px;font-weight:600;margin-bottom:10px">' +
+      'Confirming your payment…</div>' +
+      'This can take up to 2 minutes for UPI.<br>' +
+      '<b>Please do not close this page or pay again.</b></div>';
+    document.body.appendChild(el);
+  }
+  el.style.display = 'flex';
+}
+
+function hideWaitingMessage() {
+  const el = document.getElementById('gh-waiting');
+  if (el) el.style.display = 'none';
+}
+
+// ---- Save + show confirmation. Confirmation shows even if DB fails. ----
+async function completeOrder(orderDetails, paymentId) {
+  if (orderAlreadySaved) return;
+  orderAlreadySaved = true;
+
+  hideWaitingMessage();
+
+  // 1. Clear the cart
+  cart = [];
+  localStorage.removeItem('glasshut_cart');
+  updateCartUI();
+  closeCart();
+
+  // 2. Show confirmation FIRST so a DB error never hides it
+  const summaryHtml =
+    '<div class="os-row"><span>' + orderDetails.items + '</span></div>' +
+    '<div class="os-row total"><span>Total Paid</span><span>₹' +
+    orderDetails.amount + '</span></div>';
+
+  sessionStorage.setItem('glasshut_last_order', JSON.stringify({
+    orderId: paymentId,
+    summaryHtml: summaryHtml
+  }));
+
+  document.getElementById('orderId').textContent = 'Payment ID: ' + paymentId;
+  document.getElementById('orderConfirmSummary').innerHTML = summaryHtml;
+  document.getElementById('payStep').style.display = 'none';
+  document.getElementById('confirmStep').style.display = 'block';
+  document.getElementById('orderConfirmOverlay').classList.add('open');
+
+  // 3. Then save to Supabase
+  try {
+    const { error } = await window.supabaseClient.from('orders').insert([{
+      customer_name: orderDetails.name,
+      customer_phone: orderDetails.phone,
+      customer_email: orderDetails.email,
+      shipping_address: orderDetails.address,
+      total_amount: orderDetails.amount,
+      items: orderDetails.items,
+      payment_id: paymentId,
+      payment_status: 'PAID',
+      created_at: new Date().toISOString()
+    }]);
+    if (error) console.error("Supabase insert failed:", error);
+  } catch (err) {
+    console.error("Supabase threw:", err);
+  }
+
+  // 4. Google Sheets backup
+  try {
+    sendToSheet({
+      orderId: orderDetails.orderId,
+      date: new Date().toLocaleDateString('en-IN'),
+      time: new Date().toLocaleTimeString('en-IN'),
+      customerName: orderDetails.name,
+      phone: orderDetails.phone,
+      email: orderDetails.email,
+      address: orderDetails.address,
+      city: orderDetails.city,
+      state: orderDetails.state,
+      pincode: orderDetails.pincode,
+      items: orderDetails.items,
+      subtotal: String(orderDetails.subtotal),
+      shipping: String(orderDetails.shipping),
+      total: String(orderDetails.amount)
+    });
+  } catch (err) {
+    console.error("Sheet backup failed:", err);
+  }
+}
 // --- GUEST ORDER TRACKING BY PHONE (PRIVACY SAFE) ---
 // --- GUEST ORDER TRACKING BY PHONE (PRIVACY SAFE) ---
 async function checkOrderStatus() {
