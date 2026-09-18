@@ -727,10 +727,18 @@ async function triggerRazorpayPayment(orderDetails) {
   const razorpayOrder = await orderRes.json();
 
 
-  const options = {
+    const options = {
     key: RAZORPAY_KEY_ID,
     amount: Math.round(orderDetails.amount * 100), // Amount in paise (₹1 = 100 paise)
     currency: "INR",
+    order_id: razorpayOrder.id,
+    notes: {
+      name: orderDetails.name,
+      phone: orderDetails.phone,
+      email: orderDetails.email,
+      address: orderDetails.address,
+      items: orderDetails.items
+    },
     name: "GlassHut",
     description: "Order Payment",
     image: "images/products/logo.png", // Optional: link to your logo
