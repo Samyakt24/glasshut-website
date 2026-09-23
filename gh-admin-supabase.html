@@ -37,6 +37,11 @@ label{display:block;font-size:11px;letter-spacing:2px;text-transform:uppercase;c
 input,textarea,select{width:100%;font-family:'Rajdhani',sans-serif;font-size:15px;color:var(--text-dark);background:var(--white);border:1.5px solid rgba(42,139,122,.25);padding:11px 14px;border-radius:3px;margin-bottom:14px;outline:none}
 input:focus,textarea:focus,select:focus{border-color:var(--teal)}
 textarea{resize:vertical;min-height:64px}
+.imgprev{display:flex;align-items:center;gap:10px;margin:-8px 0 14px;font-size:12px;min-height:0}
+.imgprev img{width:44px;height:44px;object-fit:cover;border-radius:3px;border:1px solid rgba(42,139,122,.25);display:none}
+.imgprev.ok img{display:block}
+.imgprev.ok span{color:var(--teal-dark)}
+.imgprev.bad span{color:var(--danger)}
 .hint{font-size:12px;color:var(--text-muted);margin:-10px 0 14px;line-height:1.5}
 
 .btn{width:100%;padding:14px;background:var(--teal);color:#fff;border:none;font-family:'Rajdhani',sans-serif;font-size:13px;letter-spacing:3px;text-transform:uppercase;font-weight:700;cursor:pointer;border-radius:3px;transition:background .3s}
@@ -177,14 +182,18 @@ textarea{resize:vertical;min-height:64px}
 
         <label for="pImg1">Image 1 (shown first)</label>
         <input type="text" id="pImg1" placeholder="images/products/emerald1.webp">
+        <div class="imgprev" id="pImg1Prev"><img alt=""><span></span></div>
 
         <label for="pImg2">Image 2 (optional)</label>
         <input type="text" id="pImg2" placeholder="images/products/emerald2.webp">
+        <div class="imgprev" id="pImg2Prev"><img alt=""><span></span></div>
 
         <label for="pImg3">Image 3 (optional)</label>
         <input type="text" id="pImg3" placeholder="images/products/emerald3.webp">
+        <div class="imgprev" id="pImg3Prev"><img alt=""><span></span></div>
         <p class="hint">Upload the .webp files to <code>images/products/</code> via cPanel first,
-        then type the path exactly as above.</p>
+        then type the path exactly as above (a full https:// link also works). File names are
+        case-sensitive: <code>Emerald1.webp</code> and <code>emerald1.webp</code> are different files.</p>
 
         <label for="pColor">Cart swatch colour</label>
         <input type="text" id="pColor" placeholder="#2A8B7A  or  linear-gradient(135deg,#C0392B,#F39C12)">
@@ -264,6 +273,63 @@ function flash(el, msg, kind){
   if (kind === "good") setTimeout(() => el.className = "flash", 3500);
 }
 
+/* ---------- image path helpers ---------- */
+const SITE_BASE = "https://glasshut.in/";
+
+// Clean whatever the admin typed/pasted into a consistent path.
+function normalizeImg(raw){
+  let v = (raw || "").trim().replace(/^["']+|["']+$/g, "").replace(/\\/g, "/");
+  if (!v) return "";
+  // Link to our own site -> store the relative path (images/products/x.webp)
+  v = v.replace(/^(https?:)?\/\/(www\.)?glasshut\.in\//i, "");
+  // Any other full URL (Supabase Storage, CDN, etc.) -> keep as is
+  if (/^https?:\/\//i.test(v)) return v;
+  // Strip leading "/", "./" and cPanel folder names people often paste
+  v = v.replace(/^(\.?\/)+/, "").replace(/^(home\/[^/]+\/)?public_html\//i, "");
+  // Encode spaces etc. without double-encoding
+  try { v = encodeURI(decodeURI(v)); } catch { v = encodeURI(v); }
+  return v;
+}
+
+// Turn a stored path into a URL the browser can load.
+function imgUrl(path){
+  const v = normalizeImg(path);
+  if (!v) return "";
+  return /^https?:\/\//i.test(v) ? v : SITE_BASE + v;
+}
+
+// Resolve true/false depending on whether the image actually loads.
+function testImg(url){
+  return new Promise(res => {
+    if (!url) return res(false);
+    const t = new Image();
+    const timer = setTimeout(() => res(false), 8000);
+    t.onload  = () => { clearTimeout(timer); res(true); };
+    t.onerror = () => { clearTimeout(timer); res(false); };
+    t.src = url;
+  });
+}
+
+// Live preview under each image field
+async function updatePreview(id){
+  const box = $(id + "Prev"), im = box.querySelector("img"), msg = box.querySelector("span");
+  const url = imgUrl($(id).value);
+  box.className = "imgprev";
+  if (!url) { msg.textContent = ""; return false; }
+  msg.textContent = "Checking…";
+  const ok = await testImg(url);
+  if (url !== imgUrl($(id).value)) return ok; // input changed meanwhile
+  box.className = "imgprev " + (ok ? "ok" : "bad");
+  im.src = ok ? url : "";
+  msg.textContent = ok ? "Image found" : "Not found: " + url;
+  return ok;
+}
+["pImg1","pImg2","pImg3"].forEach(id => {
+  let t;
+  $(id).addEventListener("input", () => { clearTimeout(t); t = setTimeout(() => updatePreview(id), 500); });
+  $(id).addEventListener("blur", () => updatePreview(id));
+});
+
 /* ---------- category chips ---------- */
 $("catChips").addEventListener("click", e => {
   const chip = e.target.closest(".chip");
@@ -311,6 +377,7 @@ $("cancelEditBtn").addEventListener("click", () => {
   $("cancelEditBtn").classList.add("gone");
   ["pName","pDesc","pPrice","pImg1","pImg2","pImg3","pColor","pBg"].forEach(i => $(i).value = "");
   document.querySelectorAll("#catChips .chip.on").forEach(c => c.classList.remove("on"));
+  ["pImg1","pImg2","pImg3"].forEach(id => { const b = $(id + "Prev"); b.className = "imgprev"; b.querySelector("span").textContent = ""; });
 });
 
 /* ---------- add / update ---------- */
@@ -325,7 +392,20 @@ $("addBtn").addEventListener("click", async () => {
   if (!img1)         return flash($("formFlash"), "At least one image path is required.", "bad");
   if (!cats.length)  return flash($("formFlash"), "Pick at least one category.", "bad");
 
-  const images = [img1, $("pImg2").value.trim(), $("pImg3").value.trim()].filter(Boolean);
+  const images = [$("pImg1").value, $("pImg2").value, $("pImg3").value].map(normalizeImg).filter(Boolean);
+
+  // Make sure every image link actually works before saving
+  $("addBtn").disabled = true;
+  flash($("formFlash"), "Checking image links…", "good");
+  const results = await Promise.all(images.map(i => testImg(imgUrl(i))));
+  const broken = images.filter((_, k) => !results[k]);
+  if (broken.length) {
+    $("addBtn").disabled = false;
+    ["pImg1","pImg2","pImg3"].forEach(updatePreview);
+    return flash($("formFlash"),
+      "Image not found: " + broken.map(imgUrl).join(" , ") +
+      "  — check the file is uploaded to public_html/images/products/ and the name/case/extension match exactly.", "bad");
+  }
 
   const payload = {
     name,
@@ -391,7 +471,7 @@ async function loadList(){
     const img = document.createElement("img");
     img.className = "pthumb";
     img.alt = "";
-    img.src = "https://glasshut.in/" + (p.images?.[0] || "").replace(/^\//, "");
+    img.src = imgUrl(p.images?.[0]);
     img.onerror = () => { img.style.visibility = "hidden"; };
 
     const main = document.createElement("div");
@@ -433,9 +513,10 @@ async function loadList(){
       $("pPrice").value = p.price || "";
       $("pBadge").value = p.badge || "";
       $("pSetTag").value = p.set_tag || "";
-      $("pImg1").value = p.images[0] || "";
-      $("pImg2").value = p.images[1] || "";
-      $("pImg3").value = p.images[2] || "";
+      $("pImg1").value = p.images?.[0] || "";
+      $("pImg2").value = p.images?.[1] || "";
+      $("pImg3").value = p.images?.[2] || "";
+      ["pImg1","pImg2","pImg3"].forEach(updatePreview);
       $("pColor").value = p.color || "";
       $("pBg").value = p.bg || "";
       
